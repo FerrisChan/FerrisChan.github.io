@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap4 &amp; chap 5 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/20/CSAPP/chap4&amp;5/chap4&amp;5/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap4 &amp; chap 5 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap4 &amp; chap 5</h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-20
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap4 & chap 5 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap4 &amp; chap 5</p>
+<p>CSAPP  读书笔记系列chap4 &amp; chap 5</p>
+<h4 id="chap4-处理器体系结构"><a href="#chap4-处理器体系结构" class="headerlink" title="chap4  处理器体系结构"></a>chap4  处理器体系结构</h4><p>这章说的是如何设计一个简单的处理器(Y86-64)的步骤,包括异常的处理，简单的指令跳转处理。</p>
+<p>感觉这里说的不够详细，有点泛，个人认为更详细的可以看<a href="https://book.douban.com/subject/2185076/" target="_blank" rel="noopener">计算机系统概论</a><br>这本，里面有设计CPU指令的硬件和dataflow。</p>
+<p>不过，开卷有益的思想，这里主要是理解Y86的原型(X86)的流水线模型。</p>
+<p>#####　流水线的通用原理</p>
+<p>流水线的一个特性是提高了系统的吞吐量(throughput),类比单位时间内服务的顾客总数，即服务一个用户所需的时间。</p>
+<ul>
+<li>吞吐量描述：GIPS(每秒千兆条指令)</li>
+</ul>
+<p>处理器的实现一般使用HDL硬件描述语言Verilog，恰巧毕设的另外几个同学做的是这一块，到时候具体可以观摩一下。</p>
+<p>另外，一般对处理器设计来说，其性能分析一般是由CPI(Cycles Per Instruction,每指令周期数)来衡量，其定义为流水线平均吞吐量的<strong>倒数</strong>,注意其时间单位为<strong>时钟周期而非微微秒</strong></p>
+<p>另外流水线的一般步骤为：</p>
+<ul>
+<li><p>取指(fetch)： 从内存读取指令字节，地址为程序计数器PC的值</p>
+</li>
+<li><p>译码(decode): 将取值得到的指令得到相应的目标指令、寄存器以及操作数</p>
+</li>
+<li><p>执行(execute): 将操作送到ALU，可以计算一些结果和设置一些条件码</p>
+</li>
+<li><p>访存(memory): 将数据写入内存write或从内存读入数据load</p>
+</li>
+<li><p>写入(write back): 将(最多两个)接过 写到寄存器文件中</p>
+</li>
+<li><p>更新PC(PC update): 将ＰＣ设置成下一条指令的地址</p>
+</li>
+</ul>
+<p>总体来说，Ｃｈａｐ４　看的很快，课程计划上也没有这章，以后用到再翻吧。</p>
+<h4 id="chap5-优化程序的性能"><a href="#chap5-优化程序的性能" class="headerlink" title="chap5 优化程序的性能"></a>chap5 优化程序的性能</h4><p>以前一直听说<strong>程序就等于数据结构加上算法</strong>，似懂非懂的，读完这章可能才算理解这句话。对于一个程序，编译器会在很多方面帮助我们去优化程序的性能。例如编译器会有一些优化(gcc的优化程度： -Og -&gt; O1(默认)-&gt;O2 -&gt;O3)；但这些相对来说都是tricky，程序真正重要的部分还得程序员去完成。</p>
+<p>例如下面的一个程序(n-gram 其对一个文档中出现的n单词的序列进行统计,例如当n = 1时，统计每个单词的次数；当ｎ= 2 时，统计两个单词连续的词组例如“Ｉ　ａｍ　”的次数)剖析中(剖析具体可以下面再谈)，需要的子函数调用的时间如下图</p>
+<p><img src="/2017/12/20/CSAPP/chap4&5/chap4&5/chap4&amp;5/剖析图１.jpg" alt="剖析图１"></p>
+<p>该程序运行时间为两百多秒，主要的花销在排序上Initial的插入排序上，但当插入排序换为内置的快排后，该程序的运行时间为６秒左右。如下：<br><img src="/2017/12/20/CSAPP/chap4&5/chap4&5/chap4&amp;5/剖析图２.jpg" alt="剖析图２"></p>
+<p>更多的函数和数据结构这里不打算谈，这里说的是编译器的那些tricky吧,其实也为一些重要的编程习惯</p>
+<h5 id="表示程序的性能方法"><a href="#表示程序的性能方法" class="headerlink" title="表示程序的性能方法"></a>表示程序的性能方法</h5><p>表示程序的性能方法，这里采用的是每元素的周期数(ＣＰＥ, Cycles Per Element)，和CPI一样，其时间单位为<strong>时钟周期而非微微秒</strong>。一般来说，CPE越小越好</p>
+<p>条例一，以const 和　内敛函数代替define 这部分也可以参考effective c++;</p>
+<p>先定义一两个函数，再通过迭代来说明优化的步骤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">// OP 的操作不同，比较加法和乘法的时间</span><br><span class="line"></span><br><span class="line">// 求和</span><br><span class="line">#define IDENT (0)</span><br><span class="line">#define OP (+)</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">// 求积</span><br><span class="line">#define OP (*)</span><br><span class="line">#define IDENT (１)</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">typedef long data_t；</span><br><span class="line">    /* data structure for vectors */</span><br><span class="line">    // 一个包括数组的长度和元素的结构</span><br><span class="line">    typedef struct &#123;</span><br><span class="line">  size_t len;</span><br><span class="line">  data_t *data;</span><br><span class="line">&#125; vec， *vec_ptr;</span><br><span class="line"></span><br><span class="line">/* retrieve vector element　and store at val */</span><br><span class="line">// 检测边界和得到数组的元素</span><br><span class="line">int get_vec_element(*vec v, size_t idx, data_t *val) &#123;</span><br><span class="line">  if (idx &gt;= v-&gt;len)</span><br><span class="line">    return 0;</span><br><span class="line">  *val = v-&gt;data[idx];</span><br><span class="line">  return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 原始版本１，计算数组的元素积或总和</span><br><span class="line">// Compute sum or product of vector elements</span><br><span class="line">void combine1(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long int i;</span><br><span class="line">  *dest = IDENT;</span><br><span class="line">  for (i = 0; i &lt; vec_length(v); i++) &#123;</span><br><span class="line">    data_t val;</span><br><span class="line">    get_vec_element(v, i, &amp;val);</span><br><span class="line">    *dest = *dest OP val;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>优化一　：　消去循环的低效率(通过代码移动 code motion)<br>例如将每次循环判断条件都不变的话(例如函数vec_length)移动到循环外，计算一次；这个一般编译器会完成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void combine2(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long i;</span><br><span class="line">  long length = vec_length(v); //优化二</span><br><span class="line"></span><br><span class="line">  for (i = 0; i &lt; length; i++) &#123;</span><br><span class="line">    data_t val;</span><br><span class="line">    get_vec_element(v, i, &amp;val);</span><br><span class="line">    *dest = *dest OP val;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>优化二：　减少过程调用(这个会不同人不同看法)<br>因为过程调用会带来一些开销，例如将get_vec_element换为</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void combine３(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long i;</span><br><span class="line">  long length = vec_length(v);</span><br><span class="line">  data_t *d = get_vec_start(v);</span><br><span class="line"></span><br><span class="line">  *dest = IDENT;</span><br><span class="line"></span><br><span class="line">  for (i = 0; i &lt; length; i++)</span><br><span class="line">    *dest = *dest OP data[i];　　// 优化３</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>优化三：　减少不必要的内存引用：<br>combine3 中，*dest 每次都要对内存进行一次内存引用，其实不必要的，因为只是需要把最后结果存入内存就好<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">void combine4(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long i;</span><br><span class="line">  long length = vec_length(v);</span><br><span class="line">  data_t *d = get_vec_start(v);</span><br><span class="line">  data_t t = IDENT;   //中间变量，缓存</span><br><span class="line"></span><br><span class="line">  for (i = 0; i &lt; length; i++)</span><br><span class="line">    t = t OP d[i];    </span><br><span class="line">  *dest = t;　　　// 优化４</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>给出没优化和优化的对比<br><img src="/2017/12/20/CSAPP/chap4&5/chap4&5/chap4&amp;5/优化１&amp;4.png.jpg" alt="优化１&amp;4.png"></p>
+<p><strong> 以下的优化需要理解处理器的基础</strong>,其要点是提高向量指令的并行度</p>
+<ul>
+<li>优化５(循环展开)</li>
+</ul>
+<p>处理器是并行计算的，这个特性就至关重要<br>循环展开：一种程序变换，通过每次迭代的计算的元素的数量，减少循环的迭代次数．利用的就是并行的原理</p>
+<p>这里的展开为”2 * 1”的展开，也就是每次循环索引ｉ加２<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void unroll2a_combine(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long length = vec_length(v);</span><br><span class="line">  long limit = length - 1;　　　// 注意length不总是偶数，所以length-1为检测</span><br><span class="line">  data_t *d = get_vec_start(v);</span><br><span class="line">  data_t x = IDENT;</span><br><span class="line">  long i;</span><br><span class="line">  /* Combine 2 elements at a time */</span><br><span class="line">  for (i = 0; i &lt; limit; i += 2) &#123;</span><br><span class="line">    x = (x OP d[i])OP d[i + 1];</span><br><span class="line">  &#125;</span><br><span class="line">  /* Finish any remaining elements */</span><br><span class="line">  for (; i &lt; length; i++) &#123;</span><br><span class="line">    x = x OP d[i];</span><br><span class="line">  &#125;</span><br><span class="line">  *dest = x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其性能还是有不少提升<br><img src="/2017/12/20/CSAPP/chap4&5/chap4&5/chap4&amp;5/优化４＆２＊１.jpg" alt="优化４＆２＊１"></p>
+<ul>
+<li>优化６　多个累积变量</li>
+</ul>
+<p>也就是优化循环展开中的　(k * i)　ｉ</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">void unroll2a_combine(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long length = vec_length(v);</span><br><span class="line">  long limit = length - 1;</span><br><span class="line">  data_t *d = get_vec_start(v);</span><br><span class="line">  data_t x0 = IDENT;</span><br><span class="line">  data_t x1 = IDENT;</span><br><span class="line">  long i;</span><br><span class="line">  /* Combine 2 elements at a time */</span><br><span class="line">  for (i = 0; i &lt; limit; i += 2) &#123;</span><br><span class="line">    // 注意这里的写法</span><br><span class="line">    x0 = x0 OP d[i];</span><br><span class="line">    x1 = x1 OP d[i + 1];</span><br><span class="line">  &#125;</span><br><span class="line">  /* Finish any remaining elements */</span><br><span class="line">  for (; i &lt; length; i++) &#123;</span><br><span class="line">    x0 = x0 OP d[i];</span><br><span class="line">  &#125;</span><br><span class="line">  *dest = x0 OP x1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>优化7　重新组合变换</li>
+</ul>
+<p>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = (x OP d[i])OP d[i + 1];</span><br></pre></td></tr></table></figure></p>
+<p>换为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = x OP ( d[i] OP d[i + 1]);</span><br></pre></td></tr></table></figure></p>
+<p>对　ｄ[i] 和ｄ[i+1] 的类型为ｄｏｕｂｌｅ来说意义很大，因为其减少了计算中关键路径的操作数量，具体可以看书ｐ３７５<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">void combine7(vec_ptr v, data_t *dest) &#123;</span><br><span class="line">  long length = vec_length(v);</span><br><span class="line">  long limit = length - 1;</span><br><span class="line">  　　　 // 注意length不总是偶数，所以length-1为检测</span><br><span class="line">      data_t *d = get_vec_start(v);</span><br><span class="line">  data_t x = IDENT;</span><br><span class="line">  long i;</span><br><span class="line">  /* Combine 2 elements at a time */</span><br><span class="line">  for (i = 0; i &lt; limit; i += 2) &#123;</span><br><span class="line">    x = x OP(d[i] OP d[i + 1]);</span><br><span class="line">    　　　 // 注意这里的写法</span><br><span class="line">  &#125;</span><br><span class="line">  /* Finish any remaining elements */</span><br><span class="line">  for (; i &lt; length; i++) &#123;</span><br><span class="line">    x = x OP d[i];</span><br><span class="line">  &#125;</span><br><span class="line">  *dest = x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>分支预测<br>对程序的运行的帮助也很大,尽量写出符合条件传送的代码</p>
+</li>
+<li><p>内存的性能</p>
+</li>
+</ul>
+<p>有一些程序的瓶颈不在算法,而在内存加载或存储中;<br>一般来说,加载load CPE为4, 存储store 的 CPE 为7(地址相同,结果放入缓冲区) 或 1(地址不同,两个操作独立运行)</p>
+<h5 id="剖析程序-profile"><a href="#剖析程序-profile" class="headerlink" title="剖析程序(profile)"></a>剖析程序(profile)</h5><p>这里简单介绍gpro(GNU的剖析程序),同时参考chap1 的 Amdahl定律</p>
+<p>用一个fibonacii函数做测试<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line"></span><br><span class="line">int Fibonacci(int n) &#123;</span><br><span class="line">  if (n == 0)</span><br><span class="line">    return 0;</span><br><span class="line">  if (n == 1)</span><br><span class="line">    return 1;</span><br><span class="line">  return Fibonacci(n - 1) + Fibonacci(n - 2);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char const *argv[]) &#123;</span><br><span class="line">  int i = 20;</span><br><span class="line">  int res;</span><br><span class="line">  res = Fibonacci(i);</span><br><span class="line">  printf(&quot;%d\n&quot;, res);</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>在gcc 选项中加入 -pg,确保不调用内敛函数等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -Og -pg fibo.c -o fibo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后正常运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./fibo</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>会产生一个gmon.out文件</p>
+<ul>
+<li>然后调用gprof,将输出信息重定向到 runtime.txt文件中<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gprof fibo &gt; runTime.txt</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>查看剖析报告</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">index % time    self  children    called     name</span><br><span class="line">                               21890             Fibonacci [1]</span><br><span class="line">                0.00    0.00       1/1           main [7]</span><br><span class="line">[1]      0.0    0.00    0.00       1+21890   Fibonacci [1]</span><br><span class="line">                               21890             Fibonacci [1]</span><br></pre></td></tr></table></figure>
+<p>发现递归调用20次fibonacci就到了22000多次,实在恐怖!!!</p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p>知道CPU的流水线设计,正确优化程序的性能,对个人理解底层的原理帮助很大.</p>
+<p>程序的优化中,知道编译器的一些优化方法,虽然自己写程序的过程中很少会这么写,但看别人的源代码例如STL可能用得上</p>
+<p>另外,代码优化的一个前提是在正确的代码上优化,切记一上来就优化,这可能是在错误的代码上优化,最终可能离正确道路越来越远:-(</p>
+<p>同时,对代码的优化,应该是在程序最薄弱的地方进行的优化,在最耗时的地方优化,好钢用在刀刃上.</p>
+<p>做优化的同时,应该写好对应的单元用例,在代码上线的时候引发的bug,正确的单元用例可以让别人信服不是自己part的问题,背少一点锅.</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/21/CSAPP/chap6/chap6/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap6 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/18/CSAPP/chap3/chap3/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap3 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#chap4-处理器体系结构"><span class="toc-text">chap4  处理器体系结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#chap5-优化程序的性能"><span class="toc-text">chap5 优化程序的性能</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#表示程序的性能方法"><span class="toc-text">表示程序的性能方法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#剖析程序-profile"><span class="toc-text">剖析程序(profile)</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结："><span class="toc-text">总结：</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

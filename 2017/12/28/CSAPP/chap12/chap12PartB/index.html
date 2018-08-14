@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap12 Part B ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/28/CSAPP/chap12/chap12PartB/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap12 Part B </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列 chap12 Part B  </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-28
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap12 Part B 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap12 PartB</p>
+<p>CSAPP  读书笔记系列chap12</p>
+<h1 id="chap-12-并发编程"><a href="#chap-12-并发编程" class="headerlink" title="chap 12 并发编程"></a>chap 12 并发编程</h1><p>   这一次说的是多线程并发编程,是也一个比较广泛的话题.</p>
+<p>  对于并发编程为什么会引起的一些问题，可以看下SICP，之前的<a href="http://blog.csdn.net/ferris_chan/article/details/78533998" target="_blank" rel="noopener">简单博客笔记</a></p>
+<p>这一章要讲的内容很多,打算分开两部分Part A和part B 来写</p>
+<ul>
+<li><p>PartA讲服务器的三种并发编程</p>
+<ul>
+<li>基于进程</li>
+<li>基于事件</li>
+<li>基于线程</li>
+</ul>
+</li>
+<li><p>PartB讲并发编程的一些基本概念</p>
+<ul>
+<li>共享变量</li>
+<li>信号量,进度图和互斥</li>
+<li>生产者-消费者问题 和读者写者问题</li>
+<li>线程安全，可重入函数</li>
+<li>竞争和死锁</li>
+</ul>
+</li>
+</ul>
+<h2 id="PartB"><a href="#PartB" class="headerlink" title="PartB"></a>PartB</h2><p>这是第二篇，为Part B</p>
+<h2 id="共享变量和线程内存模型"><a href="#共享变量和线程内存模型" class="headerlink" title="共享变量和线程内存模型"></a>共享变量和线程内存模型</h2><h3 id="线程的内存模型"><a href="#线程的内存模型" class="headerlink" title="线程的内存模型"></a>线程的内存模型</h3><p>线程的内存模型，因为概念上的模型和实际的模型有一些差异</p>
+<p>在概念上的模型中：</p>
+<ul>
+<li>多个线程在一个单独进程的上下文中运行</li>
+<li>每个线程有单独的线程上下文（线程 ID，栈，栈指针，PC，条件码，GP 寄存器）</li>
+<li>所有的线程共享剩下的进程上下文<ul>
+<li>Code, data, heap, and shared library segments of the process virtual address space</li>
+<li>Open files and installed handlers</li>
+</ul>
+</li>
+</ul>
+<p>在实际的模型中,线程的单独上下文数据却不是严格独立的:</p>
+<ul>
+<li>寄存器的值虽然是隔离且被保护的，但是在栈中的值并不是这样的（其他线程也可以访问）</li>
+</ul>
+<h3 id="共享变量Shared-Variables"><a href="#共享变量Shared-Variables" class="headerlink" title="共享变量Shared    Variables"></a>共享变量Shared    Variables</h3><p>当变量映射到内存时,多线程有几种方式:</p>
+<ul>
+<li><p>全局变量：在函数外声明的变量</p>
+<ul>
+<li>虚拟内存中有全局唯一的一份实例,任何线程都可以引用</li>
+</ul>
+</li>
+<li><p>本地自动(局部)变量：在函数内声明，且没有用 static 关键字</p>
+<ul>
+<li>每个线程的栈中都保存着对应自己线程的局部变量的实例</li>
+</ul>
+</li>
+<li><p>局部静态变量：在函数内用 static 关键字声明的变量</p>
+<ul>
+<li>虚拟内存中有全局唯一的一份实例</li>
+</ul>
+</li>
+</ul>
+<p>Share Variable    is    not    as    simple    as    “global    variables    are    shared”    and<br>“stack    variables    are    private”,A    variable    x is    shared    if    and    only    if    multiple    threads reference    some    instance    of    x.</p>
+<p>也就是说<strong>当一个变量为共享表示,当且仅当多个线程引用这个变量的某个实例</strong>,也就是被一个以上的线程引用</p>
+<p>例子如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">char **ptr; // 全局变量</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    long i;  // 主线程的本地自动变量</span><br><span class="line">    pthread_t tid;  </span><br><span class="line">    char *msgs[2] = &#123;</span><br><span class="line">        &quot;Good Day!&quot;,</span><br><span class="line">        &quot;Bad Day!&quot;</span><br><span class="line">    &#125;;   // 主线程的本地自动变量,被两个对等线程间接引用</span><br><span class="line"></span><br><span class="line">    ptr = msgs;   // 一个被主线程和对等线程间接引用的全局变量</span><br><span class="line">    for (i = 0; i &lt; 2; i++)</span><br><span class="line">        Pthread_create(&amp;tid, NULL, thread, (void *)i);</span><br><span class="line">    Pthread_exit(NULL);</span><br><span class="line">&#125;</span><br><span class="line">void *thread(void *vargp)</span><br><span class="line">&#123;</span><br><span class="line">    long myid = (long)vargp;  // 一个本地自动变量,只有一个实例,分别于两个对等线程的栈中</span><br><span class="line">    static int cnt = 0;   // 一个静态变量,被两个线程引用,分别读和写</span><br><span class="line"></span><br><span class="line">    // 这里每个线程都可以访问 ptr 这个全局变量</span><br><span class="line">    printf(&quot;[%ld]: %s (cnt=%d)\n&quot;, myid, ptr[myid], ++cnt);</span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个例子中，共享变量有 ptr, cnt 和 msgs；非共享变量有 i 和 myid。</p>
+<h2 id="信号量-进度图和互斥"><a href="#信号量-进度图和互斥" class="headerlink" title="信号量,进度图和互斥"></a>信号量,进度图和互斥</h2><h3 id="幻读等麻烦"><a href="#幻读等麻烦" class="headerlink" title="幻读等麻烦"></a>幻读等麻烦</h3><p>共享变量的引入,会带来一些麻烦,cpu时间片争夺资源造成的不可知危害<br><a href="http://blog.csdn.net/ferris_chan/article/details/78533998" target="_blank" rel="noopener">SICP中chap3.4</a>也有说到的幻读等问题</p>
+<p>书上也给了一个幻读的例子,也就是一个计数器如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">// 全局共享变量</span><br><span class="line">volatile long cnt = 0; // 计数器</span><br><span class="line"></span><br><span class="line">// 线程处理函数</span><br><span class="line">void *thread(void *vargp) &#123;</span><br><span class="line">  long i, niters = *((long *)vargp);</span><br><span class="line">  for (i = 0; i &lt; niters; i++)</span><br><span class="line">     cnt++;                     </span><br><span class="line">  return NULL;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv)</span><br><span class="line">&#123;</span><br><span class="line">    long niters;</span><br><span class="line">    pthread_t tid1, tid2;</span><br><span class="line"></span><br><span class="line">    niter2 = atoi(argv[1]);</span><br><span class="line">    Pthread_create(&amp;tid1, NULL, thread, &amp;niters);</span><br><span class="line">    Pthread_create(&amp;tid2, NULL, thread, &amp;niters);</span><br><span class="line">    Pthread_join(tid1, NULL);</span><br><span class="line">    Pthread_join(tid2, NULL);</span><br><span class="line"></span><br><span class="line">    // 检查结果</span><br><span class="line">    if (cnt != (2 * niters))</span><br><span class="line">        printf(&quot;Wrong! cnt=%ld\n&quot;, cnt);</span><br><span class="line">    else</span><br><span class="line">        printf(&quot;Correct! cnt=%ld\n&quot;, cnt);</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行的结果每次不一样<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">➜  conc ./badcnt 10000</span><br><span class="line">OK cnt=20000</span><br><span class="line">➜  conc ./badcnt 10000</span><br><span class="line">BOOM! cnt=10458</span><br></pre></td></tr></table></figure></p>
+<p>把操作 cnt 的部分抽出来单独看一看：</p>
+<p>线程中循环部分的代码为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for (i = 0; i &lt; niters; i++)</span><br><span class="line">    cnt++;</span><br></pre></td></tr></table></figure></p>
+<p>对应的汇编代码为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">    # 以下四句为 Head 部分，记为 H</span><br><span class="line">    movq    (%rdi), %rcx</span><br><span class="line">    testq   %rcx, %rcx</span><br><span class="line">    jle     .L2</span><br><span class="line">    movl    $0, %eax</span><br><span class="line"></span><br><span class="line">.L3:</span><br><span class="line">    movq    cnt(%rip), %rdx # 载入 cnt，记为 L</span><br><span class="line">    addq    $1, %rdx        # 更新 cnt，记为 U</span><br><span class="line">    movq    %rdx, cnt(%rip) # 保存 cnt，记为 S</span><br><span class="line">    # 以下为 Tail 部分，记为 T</span><br><span class="line">    addq    $1, %rax</span><br><span class="line">    cmpq    %rcx, %rax</span><br><span class="line">    jne     .L3</span><br><span class="line">.L2:</span><br></pre></td></tr></table></figure></p>
+<p>这里有一点需要注意，cnt 使用了 volatile 关键字声明，意思是不要在寄存器中保存值，无论是读取还是写入，都要对内存操作（write-through )。<br>这里把具体的步骤分成 5 步：HLUST，尤其要注意 LUS 这三个操作，这三个操作必须在一次执行中完成，一旦次序打乱，就会出现问题，不同线程拿到的值就不一定是最新的。<br>也就是说该函数的正确执行和指令的执行顺序有关</p>
+<p><img src="http://img.blog.csdn.net/20180105213220025?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="执行顺序图.png"></p>
+<h3 id="进度图"><a href="#进度图" class="headerlink" title="进度图"></a>进度图</h3><p>进度图将 n个并发线程的执行模型化为一条n维笛卡尔空间中的轨迹线,每条轴k对应k的进度.</p>
+<p>例如下图,对于 H1,L1,U1,H2,L2,S1,T1,U2,S2,T2的轨迹线的进度图</p>
+<p><img src="http://img.blog.csdn.net/20180105214521766?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="二维进度图.png"></p>
+<p>对于线程i,操作共享变量cnt内容的指令(,Li,Ui,Si)构成了一个临界区,每个临界区不应该和其他线程的临界区交替执行.<br>也就是说,<strong>需要对共享变量进行互斥的访问</strong></p>
+<p>当线程绕开不安全区是,叫做安全轨迹线;反之,为不安全轨迹线.</p>
+<p><img src="http://img.blog.csdn.net/20180105215047850?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="安全轨迹线.png"></p>
+<h3 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h3><p>Dijkstra 提出用信号量来限制程序的执行顺序,从而解决经典的同步不同问题.</p>
+<p>信号量s是具有非负整数的全局变量, 只能具备两种操作动作，称为 V（Verhogen,增加操作;又称signal()）与 P（Proberen,测试减一操作;又为wait()）。<br>V 操作会增加信号量 S 的数值，P 操作会减少。运作方式：</p>
+<ul>
+<li>1.初始化信号量S，给与它一个非负数的整数值。</li>
+<li><p>2.运行 P，信号量 S 的值将被减少。企图进入临界区块的进程，需要先运行 P。当信号量 S 减为负值时，进程会被挡住，不能继续；当信号量S不为负值时，进程可以获准进入临界区块。</p>
+</li>
+<li><p>3.运行 V，信号量 S 的值会被增加。结束离开临界区块的进程，将会运行 V。当信号量 S 不为负值时，先前被挡住的其他进程，将可获准进入临界区块。</p>
+</li>
+</ul>
+<p>在C语言中,POSIX 定义了许多操作信号量的函数.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;semaphore.h&gt;</span><br><span class="line">int sem_init(sem_t *sem, int pshared, unsigned int value); // 初始化信号量</span><br><span class="line">int sem_wait(sem_t *sem);    // P(s)</span><br><span class="line">int sem_post(sem_t *sem);    // V(s)</span><br></pre></td></tr></table></figure>
+<p>而对于之前的程序计数器,其修改信号量操作为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 先定义信号量</span><br><span class="line">volatile long cnt = 0;</span><br><span class="line">sem_t mutex;</span><br><span class="line">Sem_init(&amp;mutex, 0, 1);</span><br><span class="line">// 在线程中用 P 和 V 包围关键操作</span><br><span class="line">for (i = 0; i &lt; niters; i++)</span><br><span class="line">&#123;</span><br><span class="line">    P(&amp;mutex);</span><br><span class="line">    cnt++;</span><br><span class="line">    V(&amp;mutex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一般而言,需要把s初始化为1,(因为其值总为1或0,所以称为二元信号量).</p>
+<p>以提供互斥目的的二元信号量称为<strong>互斥锁(mutex)</strong>,对其进行P操作为加锁,执行V操作为解锁</p>
+<h2 id="生产者-消费者问题"><a href="#生产者-消费者问题" class="headerlink" title="生产者-消费者问题"></a>生产者-消费者问题</h2><p>信号量可以调度对共享资源的访问,一个线程可以使用信号量通知另外一个线程,程序中某些状态.<br>利用信号量实现生产者-消费者问题,生产者-消费者问题如下:</p>
+<p><img src="http://img.blog.csdn.net/20180106100103945?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="生产者和消费者.png"></p>
+<p>具体的同步模型为：</p>
+<ul>
+<li>生产者等待空位slot，产生项目item 存储到有限的缓冲区 buffer，并通知消费者</li>
+<li>消费者等待 item，从缓冲区 buffer 中移除并消费 item，并通知生产者</li>
+</ul>
+<p>更加详细的生产者-消费者问题,其和队列关系等可以看这篇<a href="http://blog.csdn.net/kaiwii/article/details/6758942" target="_blank" rel="noopener">http://blog.csdn.net/kaiwii/article/details/6758942</a></p>
+<p>可以实现一个有 n 个元素 buffer，为此，我们需要一个 mutex 和两个用来计数的 semaphore：</p>
+<ul>
+<li>mutex: 用来保证对 buffer 的互斥访问</li>
+<li>slots: 统计 buffer 中可用的 slot 数目</li>
+<li>items: 统计 buffer 中可用的 item 数目</li>
+</ul>
+<p>可以定义一个包:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">// 头文件 sbuf.h</span><br><span class="line">// 包括几个基本操作</span><br><span class="line">#include &quot;csapp.h&quot;</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    int *buf;    // Buffer array</span><br><span class="line">    int n;       // Maximum number of slots</span><br><span class="line">    int front;   // buf[(front+1)%n] is first item</span><br><span class="line">    int rear;    // buf[rear%n] is the last item</span><br><span class="line">    sem_t mutex; // Protects accesses to buf</span><br><span class="line">    sem_t slots; // Counts available slots</span><br><span class="line">    sem_t items; // Counts available items</span><br><span class="line">&#125; sbuf_t;</span><br><span class="line">void sbuf_init(sbuf_t *sp, int n);</span><br><span class="line">void sbuf_deinit(sbuf_t *sp);</span><br><span class="line">void sbuf_insert(sbuf_t *sp, int item);</span><br><span class="line">int sbuf_remove(sbuf_t *sp);</span><br></pre></td></tr></table></figure></p>
+<p>具体的实现如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">// sbuf.c</span><br><span class="line">// Create an empty, bounded, shared FIFO buffer with n slots</span><br><span class="line">void sbuf_init(sbuf_t *sp, int n) &#123;</span><br><span class="line">    sp-&gt;buf = Calloc(n, sizeof(int));</span><br><span class="line">    sp-&gt;n = n;                  // Buffer holds max of n items</span><br><span class="line">    sp-&gt;front = sp-&gt;rear = 0;   // Empty buffer iff front == rear</span><br><span class="line">    Sem_init(&amp;sp-&gt;mutex, 0, 1); // Binary semaphore for locking</span><br><span class="line">    Sem_init(&amp;sp-&gt;slots, 0, n); // Initially, buf has n empty slots</span><br><span class="line">    Sem_init(&amp;sp-&gt;items, 0, 0); // Initially, buf has 0 items</span><br><span class="line">&#125;</span><br><span class="line">// Clean up buffer sp</span><br><span class="line">void sbuf_deinit(sbuf_t *sp)&#123;</span><br><span class="line">    Free(sp-&gt;buf);</span><br><span class="line">&#125;</span><br><span class="line">// Insert item onto the rear of shared buffer sp</span><br><span class="line">void sbuf_insert(sbuf_t *sp, int item) &#123;</span><br><span class="line">    P(&amp;sp-&gt;slots);                        // Wait for available slot</span><br><span class="line">    P(&amp;sp-&gt;mutext);                       // Lock the buffer</span><br><span class="line">    sp-&gt;buf[(++sp-&gt;rear)%(sp-&gt;n)] = item; // Insert the item</span><br><span class="line">    V(&amp;sp-&gt;mutex);                        // Unlock the buffer</span><br><span class="line">    V(&amp;sp-&gt;items);                        // Announce available item</span><br><span class="line">&#125;</span><br><span class="line">// Remove and return the first tiem from the buffer sp</span><br><span class="line">int sbuf_remove(sbuf_f *sp) &#123;</span><br><span class="line">    int item;</span><br><span class="line">    P(&amp;sp-&gt;items);                         // Wait for available item</span><br><span class="line">    P(&amp;sp-&gt;mutex);                         // Lock the buffer</span><br><span class="line">    item = sp-&gt;buf[(++sp-&gt;front)%(sp-&gt;n)]; // Remove the item</span><br><span class="line">    V(&amp;sp-&gt;mutex);                         // Unlock the buffer</span><br><span class="line">    V(&amp;sp-&gt;slots);                         // Announce available slot</span><br><span class="line">    return item;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>生产者消费者模式主要用于:</p>
+<ul>
+<li>多媒体处理<ul>
+<li>生产者生成 MPEG 视频帧，消费者进行渲染</li>
+</ul>
+</li>
+<li>事件驱动的图形用户界面<ul>
+<li>生产者检测到鼠标点击、移动和键盘输入，并把对应的事件插入到 buffer 中</li>
+<li>消费者从 buffer 中获取事件，并绘制到到屏幕上</li>
+</ul>
+</li>
+</ul>
+<h2 id="读者-写者问题"><a href="#读者-写者问题" class="headerlink" title="读者-写者问题"></a>读者-写者问题</h2><p>读者-写者问题是互斥问题的通用描述，具体为：</p>
+<ul>
+<li>读者线程只读取对象</li>
+<li>写者线程修改对象</li>
+<li>写者对于对象的访问是互斥的,也就是必须拥有对象独占的访问</li>
+<li>多个读者可以同时读取对象</li>
+</ul>
+<p>根据不同的读写策略，也就是读者写者的优先级,有两类读者写者问题，需要注意的是，这两种情况都可能出现 <strong>饥饿starvation</strong>,饥饿是一种无限期地阻塞。</p>
+<ul>
+<li><p>第一类读者写者问题（读者优先）</p>
+<ul>
+<li>如果写者没有获取到使用对象的权限，不应该让读者等待</li>
+<li>在等待的写者之后到来的读者应该在写者之前处理</li>
+<li>也就是说，只有没有读者的情况下，写者才能工作</li>
+</ul>
+</li>
+<li><p>第二类读者写者问题（写者优先）</p>
+<ul>
+<li>一旦写者可以处理的时候，就不应该进行等待</li>
+<li>在等待的写者之后到来的读者应该在写者之后处理</li>
+</ul>
+<p>对于第一类读者写者问题（读者优先）,书上给出一个简单解答</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">int readcnt;</span><br><span class="line">/* Initially 0 */</span><br><span class="line">sem_t mutex, w; /* Both initially 1 */</span><br><span class="line">void reader(void) &#123;</span><br><span class="line">  while (1) &#123;</span><br><span class="line">    P(&amp;mutex);</span><br><span class="line">    readcnt++;</span><br><span class="line">    if (readcnt == 1) /* First in */</span><br><span class="line">      P(&amp;w);</span><br><span class="line">    V(&amp;mutex);</span><br><span class="line"></span><br><span class="line">    /* Reading happens here */</span><br><span class="line"></span><br><span class="line">    P(&amp;mutex);</span><br><span class="line">    readcnt--;</span><br><span class="line">    if (readcnt == 0) /* Last out */</span><br><span class="line">      V(&amp;w);</span><br><span class="line">    V(&amp;mutex);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Writers : void writer(void) &#123;</span><br><span class="line">  while (1) &#123;</span><br><span class="line">    P(&amp;w);</span><br><span class="line">    /* Writing here */</span><br><span class="line">    V(&amp;w);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用线程提高并行性"><a href="#使用线程提高并行性" class="headerlink" title="使用线程提高并行性"></a>使用线程提高并行性</h2><h3 id="并行和并发"><a href="#并行和并发" class="headerlink" title="并行和并发"></a>并行和并发</h3><p>所有程序都可以分为顺序程序或并发程序,而并行程序是一个运行在多个处理器的并发程序.也就是说,之前的流水线模型是一种”伪并发”的顺序程序</p>
+<p>三者关系如下:</p>
+<p><img src="http://img.blog.csdn.net/20180106112027177?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="并发,并行,顺序关系图.png"></p>
+<p>而线程的引入才真正实现并行程序的实现,但也带来的共享变量需要同步问题也是巨大的.<br>并行编程的一个重要的教训为:<br><strong> 同步开销巨大,要尽可能避免.如无可避免,也要用尽可能多的有用计算来弥补这个开销</strong><br>也就是同步得要有价值</p>
+<p>而避免同步的一个方法为可以把一个大任务分成若干个独立的子任务，或者用分而治之的方式来解决;例如引入私有变量,不用共享变量</p>
+<p>书上给了一个并行求数组和  还有一个 并行快排 的例子,值得研究</p>
+<h3 id="超线程"><a href="#超线程" class="headerlink" title="超线程"></a>超线程</h3><p>一般而言，一个核心处理一个线程。而在超线程的设计中，一个核心可以处理若干个线程，秘诀在于多出来了若干套指令控制流.</p>
+<h2 id="并发问题"><a href="#并发问题" class="headerlink" title="并发问题"></a>并发问题</h2><p>这里可以承接ＳＩＣＰ的3.4 节<a href="http://blog.csdn.net/ferris_chan/article/details/78533998" target="_blank" rel="noopener">并发：时间是一个本质问题</a></p>
+<p>说的是并发带来的问题</p>
+<p>###　线程安全 和 可重入函数</p>
+<p>在线程中调用的函数必须是线程安全的，定义为：</p>
+<p>A function is thread-safe iff it will always produce correct results when called repeatedly from multiple concurrent threads</p>
+<p>也就是:<strong>当且仅当被多个并发线程反复调用时,函数还会产生正确的结果</strong></p>
+<p>注意和 可重入函数区别,可以参考论坛上的讨论<a href="http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=971102" target="_blank" rel="noopener">http://bbs.chinaunix.net/forum.php?mod=viewthread&amp;tid=971102</a></p>
+<p>可重入是指<strong>线程安全函数在被多个线程调用时,不会引用任何的共享变量的函数</strong>,也就是线程安全函数的真子集</p>
+<p>三者关系如下:</p>
+<p><img src="http://img.blog.csdn.net/20180106114556668?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="线程安全函数,不安全函数,可重入等关系.png"></p>
+<p> 这里也可以结合数据库事务的理解,事务的特性如下(ACID)：</p>
+<ul>
+<li>原子性（Atomicity）</li>
+<li>一致性（Consistency）</li>
+<li>隔离性（Isolation）</li>
+<li>持续性（Durability ）</li>
+</ul>
+<p>而常见的线程不安全函数有四类:</p>
+<ul>
+<li><p>1.不保护共享变量的函数</p>
+<ul>
+<li>解决办法：使用 P 和 V semaphore 操作</li>
+<li>问题：同步操作会影响性能</li>
+</ul>
+</li>
+<li><p>2.在多次调用间保存状态的函数</p>
+<ul>
+<li>解决办法：把状态当做传入参数</li>
+</ul>
+</li>
+<li><ol start="3">
+<li>返回指向静态变量的指针的函数</li>
+</ol>
+<ul>
+<li>解决办法1：重写函数，传地址用以保存</li>
+<li>解决办法2：上锁，并且进行复制</li>
+</ul>
+</li>
+<li><p>4.调用线程不安全函数的函数</p>
+<ul>
+<li>解决办法：只调用线程安全的函数</li>
+</ul>
+<p>一般而言,标准 C 库中的函数都是线程安全的（如 malloc, free, printf, scanf），大多数 Unix 的系统调用也都是线程安全的。</p>
+</li>
+</ul>
+<h3 id="竞争和死锁"><a href="#竞争和死锁" class="headerlink" title="竞争和死锁"></a>竞争和死锁</h3><h4 id="竞争race"><a href="#竞争race" class="headerlink" title="竞争race"></a>竞争race</h4><p>竞争指的是:它旨在描述一个系统或者进程的输出依赖于不受控制的事件出现顺序或者出现时机。此词源自于两个信号试着彼此竞争，来影响谁先输出。</p>
+<p>数字电路上也有,一般是增加卡诺图的无关项来消去</p>
+<p>而线程中,如果计算机中的两个线程同时试图修改一个共享内存的内容，在没有并发控制的情况下，最后的结果依赖于两个线程的执行顺序与时机。</p>
+<p>也可以见<a href="https://zh.wikipedia.org/wiki/%E7%AB%B6%E7%88%AD%E5%8D%B1%E5%AE%B3" target="_blank" rel="noopener">竞争wiki</a></p>
+<h4 id="死锁deadlock"><a href="#死锁deadlock" class="headerlink" title="死锁deadlock"></a>死锁deadlock</h4><p><a href="https://zh.wikipedia.org/wiki/%E6%AD%BB%E9%94%81" target="_blank" rel="noopener">死锁deadlock wiki</a></p>
+<p>死锁：当两个以上的运算单元，双方都在等待对方停止执行，以取得系统资源，但是没有一方提前退出时，无穷无尽等下去。<br>其发生的条件：</p>
+<ul>
+<li>禁止抢占：no preemption</li>
+<li>持有和等待：hold and wait</li>
+<li>互斥：mutual exclusion</li>
+<li>循环等待：circular waiting</li>
+</ul>
+<p>在进度图中,死锁区域为:<br><img src="http://img.blog.csdn.net/20180106120937859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="死锁进度图.png"></p>
+<p>所以这里也有一个互斥锁加锁的顺序来避免死锁的发生,数据库中也有这个概念<br><strong> 给定一个互斥操作的一个全序,如果每个线程都是以一种顺序来获得互斥锁 并以相反的顺序释放,所以该程序就是无死锁的 </strong></p>
+<p>数据库中的:</p>
+<ul>
+<li><p>排它锁（eXclusive lock，简记为X锁）</p>
+<ul>
+<li>排它锁又称为写锁</li>
+<li>若事务T对数据对象A加上X锁，则只允许T读取和修改A，其它任何事务都不能再对A加任何类型的锁，直到T释放A上的锁</li>
+</ul>
+</li>
+<li><p>共享锁（Share lock，简记为S锁）</p>
+<ul>
+<li>共享锁又称为读锁</li>
+<li>若事务T对数据对象A加上S锁，则其它事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁</li>
+</ul>
+</li>
+</ul>
+<h2 id="全书总结"><a href="#全书总结" class="headerlink" title="全书总结"></a>全书总结</h2><p>有人说CSAPP是一本奇书,看完果然如此.从数电的二进制开始说起,谈到汇编机器码;然后到数据结构,库的调用,再到虚拟内存,链接; 也谈到异常控制,信号的处理; 还可以结合SICP谈到多线程,并行并发;同时也涉及网络编程,HTTP事务.<br>   中间的lab实验也是很有趣,可以结合其他数据结构的算法,例如是内存的分配是集装箱问题等.</p>
+<p>   这本书真的是amazing,遗憾的是没有早点看,之前看的都是零零散散的知识,这本书希望以后可以再读一下.</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/29/CSAPP/labs/attackLabNote/attacklab/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap3 attacklab">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/27/CSAPP/chap12/chap12PartA/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap12 Part A  ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#chap-12-并发编程"><span class="toc-text">chap 12 并发编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PartB"><span class="toc-text">PartB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#共享变量和线程内存模型"><span class="toc-text">共享变量和线程内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的内存模型"><span class="toc-text">线程的内存模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#共享变量Shared-Variables"><span class="toc-text">共享变量Shared    Variables</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信号量-进度图和互斥"><span class="toc-text">信号量,进度图和互斥</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#幻读等麻烦"><span class="toc-text">幻读等麻烦</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进度图"><span class="toc-text">进度图</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#信号量"><span class="toc-text">信号量</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生产者-消费者问题"><span class="toc-text">生产者-消费者问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读者-写者问题"><span class="toc-text">读者-写者问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用线程提高并行性"><span class="toc-text">使用线程提高并行性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#并行和并发"><span class="toc-text">并行和并发</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#超线程"><span class="toc-text">超线程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#并发问题"><span class="toc-text">并发问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#竞争和死锁"><span class="toc-text">竞争和死锁</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#竞争race"><span class="toc-text">竞争race</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#死锁deadlock"><span class="toc-text">死锁deadlock</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#全书总结"><span class="toc-text">全书总结</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

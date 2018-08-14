@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap9 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/24/CSAPP/chap9/chap9/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap9 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap9 </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap9 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="chap9-虚拟内存-virtual-memory"><a href="#chap9-虚拟内存-virtual-memory" class="headerlink" title="chap9 虚拟内存　virtual memory"></a>chap9 虚拟内存　virtual memory</h2><p>CSAPP  读书笔记系列chap9 虚拟内存</p>
+<p>这一次说的是虚拟内存VM,是计算机系统提供的一个对内存的抽象，目的是为了更有效地管理内存和少出错，也是一个计算机上很成功的抽象．</p>
+<h3 id="9-1-物理和虚拟寻址"><a href="#9-1-物理和虚拟寻址" class="headerlink" title="9.1 物理和虚拟寻址"></a>9.1 物理和虚拟寻址</h3><p>对于计算机（以及其他智能设备）来说，虚拟地址通过 MMU(Memory management unit)把虚拟地址(Virtual Address, VA)转换为物理地址(Physical Address, PA)，再由此进行实际的数据传输。</p>
+<p>可以使用vmstat 命令来查看Linux中虚拟内存的情况，见<a href="http://www.cnblogs.com/qingmingsang/articles/6832157.html" target="_blank" rel="noopener">http://www.cnblogs.com/qingmingsang/articles/6832157.html</a></p>
+<p><img src="http://img.blog.csdn.net/20171220205656408?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="使用VM的OS.png"></p>
+<h4 id="地址空间"><a href="#地址空间" class="headerlink" title="地址空间"></a>地址空间</h4><p> 地址空间也就是一个非负整数地址的有序集合，例如{0,    1,    2,    3    …    }</p>
+<ul>
+<li><p>计算机中的虚拟地址为：{0,    1,    2,    3,    …,    N-1}</p>
+<ul>
+<li>这里    N    =    2＾n</li>
+</ul>
+</li>
+<li><p>而物理空间地址(内存)为{0,    1,    2,    3,    …,    M-1}<br>-　这里　M = 2 ^ m-1</p>
+</li>
+</ul>
+<p><strong> 注意　Ｍ　&lt; N </strong>,所以内存为VM的缓存</p>
+<p>VM 的具体能力为：</p>
+<ul>
+<li><p>使用 DRAM内存(主存) 当做一个存储在磁盘上的地址空间的缓存，在内存中只保存活动的区域，根据需要再在内存和磁盘中传输数据，可以更有效率的使用内存．</p>
+</li>
+<li><p>为每个进程提供统一的线性地址空间，简化内存管理</p>
+</li>
+<li><p>保护进程之间地址空间不会相互影响,保护内存管理;例如用户程序不能访问内核信息和代码</p>
+</li>
+</ul>
+<p>下面具体再说</p>
+<h3 id="9-2-虚拟内存作为缓存工具"><a href="#9-2-虚拟内存作为缓存工具" class="headerlink" title="9.2　虚拟内存作为缓存工具"></a>9.2　虚拟内存作为缓存工具</h3><p>概念上来说，虚拟内存就是存储在<strong>磁盘</strong>上的 N 个连续字节的数组。磁盘上的数据被分割成块block,一些block，会缓存在 DRAM 中，在 DRAM 中的每个缓存块(cache block)就称为页(page)</p>
+<ul>
+<li>虚拟页VP(virtual page): ＶＭ分配</li>
+<li>物理页PP(Physical page): 内存分配</li>
+</ul>
+<p>其中　VP 和　PP 的大小是一样的，都为Ｐ字节　Ｐ＝２^ｐ，<br>因为其HIT MISS 的惩罚很高，页一般都很大；通常是 4KB，有的时候可以达到 4MB</p>
+<p>另外，ＤＲＡＭ是全相联(Fully associative)的：每一个虚拟页(virual page)可以放在任意的物理页(physical page)中，没有限制。</p>
+<p>同时，其替换算法要求也是很高的;且通常使用写回 Write-back 而非 直写Write-through 机制</p>
+<ul>
+<li>Write-through: 命中后更新缓存，同时写入到内存中</li>
+<li>Write-back: 直到这个缓存需要被置换出去，才写入到内存中（需要额外的 dirty bit 来表示缓存中的数据是否和内存中相同，因为可能在其他的时候内存中对应地址的数据已经更新，那么重复写入就会导致原有数据丢失）</li>
+</ul>
+<p>如下图所示：<br><img src="http://img.blog.csdn.net/20171220213005695?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="虚拟页和物理页.png"></p>
+<p>图中VP中的地址有三个状态：</p>
+<ul>
+<li><p>未分配的：VM还没分配的页，不与任何的数据关联．不占磁盘空间</p>
+</li>
+<li><p>未缓存的： 未缓存的在物理内存的已分配的页，占磁盘空间</p>
+</li>
+<li><p>缓存的：缓存的在物理内存的已分配的页，占磁盘空间</p>
+</li>
+</ul>
+<p>而VM和内存之间的映射是通过<strong>页表</strong> 实现的</p>
+<h4 id="页表-page-table"><a href="#页表-page-table" class="headerlink" title="页表(page table)"></a>页表(page table)</h4><p>每个页表实际上是一个数组，数组中的每个元素称为页表项(PTE, page table entry)，每个页表项负责把虚拟页映射到物理页上。</p>
+<p><strong>在 内存DRAM 中，每个进程都有自己的页表</strong></p>
+<p>例如下面的一个图:<br>页表VM和PM映射<br><img src="http://img.blog.csdn.net/20171221125839315?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="页表VM和PM映射.png"></p>
+<p>所以这里也会像cache那样发生命中和不命中</p>
+<ul>
+<li><p>命中(Page Hit)</p>
+<ul>
+<li>访问到页表中蓝色条目的地址时，因为在 DRAM 中有对应的数据，可以直接访问。</li>
+<li>由于局部性原理,命中的几率会很高，虚拟内存其实是非常高效的机制．</li>
+</ul>
+</li>
+<li><p>不命中(Page Fault),也就是常说的缺页</p>
+<ul>
+<li><p>访问到 灰色条目的时候，因为在 DRAM 中并没有对应的数据，所以需要执行一系列操作（从磁盘复制到 DRAM 中），具体为：</p>
+<ul>
+<li>触发 Page fault，也就是一个异常</li>
+<li>Page fault handler 异常处理器　会选择 DRAM 中需要被置换的 page，并把数据从磁盘复制到 DRAM 中</li>
+<li>重新执行访问指令，这时候就会是 page hit</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>然后程序一般是在一个较小的活动页面集合(工作集)上工作的，可以很好地使用局部性．</p>
+<h3 id="9-３-虚拟内存作为内存管理的工具"><a href="#9-３-虚拟内存作为内存管理的工具" class="headerlink" title="9.３　虚拟内存作为内存管理的工具"></a>9.３　虚拟内存作为内存管理的工具</h3><p>因为<strong>在 内存DRAM 中，每个进程都有自己的页表</strong>，也就是一个独立的虚拟地址空间</p>
+<p>例如下图中</p>
+<p><img src="http://img.blog.csdn.net/20171221132751146?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="独立的地址空间.png"></p>
+<p>多个虚拟页面可以映射到同一个共享的物理页面上，PP６是一个共享的物理页面</p>
+<p>此外，因为有了统一的抽象，不需要纠结细节，所以VM 还可以提高以下功能：</p>
+<ul>
+<li>简化链接:　每个进程的内存映象都是相同的基本格式，不管实际的代码和数据存放的物理位置</li>
+<li>简化加载</li>
+<li>简化共享: 也是进程间通信的一个方式，如上图</li>
+<li>简化内存分配: 由于页表的形式，内存分配只是需要在ＶＭ上进行，而不管ＰＭ的实际分布</li>
+</ul>
+<h3 id="9-4-虚拟内存作为内存保护的工具"><a href="#9-4-虚拟内存作为内存保护的工具" class="headerlink" title="9.4　虚拟内存作为内存保护的工具"></a>9.4　虚拟内存作为内存保护的工具</h3><p>也就是通过设计页表中的某几个许可位来表示内存读写权限，对应与Linux中的r w x权限</p>
+<p>页表中的每个条目的高位部分是表示权限的位，MMU 可以通过检查这些位来进行权限控制（读、写、执行）</p>
+<p><img src="http://img.blog.csdn.net/20171221134230488?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="内存权限.png"></p>
+<p>这里也有说到　<strong>段错误</strong>的定义：</p>
+<ul>
+<li>segmentation fault: 一个违反了访问权限的指令触发的异常报告</li>
+</ul>
+<h3 id="9-5-地址翻译"><a href="#9-5-地址翻译" class="headerlink" title="9.5 地址翻译"></a>9.5 地址翻译</h3><p>地址翻译是　一个Ｎ元素的虚拟地址空间(Virtual Address Station,VAS)的元素和一个M元素的物理地址空间(Physical Address Station,PAS)的映射</p>
+<p>也就是　MAP : VAS -&gt; PAS U ∅</p>
+<p>若为空集，则表明数据不在物理内存中；</p>
+<p>使用页表的地址翻译如下图：</p>
+<p>这一节是比较绕的一节，建议看书</p>
+<p><img src="http://img.blog.csdn.net/20171221145524300?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="使用页表的地址翻译"></p>
+<p>实际的操作为：</p>
+<ul>
+<li>MMU 利用通过虚拟地址中的VPN(virtual page number)找到页表(page table)中对应的条目</li>
+<li>检查有效位(valid bit)，是否需要触发页错误(page fault)</li>
+<li>然后根据页表中的物理页编号(physical page number)找到内存中的对应地址</li>
+<li>最后把虚拟页偏移(virtual page offset,VPO和PPO 一样)和前面的实际地址拼起来，就是最终的物理地址了</li>
+</ul>
+<p>其中第二步的结果分为页面命中　和 缺页，分别又有不同的流程</p>
+<p>但其实为了访问速度更快，这里还会有一个ＴＬＢ(Translation Lookaside Buffer)</p>
+<p>ＴＬＢ翻译后备缓冲器，缓存的是一个地址翻译(PPN),速度是Ｌ0级别，第二步的结果为：</p>
+<ul>
+<li>页面命中(大多数)<br>　-  TLB 命中<br>CPU 首先把虚拟地址发送给 MMU，MMU 检查缓存，并把从TLB中得到对应的物理地址PTE，接着 MMU 把物理地址发送给缓存/内存，最后从缓存/内存中得到数据。</li>
+</ul>
+<p>　- <img src="http://img.blog.csdn.net/20171221151222576?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="TLB命中"></p>
+<ul>
+<li><p>TLB 不命中</p>
+<p>TLB 不命中时，ＭＭＵ从L1缓存读取PTE,如下图：</p>
+<p><img src="http://img.blog.csdn.net/20171221151704989?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=" TLB 不命中"></p>
+</li>
+<li><p>缺页<br>　第一次触发页错误会把页面载入内存/缓存，然后再以 Page Hit 的机制得到数据：</p>
+</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20171221151836221?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="缺页"></p>
+<p>同时，虚拟内存也会使用到多级页表 Multi-Level Page Table</p>
+<p>虽然页表是一个表，但因为往往虚拟地址的位数比物理内存的位数要大得多，所以保存页表项(PTE) 所需要的空间也是一个问题。</p>
+<p>实际上，带多级页表的翻译不会比单级页表的慢多少</p>
+<p><img src="http://img.blog.csdn.net/20171221152024240?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="多级页表.png"></p>
+<p>一个具体的地址翻译的例子请看书上的９，６．４，或看<a href="http://wdxtub.com/2016/04/16/thin-csapp-7/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thin-csapp-7/</a></p>
+<h3 id="9-6-Linux-虚拟内存系统"><a href="#9-6-Linux-虚拟内存系统" class="headerlink" title="9.6 Linux 虚拟内存系统"></a>9.6 Linux 虚拟内存系统</h3><p>Linux　为每个进程维护了一个单独的虚拟地址文件，如下图：</p>
+<p><img src="http://img.blog.csdn.net/20171221203355415?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="一个单独的虚拟地址文件"></p>
+<p>Linux 把虚拟内存VM组织成一些区域(也叫作段)的集合．</p>
+<p>虚拟内核内存中的mm_struct，其描述了虚拟内存的当前状态．</p>
+<p>其功能如下：</p>
+<p><img src="http://img.blog.csdn.net/20171221203806719?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="Linux组织虚拟内存.png"></p>
+<h3 id="9-7-内存映射"><a href="#9-7-内存映射" class="headerlink" title="9.7 内存映射"></a>9.7 内存映射</h3><p>内存映射：Linux 通过将一个虚拟内存区域与一个磁盘上的对象关联起来，以初始化这个</p>
+<p>虚拟内存区域的内容为以下两种之一：</p>
+<ul>
+<li>Ｌｉｎｕｘ文件系统中的普通文件，需要时再页面调度进入PM内存中</li>
+</ul>
+<p>-　匿名文件：由内核创建的全是二进制零的文件，映射到匿名文件的也叫请求二进制零的页</p>
+<p>一旦一个虚拟页面被初始化了，他就在交换空间之间传来传去．</p>
+<h4 id="9-7-1-再看共享对象-共享内存"><a href="#9-7-1-再看共享对象-共享内存" class="headerlink" title="9.7.1 再看共享对象(共享内存)"></a>9.7.1 再看共享对象(共享内存)</h4><p>例如下图：</p>
+<p><img src="http://img.blog.csdn.net/20171221204326346?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="共享对象"></p>
+<p>一个对象映射在虚拟内存的一个区域，要么作为共享对象，要么作为私有对象；</p>
+<p>私有对象会使用一种叫做写时复制的机制，<br>其解析了为什么两个编译器同时打开同一个文件时，会出现一个副本的情况</p>
+<p>同时，在fork函数中，父子进程的过程也是大体相似</p>
+<h4 id="9-7-2-再看execve-函数"><a href="#9-7-2-再看execve-函数" class="headerlink" title="9.7.2 再看execve 函数"></a>9.7.2 再看execve 函数</h4><p>对于execve(“a.out”,NULL.NULL)函数，其加载和运行步骤为：</p>
+<ul>
+<li><p>删除已存在的用户区域</p>
+</li>
+<li><p>映射私有区域</p>
+</li>
+<li><p>映射共享区域</p>
+</li>
+<li><p>设置程序计数器PC</p>
+</li>
+</ul>
+<p>如下图：</p>
+<p><img src="http://img.blog.csdn.net/20171221205332437?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="执行execve函数.png"></p>
+<h3 id="9-7-3-用户级内存映射"><a href="#9-7-3-用户级内存映射" class="headerlink" title="9.7.3 用户级内存映射"></a>9.7.3 用户级内存映射</h3><p>Linux 可以　使用mmap 来创建新的内存区域，并把对象映射到这些区域中;<br>使用munmap函数来删除虚拟内存中的区域．</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/mman.h&gt;</span><br><span class="line">void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);</span><br><span class="line">int munmap(void *addr, size_t length);</span><br></pre></td></tr></table></figure>
+<h3 id="9-9-动态内存"><a href="#9-9-动态内存" class="headerlink" title="9.9 动态内存　　"></a>9.9 动态内存　　</h3><p>使用动态内存的一个重要原因是：直到程序运行时候才知道某个数据结构的大小，例如哈希函数的数组分配．</p>
+<h4 id="9-9-1-动态内存简介"><a href="#9-9-1-动态内存简介" class="headerlink" title="9.9.1 动态内存简介"></a>9.9.1 动态内存简介</h4><p>程序员通过动态内存分配（例如 malloc）来让程序在运行时得到虚拟内存。动态内存分配器会管理一个虚拟内存区域，称为堆(heap)。</p>
+<p>在Ｃ语音中，malloc 和free <strong>函数</strong>搭配使用；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">void *malloc(size_t size);</span><br><span class="line">void free(void *ptr);</span><br><span class="line">void *calloc(size_t nmemb, size_t size);</span><br><span class="line">void *realloc(void *ptr, size_t size);</span><br></pre></td></tr></table></figure>
+<p>Ｃ++中，操作符new 和　delete搭配使用；</p>
+<p>new T[]　和　delete[] T 搭配使用，也可以查看我之前的笔记<br><a href="http://blog.csdn.net/ferris_chan/article/details/78239582" target="_blank" rel="noopener">C++中的delete和delete[]的区别</a></p>
+<p>另外，new　除了继续分配内存malloc以外，也会执行构造函数</p>
+<h4 id="9-9-２-动态内存分配器"><a href="#9-9-２-动态内存分配器" class="headerlink" title="9.9.２ 动态内存分配器"></a>9.9.２ 动态内存分配器</h4><p>回到课本，动态内存分配器以块为单位来维护堆，可以进行分配或释放。有两种类型的分配器：</p>
+<ul>
+<li>显式分配器explicit allocator：应用分配并且回收空间（C 语言中的 malloc 和 free),书上讲的是显示分配器</li>
+<li>隐式分配器implicit allocator：应用只负责分配，但是不负责回收（Java 中的垃圾收集）</li>
+</ul>
+<p>分配器一般有以下限制：</p>
+<ul>
+<li>不能控制已分配块的数量和大小，处理的程序任意请求</li>
+<li>必须立即响应 malloc 请求（不能缓存或者给请求重新排序）</li>
+<li>只使用堆，必须在未分配的内存中分配</li>
+<li>不同的块需要对齐（32 位中 8 byte，64 位中 16 byte）</li>
+<li>只能操作和修改未分配的内存</li>
+<li>不能修改或移动已分配的块</li>
+</ul>
+<p>而分配器也有一些衡量其性能的指标：<br>假设给定一个 malloc 和 free 的请求的序列：</p>
+<figure class="highlight plain"><figcaption><span>```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">目标是尽可能提高吞吐量以及内存利用率（注意，这两个目标常常是冲突的）</span><br><span class="line"></span><br><span class="line">- 吞吐量是在单位时间内完成的请求数量。</span><br><span class="line"> - 假设在 10 秒中之内进行了 5000 次 malloc 和 5000 次 free 调用，那么吞吐量是 1000 operations/second</span><br><span class="line"></span><br><span class="line">- 最大的内存利用率 Peak Memory Utilization。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">影响内存利用率的主要因素就是『内存碎片』，分为内部碎片和外部碎片两种。</span><br><span class="line"></span><br><span class="line">- 内部碎片</span><br><span class="line"> - 内部碎片指的是对于给定的块，如果需要存储的数据(payload)小于块大小，就会因为对齐和维护堆所需的数据结构的缘故而出现无法利用的空间</span><br><span class="line"> - 内部碎片只依赖于上一个请求的具体模式，所以比较容易测量。</span><br><span class="line"></span><br><span class="line">- 外部碎片</span><br><span class="line"> - 指的是内存中没有足够的连续空间，内存中有足够的空间，但是空间不连续，所以成为了碎片</span><br><span class="line"></span><br><span class="line"> #### 9.9.3 动态内存分配器的实现</span><br><span class="line"></span><br><span class="line"> 一个实际的动态内存分配器的实现需要注意的问题有很多，例如：</span><br><span class="line"></span><br><span class="line">- 空闲块的组织：如何记录未分配的块？</span><br><span class="line"></span><br><span class="line">- 放置:如何选择一个合适的空闲块，如果有多个区域满足条件，如何选择？</span><br><span class="line"></span><br><span class="line"> 一些算法如下：</span><br><span class="line">  - First Fit: 每次都从头进行搜索，找到第一个合适的块，线性查找</span><br><span class="line">  - Next Fit: 每次从上次搜索结束的位置继续搜索，速度较快，但可能会有更多碎片</span><br><span class="line">  - Best Fit: 每次遍历列表，找到最合适的块，碎片较少，但是速度最慢</span><br><span class="line"></span><br><span class="line">- 分割：实际需要的空间比未分配的空间要小的时候，剩下的空间怎么办？</span><br><span class="line"></span><br><span class="line">- 合并：释放空间之后如何进行记录和处理？</span><br><span class="line"></span><br><span class="line">这里涉及的算法和数据结构比较复杂．</span><br><span class="line"></span><br><span class="line">动态内存分配器的实现这部分书中提到了几种方法：</span><br><span class="line"></span><br><span class="line"> 1.</span><br><span class="line">  隐式空闲列表 Implicit List</span><br><span class="line">  - 书上的主要实现，如下图</span><br><span class="line">  ![隐式空闲链表实现堆.png](http://img.blog.csdn.net/20171222154522070?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)</span><br><span class="line">  - 具体可以等到lab再去做这个事情</span><br><span class="line"></span><br><span class="line">2.</span><br><span class="line">  显式空闲列表 Explicit List</span><br><span class="line"> - 使用的是双向链表</span><br><span class="line"></span><br><span class="line">3.</span><br><span class="line">  分离的空闲列表 Segregated Free List</span><br><span class="line"> - 维持多个空闲链表</span><br><span class="line"> - 又分为两种</span><br><span class="line">  - 简单分离存储：按照大小对块进行排序 Blocks Sorted by Size</span><br><span class="line">  - 分离适配：分配器维持一个空闲链表的数组，是C标准库采用的方法</span><br><span class="line">   - 又有一个特例为伙伴系统</span><br><span class="line"></span><br><span class="line">这些具体去看书好一点．</span><br><span class="line"></span><br><span class="line">### 9.10　垃圾收集</span><br><span class="line"></span><br><span class="line">所谓垃圾回收，就是不再需要显式释放所申请内存空间了，例如：</span><br></pre></td></tr></table></figure>
+<p>void foo() {<br>    int <em>p = malloc(128);<br>    return; /</em> p block is now garbage*/<br>}<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">这种机制在许多动态语言中都有实现：Python, Ruby, Java, Perl, ML, Lisp, Mathematica。C 和 C++ 中也有类似的变种，但是需要注意的是，是不可能回收所有的垃圾的。</span><br><span class="line"></span><br><span class="line">垃圾收集通过垃圾收集器来实现</span><br><span class="line"></span><br><span class="line">垃圾收集器将内存视为一个有向可达图，例如下列图，</span><br><span class="line"></span><br><span class="line">![垃圾收集器有向可达图.png](http://img.blog.csdn.net/20171222160729205?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)</span><br><span class="line"></span><br><span class="line">C语音可以把垃圾收集器加入malloc包中</span><br><span class="line"></span><br><span class="line">![C语音垃圾收集器.png](http://img.blog.csdn.net/20171222160900912?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如何知道什么东西才是『垃圾』呢？只要没有任何指针指向的地方，也就是内存不可达，不管有没有用，因为都不可能被使用，当然可以直接清理掉啦。不过这其实是需要一些前提条件的：</span><br><span class="line"></span><br><span class="line">- 需要知道哪里是指针，哪里不是指针</span><br><span class="line">- 每个指针都指向 block 的开头</span><br><span class="line">- 指针不能被隐藏(by coercing them to an int, and then back again)</span><br><span class="line"></span><br><span class="line">垃圾收集器使用的一些算法：</span><br><span class="line">- Mark-and-sweep collection (McCarthy, 1960)</span><br><span class="line"> - 书上有提这个，LISP创始人发明</span><br><span class="line">- Reference counting (Collins, 1960)</span><br><span class="line"> - 引用计数，C++智能指针有用到</span><br><span class="line"></span><br><span class="line">- Copying collection (Minsky, 1963)</span><br><span class="line">- Generational Collectors(Lieberman and Hewitt, 1983)</span><br><span class="line"></span><br><span class="line">### 9.11 内存陷阱-内存的使用的一些问题</span><br><span class="line"></span><br><span class="line">- 解引用错误指针</span><br><span class="line">- 读取未初始化的内存</span><br><span class="line">- 覆盖内存</span><br><span class="line">- 引用不存在的变量</span><br><span class="line">- 多次释放同一个块</span><br><span class="line">- 引用已释放的块</span><br><span class="line">- 释放块失败</span><br><span class="line"></span><br><span class="line">#### 具体例子</span><br><span class="line"></span><br><span class="line">- 解引用错误指针 Dereferencing Bad Pointers</span><br><span class="line">这是非常常见的例子，scanf没有引用对应的地址，少了 &amp;</span><br></pre></td></tr></table></figure></p>
+<p>int val;<br>…<br>scanf(“%d”, val); // 注意%d%d 之间也不能有逗号<br>Reading Uninitialized Memory<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 读取未初始化的内存</span><br><span class="line">　不能假设堆中的数据会自动初始化为 0，下面的代码就会出现奇怪的问题</span><br></pre></td></tr></table></figure></p>
+<p>/<em> return y = Ax </em>/<br>int <em>matvec(int **A, int </em>x) {<br>    int <em>y = malloc(N </em> sizeof(int));<br>    int i, j;</p>
+<pre><code>for (i = 0; i &lt; N; i++)
+    for (j = 0; j &lt; N; j++)
+        y[i] += A[i][j] * x[j];
+return y;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 覆盖内存 Overwriting Memory</span><br><span class="line"> - 第一种是分配了错误的大小，下面的例子中，一开始不能用 sizeof(int)，因为指针的长度不一定和 int 一样。</span><br></pre></td></tr></table></figure></p>
+<p> int *<em>p;<br> p = malloc(N </em> sizeof(int));<br> for (i = 0; i &lt; N; i++)<br>     p[i] = malloc(M * sizeof(int));<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 第二个问题是超出了分配的空间，下面代码的 for 循环中，因为使用了 &lt;=，会写入到其他位置</span><br></pre></td></tr></table></figure></p>
+<p>int *<em>p;<br>p = malloc(N </em> sizeof (int <em>));<br>for (i = 0; i &lt;= N; i++)<br>    p[i] = malloc(M </em> sizeof(int));<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 第三种是因为没有检查字符串的长度，超出部分就写到其他地方去了（经典的缓冲区溢出攻击也是利用相同的机制）</span><br></pre></td></tr></table></figure></p>
+<p>char s[8];<br>int i;<br>gets(s); /<em> reads “123456789” from stdin </em>/<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 第四种是没有正确理解指针的大小以及对应的操作，应该使用 sizeof(int *)</span><br></pre></td></tr></table></figure></p>
+<p> int <em>search(int </em>p, int val) {<br>     while (<em>p &amp;&amp; </em>p != null)<br>         p += sizeof(int);</p>
+<pre><code>return p;
+</code></pre><p> }<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 第五种是引用了指针，而不是其指向的对象</span><br><span class="line">下面的例子中，*size-- 一句因为 后置-- 和　*的优先级一样但是使用的是右结合律，所以实际上是对指针进行了操作，正确的应该是加括号 (*size)--</span><br></pre></td></tr></table></figure></p>
+<p>int <em>BinheapDelete(int **binheap, int </em>size) {<br>    int <em>packet;<br>    packet = binheap[0];<br>    binheap[0] = binheap[</em>size - 1];<br>    <em>size–;<br>    Heapify(binheap, </em>size, 0);<br>    return (packet);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 引用不存在的变量Referencing Nonexistent Variables</span><br><span class="line"></span><br><span class="line">没有注意到局部变量会在函数返回的时候失效（所以对应的指针也会无效），这是传引用和返回引用需要注意的</span><br></pre></td></tr></table></figure></p>
+<p>int *foo() {<br>    int val;</p>
+<pre><code>return &amp;val;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- 多次释放同一个块Freeing Blocks Multiple Times</span><br><span class="line"></span><br><span class="line"> 不能重复free一个指针两次，未定义</span><br></pre></td></tr></table></figure></p>
+<p>x = malloc(N <em> sizeof(int));<br>//  <manipulate x=""><br>free(x);<br>y = malloc(M </manipulate></em> sizeof(int));<br>//  <manipulate y=""><br>free(x);<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 引用已释放的块 Referencing Freed Blocks</span><br></pre></td></tr></table></figure></manipulate></p>
+<p>x = malloc(N <em> sizeof(int));<br>//  <manipulate x=""><br>free(x);<br>//  ….<br>y = malloc(M </manipulate></em> sizeof(int));<br>for (i = 0; i &lt; M; i++)<br>    y[i] = x[i]++;<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- 释放块失败 Memory Leaks</span><br></pre></td></tr></table></figure></p>
+<p>foo() {<br>    int <em>x = malloc(N </em> sizeof(int));<br>    // …<br>    return ;<br>}</p>
+<p>// 或者只释放了数据结构的一部分：</p>
+<p>struct list {<br>    int val;<br>    struct list <em>next;<br>};<br>foo() {<br>    struct list </em>head = malloc(sizeof(struct list));<br>    head-&gt;val = 0;<br>    head-&gt;next = NULL;<br>    //…<br>    free(head);<br>    return;<br>}<br><code>`</code></p>
+<p>看完做lab去</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/25/CSAPP/chap10/chap10/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap10 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/23/CSAPP/chap8/chap8/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap8 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#chap9-虚拟内存-virtual-memory"><span class="toc-text">chap9 虚拟内存　virtual memory</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-物理和虚拟寻址"><span class="toc-text">9.1 物理和虚拟寻址</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#地址空间"><span class="toc-text">地址空间</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-虚拟内存作为缓存工具"><span class="toc-text">9.2　虚拟内存作为缓存工具</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#页表-page-table"><span class="toc-text">页表(page table)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-３-虚拟内存作为内存管理的工具"><span class="toc-text">9.３　虚拟内存作为内存管理的工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-4-虚拟内存作为内存保护的工具"><span class="toc-text">9.4　虚拟内存作为内存保护的工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-地址翻译"><span class="toc-text">9.5 地址翻译</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-6-Linux-虚拟内存系统"><span class="toc-text">9.6 Linux 虚拟内存系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-7-内存映射"><span class="toc-text">9.7 内存映射</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-7-1-再看共享对象-共享内存"><span class="toc-text">9.7.1 再看共享对象(共享内存)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-7-2-再看execve-函数"><span class="toc-text">9.7.2 再看execve 函数</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-7-3-用户级内存映射"><span class="toc-text">9.7.3 用户级内存映射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-9-动态内存"><span class="toc-text">9.9 动态内存　　</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#9-9-1-动态内存简介"><span class="toc-text">9.9.1 动态内存简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#9-9-２-动态内存分配器"><span class="toc-text">9.9.２ 动态内存分配器</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

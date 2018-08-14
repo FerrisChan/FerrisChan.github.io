@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap10 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/25/CSAPP/chap10/chap10/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap10 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap10 </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap10 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap10</p>
+<p>CSAPP  读书笔记系列chap10</p>
+<h1 id="chap-10-系统级IO"><a href="#chap-10-系统级IO" class="headerlink" title="chap 10 系统级IO"></a>chap 10 系统级IO</h1><p>这一次说的是I/O，先说明大概，也就是 Unix I/O 和其他 I/O 的关系。</p>
+<p>其结构如下：</p>
+<p><img src="http://img.blog.csdn.net/20171217164158396?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="IO之间的关系"></p>
+<p>图中底层是Unix I/O,通过系统调用来进行文件操作，</p>
+<ul>
+<li><p>Unix I/O，例如：</p>
+<ul>
+<li>打开和关闭 ：open, close</li>
+<li>读和写：write, read</li>
+<li>改变访问顺序：lseek</li>
+<li>文件信息  stat</li>
+</ul>
+</li>
+</ul>
+<p>在这之上是 C 的标准 I/O 库，其为<strong>基于Unix I/O 实现</strong>的，<br>一些对应的函数为：</p>
+<ul>
+<li><p>C standard I/O :</p>
+<ul>
+<li>fopen, fdopen, fread, fwrite, fscanf, fprintf, sscanf, sprintf, fgets, fputs, fflush, fseek, fclose等</li>
+</ul>
+</li>
+<li><p>RIO 是专为本书开发的read和write的函数，也为基于Unix I/O 实现</p>
+<ul>
+<li>rio_readn，rio_writen， rio_readlineb 和 rio_readnb</li>
+</ul>
+<h2 id="Unix-I-O"><a href="#Unix-I-O" class="headerlink" title="Unix  I/O"></a>Unix  I/O</h2></li>
+</ul>
+<p>Unix I/O 是最通用最底层的 I/O 方法，其他的 I/O 包都是在 Unix I/O 的基础上进行构建的.</p>
+<p>在 Linux 中，<strong>一切皆文件</strong>，文件实际上可以看做是字节的序列。</p>
+<h3 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h3><p>为了区别Linux中不同文件的类型，会有一个 类型type 来进行区别：</p>
+<ul>
+<li><p>普通文件：包含任意数据</p>
+<ul>
+<li>二进制文件和文本文件对内核而言没有区别</li>
+<li>文本文件： 只含ASCII或Unicode编码的文件</li>
+<li>二进制文件： 所以其他文件</li>
+</ul>
+</li>
+<li><p>目录：相关一组文件的索引</p>
+</li>
+<li>套接字 Socket：和另一台机器上的进程通信的类型</li>
+</ul>
+<p>其实还有一些比较特别的类型，不深入了解：</p>
+<ul>
+<li>命名管道Named pipes(FIFOs)</li>
+<li>符号链接Symbolic links</li>
+<li>字符及设备Character and block devices</li>
+</ul>
+<h3 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h3><h4 id="打开文件open"><a href="#打开文件open" class="headerlink" title="打开文件open()"></a>打开文件open()</h4><p>函数原型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">int open(char *name ,int flags, int perms);</span><br></pre></td></tr></table></figure></p>
+<p>参数的定义可以看K&amp;R的第八章Unix系统接口或man 2 open<br>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int fd; // 文件描述符 file descriptor</span><br><span class="line">if ((fd = open(&quot;/etc/hosts&quot;, O_RDONLY)) &lt; 0)</span><br><span class="line">&#123;</span><br><span class="line">    perror(&quot;open&quot;);</span><br><span class="line">    exit(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>返回值是一个小的整型称为文件描述符(file descriptor)，如果这个值等于 -1 则说明发生了错误。每个由 Linux shell 创建的进程都会默认打开三个文件（注意这里的文件概念）：</p>
+<ul>
+<li>0: standard input(stdin)</li>
+<li>1: standard output(stdout)</li>
+<li>2: standar error(stderr)</li>
+</ul>
+<p>注意文件描述符(file descriptor) 和文件指针 FIFE * 的区别。</p>
+<h4 id="关闭文件close"><a href="#关闭文件close" class="headerlink" title="关闭文件close()"></a>关闭文件close()</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int close(int fd);</span><br></pre></td></tr></table></figure>
+<p>使用完毕之后同样需要通知内核关闭文件：</p>
+<p>如果在此关闭已经关闭了的文件，会出大问题。所以一定要检查返回值，哪怕是 close() 函数</p>
+<h4 id="读写文件"><a href="#读写文件" class="headerlink" title="读写文件"></a>读写文件</h4><p>#####　读取文件read</p>
+<p>在打开和关闭之间就是读取文件，实际上就是把文件中对应的字节复制到内存中，并更新文件指针：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">ssize_t read(int fd, void *buf, size_t count);</span><br></pre></td></tr></table></figure></p>
+<p>例子如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">char buf[512];</span><br><span class="line">int fd;</span><br><span class="line">int nbytes;</span><br><span class="line">// 打开文件描述符，并从中读取 512 字节的数据</span><br><span class="line">if ((nbytes = read(fd, buf, sizeof(buf))) &lt; 0)</span><br><span class="line">&#123;</span><br><span class="line">    perror(&quot;read&quot;);</span><br><span class="line">    exit(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>返回值是读取的字节数量，是一个 ssize_t 类型（其实就是一个有符号整型,size_t为无符号整数），如果 nbytes &lt; 0 那么表示出错。nbytes &lt; sizeof(buf) 这种情况(short counts) 是可能发生的，而且并不是错误。</p>
+<h5 id="写入文件write"><a href="#写入文件write" class="headerlink" title="写入文件write"></a>写入文件write</h5><p>写入文件是把内存中的数据复制到文件中，并更新文件指针：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">ssize_t write(int fd, const void *buf, size_t count);</span><br></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">char buf[512];</span><br><span class="line">int fd;</span><br><span class="line">int nbytes;</span><br><span class="line">// 打开文件描述符，并向其写入 512 字节的数据</span><br><span class="line">if ((nbytes = write(fd, buf, sizeof(buf)) &lt; 0)</span><br><span class="line">&#123;</span><br><span class="line">    perror(&quot;write&quot;);</span><br><span class="line">    exit(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>返回值是写入的字节数量，如果 nbytes &lt; 0 那么表示出错。nbytes &lt; sizeof(buf) 这种情况(short counts) 是可能发生的，而且并不是错误。</p>
+<p>short counts 指的是不足值，<br>其发生在：</p>
+<ul>
+<li>在读取的时候遇到 EOF(end-of-file)</li>
+<li>从终端中读取文本行</li>
+<li>读取和写入网络 sockets<br>但是在下面的情况下不会发生</li>
+<li>从磁盘文件中读取（除 EOF 外）</li>
+<li>写入到磁盘文件中</li>
+</ul>
+<p>一般为允许short count</p>
+<h3 id="文件信息-元数据"><a href="#文件信息-元数据" class="headerlink" title="文件信息(元数据)"></a>文件信息(元数据)</h3><p>元数据是用来描述数据的数据，由内核维护，可以通过 stat 和 fstat 函数来访问，其结构是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">int stat(const char *pathname, struct stat *buf);</span><br><span class="line">int fstat(int fd, struct stat *buf);</span><br><span class="line"></span><br><span class="line">//</span><br><span class="line">struct stat</span><br><span class="line">&#123;</span><br><span class="line">    dev_t           st_dev;     // Device</span><br><span class="line">    ino_t           st_ino;     // inode</span><br><span class="line">    mode_t          st_mode;    // Protection &amp; file type</span><br><span class="line">    nlink_t         st_nlink;   // Number of hard links</span><br><span class="line">    uid_t           st_uid;     // User ID of owner</span><br><span class="line">    gid_t           st_gid;     // Group ID of owner</span><br><span class="line">    dev_t           st_rdev;    // Device type (if inode device)</span><br><span class="line">    off_t           st_size;    // Total size, in bytes</span><br><span class="line">    unsigned long   st_blksize; // Blocksize for filesystem I/O</span><br><span class="line">    unsigned long   st_blocks;  // Number of blocks allocated</span><br><span class="line">    time_t          st_atime;   // Time of last access</span><br><span class="line">    time_t          st_mtime;   // Time of last modification</span><br><span class="line">    time_t          st_ctime;   // Time of last change</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="RIO"><a href="#RIO" class="headerlink" title="RIO"></a>RIO</h3><p>RIO 指的是　Roubst I/O 鲁棒的Ｉ/Ｏ：－）</p>
+<p>其分为：</p>
+<ul>
+<li>无缓冲的ＩＯ：Unbuffered input    and    output    of    binary    data<br>　-　rio_readn 和    rio_writen</li>
+<li>有缓冲的ＩＯ　Buffered    input    of    text    lines    and    binary    data<ul>
+<li>rio_readlineb 和    rio_readnb<br>其中，带缓冲的为线程安全和相互兼容的</li>
+</ul>
+</li>
+</ul>
+<h4 id="rio-readn"><a href="#rio-readn" class="headerlink" title="rio_readn"></a>rio_readn</h4><p>其实现为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">/* $begin rio_readn */</span><br><span class="line">ssize_t rio_readn(int fd, void *usrbuf, size_t n) &#123;</span><br><span class="line">  size_t nleft = n;</span><br><span class="line">  ssize_t nread;</span><br><span class="line">  char *bufp = usrbuf;</span><br><span class="line"></span><br><span class="line">  while (nleft &gt; 0) &#123;</span><br><span class="line">    if ((nread = read(fd, bufp, nleft)) &lt; 0) &#123;</span><br><span class="line">      if (errno == EINTR) /* Interrupted by sig handler return */</span><br><span class="line">        nread = 0;        /* and call read() again */</span><br><span class="line">      else</span><br><span class="line">        return -1; /* errno set by read() */</span><br><span class="line">    &#125; else if (nread == 0)</span><br><span class="line">      break; /* EOF */</span><br><span class="line">    nleft -= nread;</span><br><span class="line">    bufp += nread;</span><br><span class="line">  &#125;</span><br><span class="line">  return (n - nleft); /* Return &gt;= 0 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="文件共享和重定向"><a href="#文件共享和重定向" class="headerlink" title="文件共享和重定向"></a>文件共享和重定向</h3><h4 id="文件共享"><a href="#文件共享" class="headerlink" title="文件共享"></a>文件共享</h4><p>一个文件在内核打开的过程如下，有三个数据结构：</p>
+<ul>
+<li>描述表符(Descriptor table)：每个进程都有自己独立的描述符表，会指向文件表</li>
+<li>文件表：　表示打开文件的集合，所有进程共享。里面表项会有文件的一些信息如引用计数，并指向ｖ-node表<br>-　v-node表：所有进程共享，包含文件的大多数信息例如stat；</li>
+</ul>
+<p>每个进程都有自己的描述符表(Descriptor table)，然后 Descriptor 1 指向终端，Descriptor 4 指向磁盘文件，如下图所示：</p>
+<p><img src="http://img.blog.csdn.net/20171217194809722?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="打开文件的内核数据结构"></p>
+<p>而对于fork 函数：</p>
+<p>子进程实际上和父进程的指向是一样的，这里需要注意的是会把引用计数加 1</p>
+<p><img src="http://img.blog.csdn.net/20171217195459478?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="fork函数指向表.png"></p>
+<h4 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h4><p>调用 dup2(oldfd, newfd) 函数。<br>只要改变文件描述符指向的文件，也就完成了重定向的过程，下图中把原来指向终端的文件描述符指向了磁盘文件，也就把终端上的输出保存在了文件中：</p>
+<p><img src="http://img.blog.csdn.net/20171217195710935?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="重定向.png"></p>
+<h3 id="C标准IO"><a href="#C标准IO" class="headerlink" title="Ｃ标准ＩＯ"></a>Ｃ标准ＩＯ</h3><p>C 标准库中包含一系列高层的标准 IO 函数，比如</p>
+<ul>
+<li>打开和关闭文件: fopen, fclose</li>
+<li>读取和写入字节: fread, fwrite</li>
+<li>读取和写入行: fgets, fputs</li>
+<li>格式化读取和写入: fscanf, fprintf</li>
+</ul>
+<p>标准 IO 会用流的形式打开文件，这里的流(stream)指的是文件描述符和缓冲区(buffer)在内存中的抽象，是一个指向FILE文件指针结构的指针。</p>
+<p>一个FILE 的结构可以如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct FILE&#123;</span><br><span class="line">  int cnt;  // 剩余的字符数</span><br><span class="line">  char *ptr;　//下一个字符的位置</span><br><span class="line">  char *base; //缓冲区的位置</span><br><span class="line">  int flag; 　　// 文件访问模式</span><br><span class="line">  int fd;      //文件描述符</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>C 程序一般以三个流开始，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">extern FILE *stdin;     // 标准输入 descriptor 0</span><br><span class="line">extern FILE *stdout;    // 标准输出 descriptor 1</span><br><span class="line">extern FILE *stderr;    // 标准错误 descriptor 2</span><br></pre></td></tr></table></figure>
+<p>使用缓冲区的原因是：</p>
+<p>程序经常会一次读入或者写入一个字符，比如 getc, putc, ungetc，同时也会一次读入或者写入一行，比如 gets, fgets。如果用 Unix I/O 的方式来进行调用，是非常昂贵的，比如说 read 和 write 因为需要内核调用，需要大于 10000 个时钟周期。</p>
+<p>解决的办法就是利用 read 函数一次读取一块数据，然后再由高层的接口，一次从缓冲区读取一个字符（当缓冲区用完的时候需要重新填充）</p>
+<h3 id="使用IO的建议："><a href="#使用IO的建议：" class="headerlink" title="使用ＩＯ的建议："></a>使用ＩＯ的建议：</h3><p>Unix I/O 是最通用最底层的 I/O 方法，其他的 I/O 包都是在 Unix I/O 的基础上进行构建的。<br>Unix I/O 中的方法都是异步信号安全(async-signal-safe)的，也就是说，可以在信号处理器中调用。</p>
+<p>一些建议</p>
+<ul>
+<li><p>尽可能使用Ｃ标准ＩＯ。<br>　- 对于磁盘或设备终端的ＩＯ来说，Ｃ标准ＩＯ不受Unix　ＩＯ的困扰<br>　- 要得到文件的元信息时，就还是得使用 Unix I/O 中的 stat 函数</p>
+</li>
+<li><p>不要使用Ｃ标准ＩＯ来读取二进制文件</p>
+</li>
+<li><p>Ｃ标准 I/O 不适合用于处理网络套接字。<br>　- 另外标准 C I/O 中的函数都不是异步信号安全(async-signal-safe)的，所以并不能在信号处理器中使用。<br>　- 因为流和套接字的限制，因为ＴＣＰ是连续的字符流传输协议，一个方向发一个方向收。而Ｃ标准 I/O是全双工的。<br>　　- 限制一：跟在输出函数之后的输入函数。ｓｏｃｋｅｔ的一个输入函数如果没刷新缓冲区不能跟在输出函数之后。套接字不能使用ｌseek函数，只能每次都刷新缓冲区<br>　　- 限制二：跟在输入函数之后的输出函数，若若中间没有插入对fseek,fflush,fsetops,rewind的调用，输出函数不能跟在输入函数之后，除非该输入函数遇到文件结束。</p>
+</li>
+</ul>
+<p>　- 对于限制二，只能同时打开两个文件，一个方向发一个方向收。但会在多线程中出错，所以这个问题留给以后。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/26/CSAPP/chap11/chap11/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap11 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/24/CSAPP/chap9/chap9/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap9 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#chap-10-系统级IO"><span class="toc-text">chap 10 系统级IO</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Unix-I-O"><span class="toc-text">Unix  I/O</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#文件"><span class="toc-text">文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件操作"><span class="toc-text">文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#打开文件open"><span class="toc-text">打开文件open()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#关闭文件close"><span class="toc-text">关闭文件close()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#读写文件"><span class="toc-text">读写文件</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#写入文件write"><span class="toc-text">写入文件write</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件信息-元数据"><span class="toc-text">文件信息(元数据)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RIO"><span class="toc-text">RIO</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#rio-readn"><span class="toc-text">rio_readn</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#文件共享和重定向"><span class="toc-text">文件共享和重定向</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#文件共享"><span class="toc-text">文件共享</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重定向"><span class="toc-text">重定向</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#C标准IO"><span class="toc-text">Ｃ标准ＩＯ</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用IO的建议："><span class="toc-text">使用ＩＯ的建议：</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

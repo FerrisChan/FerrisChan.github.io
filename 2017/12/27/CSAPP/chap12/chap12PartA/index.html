@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap12 Part A  ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/27/CSAPP/chap12/chap12PartA/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap12 Part A  </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列 chap12 Part A  </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap12 Part A  
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap12 Part A</p>
+<p>CSAPP  读书笔记系列chap12</p>
+<h1 id="chap-12-并发编程"><a href="#chap-12-并发编程" class="headerlink" title="chap 12 并发编程"></a>chap 12 并发编程</h1><p>   这一次说的是多线程并发编程,是也一个比较广泛的话题.</p>
+<p>  对于并发编程为什么会引起的一些问题，可以看下SICP，之前的<a href="http://blog.csdn.net/ferris_chan/article/details/78533998" target="_blank" rel="noopener">简单博客笔记</a></p>
+<p>这一章要讲的内容很多,打算分开两部分Part A和part B 来写</p>
+<ul>
+<li><p>PartA讲服务器的三种并发编程</p>
+<ul>
+<li>基于进程</li>
+<li>基于事件</li>
+<li>基于线程</li>
+</ul>
+</li>
+<li><p>PartB讲并发编程的一些基本概念</p>
+<ul>
+<li>共享变量</li>
+<li>信号量,进度图和互斥</li>
+<li>生产者-消费者问题 和读者写者问题</li>
+<li>线程安全，可重入函数</li>
+<li>竞争和死锁</li>
+</ul>
+</li>
+</ul>
+<h2 id="PartA"><a href="#PartA" class="headerlink" title="PartA"></a>PartA</h2><p>这是第一篇，为Part A</p>
+<h2 id="迭代服务器"><a href="#迭代服务器" class="headerlink" title="迭代服务器"></a>迭代服务器</h2><p>chap11 说了一个迭代echo服务器，server每一次只能服务于一个客户端。一次只能处理一个请求，只有当前的请求处理完了，才能继续处理下一个。<br>实用性很小，适用于时间服务器，DHCP服务器等<br>其处理请求的流程图如下：</p>
+<p><img src="http://img.blog.csdn.net/20180105151446711?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="迭代服务器.png"></p>
+<p>只有当 Client 1 断开之后，Server 才会处理 Client 2 的请求。具体是在哪里等待呢？因为 TCP 会缓存，所以实际上 Client 2 在 ret read 之前进行等待。</p>
+<p>而使用并行策略，可以同时处理不同客户端发来的请求。</p>
+<h2 id="基于进程的并发编程服务器"><a href="#基于进程的并发编程服务器" class="headerlink" title="基于进程的并发编程服务器"></a>基于进程的并发编程服务器</h2><p>  服务端为每个客户端分离出一个单独的进程，是建立了连接之后才开始并行，连接的建立还是串行的。 如下图</p>
+<p>  <img src="http://img.blog.csdn.net/20180105152253523?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="进程并发服务器"></p>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><p>  步骤为：</p>
+<ul>
+<li>服务器监听listen fd 3 ,接受客户端的连接请求，返回connfd 4；</li>
+<li>服务器派生一个子进程为这个客户端connfd 4服务</li>
+<li>服务器监听listen fd 3 ，接受另一个连接请求，返回connfd 5；</li>
+<li>服务器派生一个另一个子进程为新的客户端connfd 5服务</li>
+</ul>
+<p>这里子进程和父进程共享一个文件表(chap10),涉及到文件的引用计数和内存泄露，所以父子进程都必须关闭各自的connfd和listenfd</p>
+<ul>
+<li>内核会保存每个 socket 的引用计数，在 fork 之后 refcnt(connfd) = 2，所以在父进程需要关闭 connfd，这样在子进程结束后引用计数才会为零</li>
+</ul>
+<p>同时，因为子进程结束得回收，所以得注册SIGCHLD回收函数</p>
+<p>具体可以看代码</p>
+<p>代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">void sigchld_handler(int sig)&#123;</span><br><span class="line">    // SIGCHLD回收函数</span><br><span class="line">    while (waitpid(-1, 0, WNOHANG) &gt; 0)</span><br><span class="line">        ;</span><br><span class="line">    return;</span><br><span class="line">    // Reap all zombie children</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    int listenfd, connfd;</span><br><span class="line">    socklen_t clientlen;</span><br><span class="line">    struct sockaddr_storage clientaddr;</span><br><span class="line"></span><br><span class="line">    Signal(SIGCHLD, sigchld_handler);</span><br><span class="line">    listenfd = Open_listenfd(argv[1]);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        clientlen = sizeof(struct sockaddr_storage);</span><br><span class="line">        connfd = Accept(listenfd, (SA *) &amp;clientaddr, &amp;clientlen);</span><br><span class="line">        if (Fork() == 0) &#123;</span><br><span class="line">            Close(listenfd); // Child closes its listening socket</span><br><span class="line">            echo(connfd);   // Child services client</span><br><span class="line">            Close(connfd); // Child closes connection with client</span><br><span class="line">            exit(0); // Child exits</span><br><span class="line">        &#125;</span><br><span class="line">        Close(connfd); // 父进程关闭connfd,Parent closes connected socket (important!)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>###　基于进程的优劣</p>
+<p>基于进程的方式可以并行处理连接，除了共享已打开的 file table 外，无论是 descriptor 还是全局变量都不共享，不大容易造成同步问题，比较简单粗暴。<br>但是带来了额外的进程管理开销，并且进程间通讯不便，需要使用 IPC (interprocess communication)。</p>
+<p>进程间的通信几种方式可以看之前的<a href="http://blog.csdn.net/ferris_chan/article/details/78824743#t16" target="_blank" rel="noopener">chap8 进程-信号</a></p>
+<p>另外，进程的花销很大，如果每次都是fork一个子进程,不现实</p>
+<h2 id="基于I-O多路复用的并发事件驱动服务器"><a href="#基于I-O多路复用的并发事件驱动服务器" class="headerlink" title="基于I/O多路复用的并发事件驱动服务器"></a>基于I/O多路复用的并发事件驱动服务器</h2><h3 id="I-O复用函数"><a href="#I-O复用函数" class="headerlink" title="I/O复用函数"></a>I/O复用函数</h3><p>  IO多路复用是指内核挂起进程,当发现进程指定的一个或者多个IO条件准备读取，才将控制返回给应用程序。<br>  I/O一般指的是,调用的select,poll或epoll函数,对于三者的区别,可以参考下这一篇博客.<a href="https://www.jianshu.com/p/dfd940e7fca2" target="_blank" rel="noopener">https://www.jianshu.com/p/dfd940e7fca2</a></p>
+<p>书上说的是select,适用于连接数不大,但连接访问频繁的情况.之前堡垒机项目也是用这个.</p>
+<h4 id="select函数简述"><a href="#select函数简述" class="headerlink" title="select函数简述"></a>select函数简述</h4><p>函数原型如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">int select(int nfds, fd_set *readfds, fd_set *writefds,</span><br><span class="line">                  fd_set *exceptfds, struct timeval *timeout);</span><br><span class="line"></span><br><span class="line">void FD_ZERO(fd_set *set);         // 置零fd_set中所有的位</span><br><span class="line">void FD_CLR(int fd, fd_set *set);   // 将fd_set对于的fd置零</span><br><span class="line">void FD_SET(int fd, fd_set *set);  // 将fd_set对于的fd置一</span><br><span class="line">int  FD_ISSET(int fd, fd_set *set);  // fd是否在fd_set中</span><br></pre></td></tr></table></figure></p>
+<p>fd_set 为 描述符集合,是一个大小为nfds的位向量;使用上面四个FD_宏参数修改或查询</p>
+<p>也就是服务器会维护一个 connection 数组，包含若干 connfd，每个输入请求都被当做事件，然后每次从已有的事件中选取一个进行处理。</p>
+<p>更详细的select函数介绍可以看书chap12.2</p>
+<h3 id="select-echo服务器"><a href="#select-echo服务器" class="headerlink" title="select echo服务器"></a>select echo服务器</h3><p>select服务器流程如下:</p>
+<p><img src="http://img.blog.csdn.net/20180105170512315?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="select服务器.png"></p>
+<p>其简单的代码如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">  int listenfd, connfd;</span><br><span class="line">  socklen_t clientlen;</span><br><span class="line">  struct sockaddr_storage clientaddr;</span><br><span class="line">  fd_set read_set, ready_set;</span><br><span class="line"></span><br><span class="line">  listenfd = Open_listenfd(argv[1]);</span><br><span class="line"></span><br><span class="line">  // select 流程</span><br><span class="line">  FD_ZERO(&amp;read_set); /* Clear read set */</span><br><span class="line">  FD_SET(STDIN_FILENO, &amp;read_set);</span><br><span class="line">  /* Add stdin to read set */</span><br><span class="line">  FD_SET(listenfd, &amp;read_set);</span><br><span class="line">  /* Add listenfd to read set */</span><br><span class="line"></span><br><span class="line">  while (1) &#123;</span><br><span class="line">    ready_set = read_set;</span><br><span class="line">    // 监听listenfd,可以多个</span><br><span class="line">    select(listenfd + 1, &amp;ready_set, NULL, NULL, NULL);  //</span><br><span class="line"></span><br><span class="line">    if (FD_ISSET(STDIN_FILENO, &amp;ready_set)) // line:conc:select:stdinready</span><br><span class="line">      command();                            /* Read command line from stdin */</span><br><span class="line">    if (FD_ISSET(listenfd, &amp;ready_set)) &#123;   // line:conc:select:listenfdready</span><br><span class="line">      clientlen = sizeof(struct sockaddr_storage);</span><br><span class="line">      connfd = accept(listenfd, (SA *)&amp;clientaddr, &amp;clientlen);   // 注意这里accept</span><br><span class="line">      echo(connfd); /* Echo client input until EOF */</span><br><span class="line">      Close(connfd);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的select是比较简单的,实际上可以实现更小粒度的多路复用,使用状态机,线程池等功能.这里可以留给lab来实现</p>
+<h3 id="基于I-O多路复用的并发事件驱动"><a href="#基于I-O多路复用的并发事件驱动" class="headerlink" title="基于I/O多路复用的并发事件驱动"></a>基于I/O多路复用的并发事件驱动</h3><p> I/O多路复用是并发事件驱动的基础,事件驱动程序中,一些事件的发生会推使文件流向前发展.可以简单地把逻辑流模型看为一个状态机, 输入事件的状态变化会转移到另一种状态.</p>
+<p>许多服务器是基于事件驱动的,例如nginx,apache,muduo等</p>
+<p>基于事件驱动的好处在于只使用一个逻辑控制流和地址空间，程序员可以对程序行为有更多的控制.<br>同时可以利用调试器进行单步调试（其他的方法因为并行的缘故基本没办法调试），也不会有进程/线程控制的开销。</p>
+<p>但是相比之下，代码的逻辑复杂度会比较高，很难进行精细度比较高的并行，也无法发挥多核处理器的全部性能。</p>
+<h2 id="基于线程的并发编程服务器"><a href="#基于线程的并发编程服务器" class="headerlink" title="基于线程的并发编程服务器"></a>基于线程的并发编程服务器</h2><p>基于线程和基于进程的方法非常相似,这里用主线程等待请求,然后创建一个对等线程去处理请求。</p>
+<p>要说线程的并发编程服务器,就先说线程吧.</p>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>之前一直说什么线程是操作系统能够进行运算调度的最小单位,那是废话…</p>
+<h4 id="线程基本概念"><a href="#线程基本概念" class="headerlink" title="线程基本概念"></a>线程基本概念</h4><p><strong>线程具体就是运行在进程上下文的逻辑流,而进程是操作系统对一个执行中程序的实例的一个抽象</strong></p>
+<p>进程其实花销很大的，一个进程包括进程上下文、代码、数据和栈,有自己独立的地址空间(见chap8)。如果从线程的角度来描述，一个进程则包括线程、代码、数据和上下文。也就是说，线程作为单独可执行的部分，被抽离出来了，一个进程可以有多个线程。</p>
+<p>每个线程有自己的线程上下文(thread context,包括自己的唯一线程 id，栈,程序计数器,通用目的寄存器,但是没有单独的 heap).自己的用来保存局部变量的栈（其他线程可以修改）,会共享所有的代码、数据以及内核上下文。</p>
+<p>和进程不同的是，线程没有一个明确的树状结构（使用 fork 是有明确父进程子进程区分的）。和进程中『并行』的概念一样，如果两个线程的控制流在时间上有『重叠』（或者说有交叉），那么就是并行的。</p>
+<p><strong>注意:</strong><br>同时,线程和同一个进程相关的线程组成同一个对等(线程)池,独立于其他线程(???原书为线程,但个人认为是进程)创建的线程.线程池中,一个线程可以杀死任何其他的对等线程</p>
+<p>进程和线程的差别已经被说了太多次，这里简单提一下。相同点在于，它们都有自己的逻辑控制流，可以并行，都需要进行上下文切换。不同点在于，线程共享代码和数据（进程通常不会），线程开销比较小（创建和回收）</p>
+<h4 id="POSIX线程-POSIX-Threads"><a href="#POSIX线程-POSIX-Threads" class="headerlink" title="POSIX线程 POSIX Threads"></a>POSIX线程 POSIX Threads</h4><p>Pthreads 是一个线程库，基本上只要是 C 程序能跑的平台，都会支持这个标准。Pthreads定义了一套C语言的类型、函数与常量，它以 pthread.h 头文件和一个线程库实现。</p>
+<p>Pthreads API 中大致共有 100 个函数调用，全都以 pthread_ 开头，并可以分为四类：</p>
+<ul>
+<li>线程管理，例如创建线程，等待(join)线程，查询线程状态等。</li>
+<li>Mutex：创建、摧毁、锁定、解锁、设置属性等操作</li>
+<li>条件变量（Condition Variable）：创建、摧毁、等待、通知、设置与查询属性等操作</li>
+<li>使用了读写锁的线程间的同步管理</li>
+</ul>
+<p>下面给几个线程相关的函数</p>
+<p>可以man来看</p>
+<h5 id="创建线程pthread-create"><a href="#创建线程pthread-create" class="headerlink" title="创建线程pthread_create"></a>创建线程pthread_create</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">// 创建新线程</span><br><span class="line">int pthread_create(pthread_t *thread, const pthread_attr_t *attr,</span><br><span class="line">                          void *(*start_routine) (void *), void *arg);</span><br><span class="line"></span><br><span class="line">pthread_t pthread_self(void);  // 返回自己的线程ID</span><br></pre></td></tr></table></figure>
+<ul>
+<li>thread 为线程 id</li>
+<li>attr为新线程的属性,一般为NULL</li>
+<li>start_routine为 欲在新线程上运行的routine</li>
+<li>arg 表示接受一个新的输入变量</li>
+</ul>
+<h5 id="分离线程"><a href="#分离线程" class="headerlink" title="分离线程"></a>分离线程</h5><p>线程的状态为两种,</p>
+<ul>
+<li>可结合(joinable),能够被其他线程回收或杀死</li>
+<li>分离(detached),不能够被其他线程回收或杀死,由系统自动释放资源</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int pthread_detach(pthread_t thread);</span><br></pre></td></tr></table></figure>
+<h5 id="终止线程"><a href="#终止线程" class="headerlink" title="终止线程"></a>终止线程</h5><p>  终止线程有几种方式</p>
+<ul>
+<li>routine 运行完,隐式终止</li>
+<li>某个对等线程调用exit函数,终止<strong>进程</strong>及其相关的线程</li>
+<li>调用pthread_exit 或 pthread_cancle</li>
+</ul>
+<h5 id="回收已终止线程的资源"><a href="#回收已终止线程的资源" class="headerlink" title="回收已终止线程的资源"></a>回收已终止线程的资源</h5><p>调用pthread_join,回收thread TID的线程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int pthread_join(pthread_t thread, void **retval);</span><br></pre></td></tr></table></figure></p>
+<h5 id="初始化线程"><a href="#初始化线程" class="headerlink" title="初始化线程"></a>初始化线程</h5><p>调用pthread_once</p>
+<h3 id="基于线程的echo并发编程服务器"><a href="#基于线程的echo并发编程服务器" class="headerlink" title="基于线程的echo并发编程服务器"></a>基于线程的echo并发编程服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// Thread routine</span><br><span class="line">void *thread(void *vargp)&#123;</span><br><span class="line">    int connf = *((int *)vargp);</span><br><span class="line">    // detach 之后不用显式 join，会在执行完毕后自动回收</span><br><span class="line">    Pthread_detach(pthread_self());</span><br><span class="line">    Free(vargp);</span><br><span class="line">    echo(connfd);</span><br><span class="line">    // 一定要记得关闭！</span><br><span class="line">    Close(connfd);</span><br><span class="line">    return NULL;</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char **argv) &#123;</span><br><span class="line">    int listenfd, *connfdp;</span><br><span class="line">    socklen_t clientlen;</span><br><span class="line">    struct sockaddr_storage clientaddr;</span><br><span class="line">    pthread_t tid;</span><br><span class="line"></span><br><span class="line">    listenfd = Open_listenfd(argv[1]);</span><br><span class="line">    while (1) &#123;</span><br><span class="line">        clientlen = sizeof(struct sockaddr_storage);</span><br><span class="line">        // 这里使用新分配的 connected descriptor 来避免竞争条件</span><br><span class="line">        connfdp = Malloc(sizeof(int));</span><br><span class="line">        *connfdp = Accept(listenfd, (SA *) &amp; clientaddr, &amp;clientlen);</span><br><span class="line">        Pthread_create(&amp;tid, NULL, thread, connfdp);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个模型中，每个客户端由单独的线程进行处理，这些线程除了线程 id 之外，共享所有的进程状态（但是每个线程有自己的局部变量栈）。</p>
+<p>使用线程并行，能够在不同的线程见方便地共享数据，效率也比进程高，但是共享变量可能会造成比较难发现的程序问题，很难调试和测试。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>一般来说,服务器的实现方式为以上几种.各有其优劣,根据实际情况来决定,现实中多采用基于事件,使用多线程池</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/28/CSAPP/chap12/chap12PartB/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap12 Part B ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/26/CSAPP/chap11/chap11/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap11 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#chap-12-并发编程"><span class="toc-text">chap 12 并发编程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#PartA"><span class="toc-text">PartA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代服务器"><span class="toc-text">迭代服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于进程的并发编程服务器"><span class="toc-text">基于进程的并发编程服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-text">步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于I-O多路复用的并发事件驱动服务器"><span class="toc-text">基于I/O多路复用的并发事件驱动服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#I-O复用函数"><span class="toc-text">I/O复用函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#select函数简述"><span class="toc-text">select函数简述</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#select-echo服务器"><span class="toc-text">select echo服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于I-O多路复用的并发事件驱动"><span class="toc-text">基于I/O多路复用的并发事件驱动</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于线程的并发编程服务器"><span class="toc-text">基于线程的并发编程服务器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#线程"><span class="toc-text">线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程基本概念"><span class="toc-text">线程基本概念</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#POSIX线程-POSIX-Threads"><span class="toc-text">POSIX线程 POSIX Threads</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#创建线程pthread-create"><span class="toc-text">创建线程pthread_create</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分离线程"><span class="toc-text">分离线程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#终止线程"><span class="toc-text">终止线程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#回收已终止线程的资源"><span class="toc-text">回收已终止线程的资源</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#初始化线程"><span class="toc-text">初始化线程</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#基于线程的echo并发编程服务器"><span class="toc-text">基于线程的echo并发编程服务器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

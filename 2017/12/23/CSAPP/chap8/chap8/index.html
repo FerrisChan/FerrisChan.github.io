@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap8 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/23/CSAPP/chap8/chap8/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap8 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap8 </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-23
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap8 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap８</p>
+<p>CSAPP  读书笔记系列chap８</p>
+<h4 id="chap-8-异常控制流"><a href="#chap-8-异常控制流" class="headerlink" title="chap 8 异常控制流"></a>chap 8 异常控制流</h4><p>这一章谈的会是异常控制等，也就是控制流的突变。控制流指的是处理器的处理序列，而其突变一般是由跳转，调用(之前已经说过)和返回等造成的。</p>
+<p>一般把这些突变称为<strong>异常控制流ECF(Exception Control Flow)</strong>,这个概念将会在本书下半部分占十分重要的角色。</p>
+<h5 id="８．１-异常"><a href="#８．１-异常" class="headerlink" title="８．１　异常"></a>８．１　异常</h5><p>异常控制流存在于系统的每个层级，最底层的机制称为异常(Exception)，用以改变控制流以响应系统事件，通常是由硬件的操作系统共同实现的。</p>
+<p>计算机运行的程序(也就是进程)一般分为：</p>
+<ul>
+<li><p>内核模式：如果当前运行的是用户程序（用户代码），没有设置模式位时，那么对应进程就处于用户模式（用户态），不允许执行特权指令</p>
+</li>
+<li><p>用户模式: 设置了模式位，进程就会运行在内核模式。</p>
+</li>
+</ul>
+<p>进程由用户模式进入内核模式的<strong> 唯一方法　是异常　</strong>，诸如中断，故障或陷入系统调用。</p>
+<p> 异常的具体过程为：</p>
+<p><img src="http://img.blog.csdn.net/20171215203849171?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="异常过程.png"></p>
+<p>图片出自　<a href="http://wdxtub.com/2016/04/16/thin-csapp-5/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thin-csapp-5/</a></p>
+<p>这里有一个关键的概念－事件ｅｖｅｎｔ，经常在网络编程中碰到</p>
+<p><strong>事件：处理器状态的变化,</strong>处理器中，状态被编码成不同的位和信号．</p>
+<h5 id="异常的类别和处理："><a href="#异常的类别和处理：" class="headerlink" title="异常的类别和处理："></a>异常的类别和处理：</h5><h6 id="异常的处理"><a href="#异常的处理" class="headerlink" title="异常的处理"></a>异常的处理</h6><p><img src="http://img.blog.csdn.net/20171216103525160?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="异常处理过程.png"></p>
+<p>而异常表是一个跳转表，其为每一个异常分配了<strong> 唯一的异常号　</strong></p>
+<p><img src="http://img.blog.csdn.net/20171216103820664?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="异常表.png"></p>
+<p>类似 LC-3　的　ＴＲＡＰ　ｒｏｎｔｉｎｅ</p>
+<h6 id="异常的类别"><a href="#异常的类别" class="headerlink" title="异常的类别"></a>异常的类别</h6><p>分为异步异常和同步异常；</p>
+<ul>
+<li>异步异常(Asynchronous Exception)称之为中断(Interrupt)，是由处理器外面发生的事情引起的。对于执行程序来说，这种“中断”的发生完全是异步的，因为<strong>不知道什么时候会发生</strong>。CPU对其的响应也完全是被动的，但是可以屏蔽掉。</li>
+</ul>
+<p>常见的中断有两种：</p>
+<ul>
+<li><p>计时器中断:计时器中断是由计时器芯片每隔几毫秒触发的，内核用计时器终端来从用户程序手上拿回控制权。</p>
+</li>
+<li><p>和 I/O 中断: I/O 中断类型比较多样，比方说键盘输入了 ctrl-c，网络中一个包接收完毕，都会触发这样的中断。</p>
+</li>
+<li><p>同步异常(Synchronous Exception)</p>
+<p>因为执行某条指令所导致的事件,可以知道发生的原因和时刻,有以下三种</p>
+</li>
+</ul>
+<ul>
+<li><ul>
+<li><p>陷阱(trap)：　有意的异常，如</p>
+</li>
+<li><p>故障(fault)： 潜在可恢复的异常</p>
+</li>
+<li><p>终止(abort): 不可恢复的异常</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>具体为：</p>
+<p><img src="http://img.blog.csdn.net/20171216104448826?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="三种同步异常.png"></p>
+<h5 id="8-2-进程"><a href="#8-2-进程" class="headerlink" title="8.2　进程"></a>8.2　进程</h5><p>计算机科学中最深刻、最成功的概念之一：</p>
+<p>一个经典的定义为：<br><strong> 进程是操作系统对一个执行中程序的实例的一个抽象　</strong></p>
+<p>进程给每个应用提供了两个非常关键的抽象：</p>
+<ul>
+<li>逻辑控制流:逻辑控制流通过称为上下文切换(context switching)的内核机制让每个程序都感觉自己在独占处理器。</li>
+</ul>
+<ul>
+<li>私有地址空间: 私有地址空间则是通过称为虚拟内存(virtual memory)的机制让每个程序都感觉自己在独占内存。</li>
+</ul>
+<p>私有的意思指的是：和这个空间某个地址相关联的那个内存字节是不能被别的其他进程读或者写的。</p>
+<p>一个进程的地址空间如下所示：</p>
+<p><img src="http://img.blog.csdn.net/20171216133936385?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="私有的进程空间.png"></p>
+<p>上下文指的是： 内核重新启动一个被抢占的进程所需的状态。</p>
+<p>一般上下文的调度如下图：<br><img src="http://img.blog.csdn.net/20171216134459670?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="上下文调度.png"></p>
+<p><strong>注意并发和并行的区别</strong></p>
+<p>计算机虽然只有一个 CPU，但操作系统能够将程序的执行单位细化，然后分开执行，从而实现伪并行执行。这种伪并行执行称为并发(concurrent)。使用多个 CPU 真的同时执行称为并行(parallel)</p>
+<p>这里会利用到栈的概念：</p>
+<ul>
+<li><ol>
+<li>保存上一个进程的上下文</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>恢复下一个进程的已保存的上下文</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>将控制传递给新恢复的的进程</li>
+</ol>
+</li>
+</ul>
+<p>所以一个具体的单核的进程具体空间就是：</p>
+<p><img src="http://img.blog.csdn.net/20171216134638202?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="单核进程切换.png"></p>
+<p>看起来就像是内核独占一个进程在运行。</p>
+<p>而双核的是：</p>
+<p><img src="http://img.blog.csdn.net/20171216134841898?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="双核进程切换"></p>
+<h4 id="8-3-系统调用错误处理"><a href="#8-3-系统调用错误处理" class="headerlink" title="8.3 系统调用错误处理"></a>8.3 系统调用错误处理</h4><p>这里说的是一些实际工作中常遇到的包装函数概念：</p>
+<p>stevens 大神先提出的，厉害啦厉害啦</p>
+<p>例如，对于 fork() 函数，程序可以应该这么写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if ((pid = fork()) &lt; 0) &#123;</span><br><span class="line">    fprintf(stderr, &quot;fork error: %s\n&quot;, strerror(errno));</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果觉得这样写太麻烦，可以利用一个辅助函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void unix_error(char *msg) /* Unix-style error */</span><br><span class="line">&#123;</span><br><span class="line">    fprintf(stderr, &quot;%s: %s\n&quot;, msg, strerror(errno));</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br><span class="line">// 上面的片段可以写为</span><br><span class="line">if ((pid = fork()) &lt; 0)</span><br><span class="line">    unix_error(&quot;fork error&quot;);</span><br></pre></td></tr></table></figure></p>
+<p>我们甚至可以更进一步，把整个 fork() 包装起来，就可以自带错误处理，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pid_t Fork(void)</span><br><span class="line">&#123;</span><br><span class="line">    pid_t pid;</span><br><span class="line">    if ((pid = fork()) &lt; 0)</span><br><span class="line">        unix_error(&quot;Fork error&quot;);</span><br><span class="line">    return pid;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="进程的状态和一些函数："><a href="#进程的状态和一些函数：" class="headerlink" title="进程的状态和一些函数："></a>进程的状态和一些函数：</h4><p>从程序员的角度，一个进程的状态为以下三个之一：</p>
+<ul>
+<li>运行Running：<ul>
+<li>正在被执行、正在等待执行或者最终将会被执行</li>
+</ul>
+</li>
+<li><p>停止 Stopped：</p>
+<ul>
+<li>进程被挂起Suppended，在进一步通知前不会计划执行</li>
+</ul>
+</li>
+<li><p>终止 Terminated：</p>
+<ul>
+<li>进程被永久停止，一般为以下原因</li>
+<li>接收到一个终止信号</li>
+<li>返回到 main</li>
+<li>调用了 exit 函数</li>
+</ul>
+</li>
+</ul>
+<p>另外的两个状态称为新建(new)和就绪(ready).</p>
+<h5 id="获取进程ID"><a href="#获取进程ID" class="headerlink" title="获取进程ID"></a>获取进程ID</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pid_t getpid(void) - 返回当前进程的 PID</span><br><span class="line">pid_t getppid(void) - 返回当前进程的父进程的 PID</span><br></pre></td></tr></table></figure>
+<p>pid_t 在 type.h 中定义为 int</p>
+<h5 id="终止进程"><a href="#终止进程" class="headerlink" title="终止进程"></a>终止进程</h5><p>exit 函数会被调用一次，但从不返回，具体的函数原型是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 以 status 状态终止进程，0 表示正常结束，非零则是出现了错误</span><br><span class="line">void exit(int status)</span><br></pre></td></tr></table></figure>
+<h5 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h5><p>调用 fork 来创造新进程。这个函数执行一次，但是会返回两次，具体的函数原型为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 对于子进程，返回 0</span><br><span class="line">// 对于父进程，返回子进程的 PID</span><br><span class="line">int fork(void)</span><br></pre></td></tr></table></figure></p>
+<p>对于新创建的进程，和原来的函数是并行执行的，也就是不能预计父进程和子进程的执行顺序</p>
+<p>需要的注意下面：</p>
+<ul>
+<li>子进程拥有自己独立的地址空间（也就是变量都是独立的），除此之外和父进程的其他都相同</li>
+<li>共享一些内存，例如:在父进程和子进程中 stdout 是一样的（都会发送到标准输出）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    pid_t pid;</span><br><span class="line">    int x = 1;</span><br><span class="line"></span><br><span class="line">    pid = Fork();</span><br><span class="line">    if (pid == 0)</span><br><span class="line">    &#123;   // Child</span><br><span class="line">        printf(&quot;I&apos;m the child!  x = %d\n&quot;, ++x);</span><br><span class="line">        exit(0);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // Parent</span><br><span class="line">    printf(&quot;I&apos;m the parent! x = %d\n&quot;, --x);</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>输出是<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">linux&gt; ./forkdemo</span><br><span class="line">I&apos;m the parent! x = 0</span><br><span class="line">I&apos;m the child!  x = 2</span><br></pre></td></tr></table></figure></p>
+<p>或：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">linux&gt; ./forkdemo</span><br><span class="line">I&apos;m the child!  x = 2</span><br><span class="line">I&apos;m the parent! x = 0</span><br></pre></td></tr></table></figure></p>
+<p>具体的多少个结果全排序可以根据<strong>拓扑排序</strong> 来检测</p>
+<h5 id="回收子进程"><a href="#回收子进程" class="headerlink" title="回收子进程"></a>回收子进程</h5><p>一般来说，当一个进程结束(Terminated)时,内核不会马上将他从系统删除。而是保持已终止状态，等其父进程回收(reaped).父进程利用 wait 或 waitpid 回收已终止的子进程，然后给系统提供相关信息，kernel 就会把 zombie child process 给删除</p>
+<p>一个主进程已经终止，子进程也还在消耗系统资源，我们称之为『僵尸』</p>
+<p>如果父进程不回收子进程的话，通常来说会被 init 进程(pid == 1)回收，所以一般不必显式回收。但是在长期运行的进程中，就需要显式回收（例如 shell 和 server）。</p>
+<h5 id="函数waitpid："><a href="#函数waitpid：" class="headerlink" title="函数waitpid："></a>函数waitpid：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pid_t waitpid( pid_t pid, int * statusp,int options);</span><br></pre></td></tr></table></figure>
+<h5 id="函数wait"><a href="#函数wait" class="headerlink" title="函数wait"></a>函数wait</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pid_t wait(int statusp);</span><br><span class="line">// 等价于</span><br><span class="line">pid_t waitpid(-1,&amp;status, 0)</span><br></pre></td></tr></table></figure>
+<p>参数的定义可以具体查看 p518页</p>
+<p>例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    if (Fork() == 0) &#123;</span><br><span class="line">	printf(&quot;a&quot;); fflush(stdout);</span><br><span class="line">    &#125;</span><br><span class="line">    else &#123;</span><br><span class="line">	printf(&quot;b&quot;); fflush(stdout);</span><br><span class="line">	waitpid(-1, NULL, 0);</span><br><span class="line">    &#125;</span><br><span class="line">    printf(&quot;c&quot;); fflush(stdout);</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br><span class="line">// fflush 擦除 stream stdout 的缓冲区</span><br><span class="line">// 其拓扑输出的一个如下</span><br><span class="line">➜  ecf ./waitprob0</span><br><span class="line">bacc</span><br></pre></td></tr></table></figure>
+<h5 id="进程休眠"><a href="#进程休眠" class="headerlink" title="进程休眠"></a>进程休眠</h5><p>网络编程经常遇到，都在&lt;unistd.h&gt; 定义</p>
+<ul>
+<li>sleep 函数</li>
+</ul>
+<p>让一个进程挂起一段时间(秒),其返回还要休眠的秒数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unsigned int sleep(unsigned int sec);</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>pause函数</li>
+</ul>
+<p>让调用函数休眠，直到其收到一个信号才继续</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int pause (void);</span><br></pre></td></tr></table></figure>
+<h5 id="加载并运行程序execve函数"><a href="#加载并运行程序execve函数" class="headerlink" title="加载并运行程序execve函数"></a>加载并运行程序execve函数</h5><p>他会覆盖当前进程的地址空间，但没有创建一个新的进程。也就是新程序有一个原来一样的PID，并继承和调用已打开的的文件描述符。</p>
+<p>注意，其一次调用若成功则没有返回，否则返回-1.</p>
+<p>其函数定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int execve(char *filename, char *argv[], char *envp[])</span><br></pre></td></tr></table></figure></p>
+<p>注意</p>
+<ul>
+<li>filename 是一个目标文件或一个以#！解释器开头的脚本(e.g.,    #!/bin/bash)</li>
+<li>argv是以前说的参数列表</li>
+<li>envp 是环境变量，</li>
+</ul>
+<p>例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char *argv[], char *envp[]) &#123;</span><br><span class="line">  int i;</span><br><span class="line"></span><br><span class="line">  printf(&quot;Command-line arguments:\n&quot;);</span><br><span class="line">  for (i = 0; argv[i] != NULL; i++)</span><br><span class="line">    printf(&quot;    argv[%2d]: %s\n&quot;, i, argv[i]);</span><br><span class="line"></span><br><span class="line">  printf(&quot;\n&quot;);</span><br><span class="line">  printf(&quot;Environment variables:\n&quot;);</span><br><span class="line">  for (i = 0; envp[i] != NULL; i++)</span><br><span class="line">    printf(&quot;    envp[%2d]: %s\n&quot;, i, envp[i]);</span><br><span class="line"></span><br><span class="line">  exit(0);</span><br><span class="line">&#125;</span><br><span class="line">// 其输出为：</span><br><span class="line">➜  ecf ./myecho arg1 arg2</span><br><span class="line">Command-line arguments:</span><br><span class="line">    argv[ 0]: ./myecho</span><br><span class="line">    argv[ 1]: arg1</span><br><span class="line">    argv[ 2]: arg2</span><br><span class="line"></span><br><span class="line">Environment variables:</span><br><span class="line">    envp[ 0]: PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/</span><br><span class="line">games:/usr/local/games:/snap/bin</span><br><span class="line">    envp[ 1]: XDG_VTNR=7</span><br><span class="line">    envp[ 2]: LC_PAPER=zh_CN.UTF-8</span><br><span class="line">    envp[ 3]: XDG_SESSION_ID=c4</span><br><span class="line">    envp[ 4]: LC_ADDRESS=zh_CN.UTF-8</span><br><span class="line">    envp[ 5]: CLUTTER_IM_MODULE=xim</span><br><span class="line"></span><br><span class="line">    envp[ 6]: XDG_GREETER_DATA_DIR=/var/lib/lightdm-data/ferris</span><br><span class="line">。。。。。。下面还有很多</span><br></pre></td></tr></table></figure>
+<p>一个shell和web服务器的程序会大量使用 fork() 和 execve() 函数。具体可以看shelllab</p>
+<h4 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h4><p>进程通信的方式有如下几种：</p>
+<ul>
+<li><p>管道( pipe )：管道是一种半双工的通信方式，数据只能单向流动，而且只能在具有亲缘关系的进程间使用。进程的亲缘关系通常是指父子进程关系。</p>
+<ul>
+<li>有名管道 (named pipe) ： 有名管道也是半双工的通信方式，但是它允许无亲缘关系进程间的通信。</li>
+</ul>
+</li>
+<li><p>信号量( semophore ) ： 信号量是一个计数器，可以用来控制多个进程对共享资源的访问。它常作为一种锁机制，防止某进程正在访问共享资源时，其他进程也访问该资源。因此，主要作为进程间以及同一进程内不同线程之间的同步手段。</p>
+</li>
+<li><p>共享内存( shared memory ) ：共享内存就是映射一段能被其他进程所访问的内存，这段共享内存由一个进程创建，但多个进程都可以访问。共享内存是最快的 IPC 方式，它是针对其他进程间通信方式运行效率低而专门设计的。它往往与其他通信机制，如信号量，配合使用，来实现进程间的同步和通信。</p>
+</li>
+<li><p>套接字( socket ) ： 套解口也是一种进程间通信机制，与其他通信机制不同的是，它可用于不同主机间的进程通信。</p>
+</li>
+<li><p>信号 ( sinal ) ： 用于通知接收进程某个事件已经发生</p>
+</li>
+</ul>
+<p>这一次谈谈信号：</p>
+<p>信号是一种<strong>异步</strong>的通知机制，用来提醒进程一个事件已经发生。当一个信号发送给一个进程，操作系统中断了进程正常的控制流程，此时，任何非原子操作都将被中断。如果进程定义了信号的处理函数，那么它将被执行，否则就执行默认的处理函数。</p>
+<p>常见的信号有：</p>
+<p><img src="http://img.blog.csdn.net/20171216210634131?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="常见信号"></p>
+<p>信号的处理有两个步骤：</p>
+<h5 id="发送信号"><a href="#发送信号" class="headerlink" title="发送信号"></a>发送信号</h5><p>发送信号的原因有两个：</p>
+<ul>
+<li><p>内核检测到了如除以零(SIGFPE)或子进程终止(SIGCHLD)的系统事件</p>
+</li>
+<li><p>另一个进程调用了 kill 指令来请求内核发送信号给指定的进程(一个进程可以发送信号给自己)</p>
+</li>
+</ul>
+<p>发送信号的方式：</p>
+<ul>
+<li>kill 指令<ul>
+<li>例如 kill -9 12345<br>发送SIGKILL杀死程序信号终结PID为12345的程序</li>
+</ul>
+</li>
+<li>键盘输入<ul>
+<li>如Ctrl + C 发送SIGINT给当前程序</li>
+</ul>
+</li>
+<li><p>使用alarm函数给自己发送SIGALRM信号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unsigned int alarm(unsigned int secs);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用kill 函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int kill ( pid_t pid,int sig);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>若pid参数大于0，其为发送sig信号给该进程组的所有进程</p>
+<h6 id="进程组"><a href="#进程组" class="headerlink" title="进程组"></a>进程组</h6><p>每个进程都只属于一个进程组，可以使用pstree查看<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">➜  chap8 pstree</span><br><span class="line">systemd─┬─ModemManager─┬─&#123;gdbus&#125;</span><br><span class="line">        │              └─&#123;gmain&#125;</span><br><span class="line">        ├─NetworkManager─┬─dhclient</span><br><span class="line">        │                ├─dnsmasq</span><br><span class="line">        │                ├─&#123;gdbus&#125;</span><br><span class="line">        │                └─&#123;gmain&#125;</span><br><span class="line">        ├─accounts-daemon─┬─&#123;gdbus&#125;</span><br><span class="line">        │                 └─&#123;gmain&#125;</span><br><span class="line">        ├─acpid</span><br><span class="line">        ├─agetty</span><br><span class="line">        ├─avahi-daemon───avahi-daemon</span><br><span class="line">        ├─bluetoothd</span><br><span class="line">        ├─colord─┬─&#123;gdbus&#125;</span><br><span class="line">        │        └─&#123;gmain&#125;</span><br></pre></td></tr></table></figure></p>
+<p>一般使用如下函数：</p>
+<ul>
+<li>getpgrp() - 返回当前进程的进程组</li>
+<li>setpgid() - 设置一个进程的进程组</li>
+</ul>
+<p>查看进程的状态可以使用ps指令</p>
+<h5 id="接受信号"><a href="#接受信号" class="headerlink" title="接受信号"></a>接受信号</h5><p>其发生在：  当内核把进程p从内核模式切换为用户模式时，其检测进程p的未被阻塞的待处理信号的集合(pending &amp; ~blocked)。当该集合为非空时，其选择集合中的最小信号k使得进程p接受信号k。<br>并且，内核会强制要求进程对于信号做出响应，可以有几种不同的操作：</p>
+<ul>
+<li>忽略这个型号</li>
+<li>终止进程</li>
+<li>捕获信号，执行信号处理器(signal handler)，类似于异步中断中的异常处理器(exception handler)</li>
+</ul>
+<p>未被阻塞的待处理信号的集合(pending &amp; ~blocked)中的值为pnb 值：<br>pnb = pending &amp; ~blocked<br>其规则如下：</p>
+<ul>
+<li>如果 pnb == 0，那么就把控制交给进程 p 的逻辑流中的下一条指令</li>
+<li>如果 pnb != 0(有一定的优先级)<ul>
+<li>选择 pnb 中最小的非零位 k，并强制进程 p 接收信号 k</li>
+<li>接收到信号之后，进程 p 会执行对应的动作</li>
+<li>对 pnb 中所有的非零位进行这个操作</li>
+<li>最后把控制交给进程 p 的逻辑流中的下一条指令</li>
+</ul>
+</li>
+</ul>
+<p>每个信号类型都有一个预定义的『默认动作』，可能是以下的情况：</p>
+<ul>
+<li>终止进程</li>
+<li>终止进程并 dump core</li>
+<li>停止进程，收到 SIGCONT 信号之后重启</li>
+<li>忽略信号</li>
+</ul>
+<p>可以通过signal 函数修改默认的动作，函数原型为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">handler_t *signal(int signum, handler_t *handler)。</span><br></pre></td></tr></table></figure></p>
+<p>handler有三种方法来改变signum的行为：</p>
+<ul>
+<li><p>handle  = SIG_IGN; 忽略该信号</p>
+</li>
+<li><p>handle = SIG_DFL; 将信号恢复原来的行为</p>
+</li>
+<li><p>自己定义的<strong> 信号处理程序 </strong></p>
+<ul>
+<li>调用信号处理程序为 <strong> 捕获信号</strong></li>
+<li>执行信号处理程序为 <strong> 处理信号</strong></li>
+</ul>
+<p>一个例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"> void sigint_handler(int sig) // SIGINT 处理器</span><br><span class="line">&#123;</span><br><span class="line">    printf(&quot;想通过 ctrl+c 来关闭我？\n&quot;);</span><br><span class="line">    sleep(2);</span><br><span class="line">    fflush(stdout);</span><br><span class="line">    sleep(1);</span><br><span class="line">    printf(&quot;OK. :-)\n&quot;);</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    // 设定 SIGINT 处理器</span><br><span class="line">    if (signal(SIGINT, sigint_handler) == SIG_ERR)</span><br><span class="line">        unix_error(&quot;signal error&quot;);</span><br><span class="line"></span><br><span class="line">    // 等待接收信号</span><br><span class="line">    pause();</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>还有一个需要注意的是，信号是有优先级的；<br>信号处理器也可以被其他的信号处理器中断，控制流如下图所示：</p>
+<p><img src="http://img.blog.csdn.net/20171216214109017?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="信号优先级"></p>
+<h5 id="阻塞信号"><a href="#阻塞信号" class="headerlink" title="阻塞信号"></a>阻塞信号</h5><p>内核会阻塞与当前在处理的信号同类型的其他正待等待的信号，也就是说，一个 SIGINT 信号处理器是不能被另一个 SIGINT 信号中断的。(隐式阻塞)</p>
+<p>如果想要显式阻塞，就需要使用 sigprocmask 函数，以及其他一些辅助函数：</p>
+<ul>
+<li>sigemptyset - 创建空集</li>
+<li>sigfillset - 把所有的信号都添加到集合中（因为信号数目不多）</li>
+<li>sigaddset - 添加指定信号到集合中</li>
+<li>sigdelset - 删除集合中的指定信号</li>
+</ul>
+<p>可以用下面这段代码来临时阻塞特定的信号：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sigset_t mask, prev_mask;</span><br><span class="line">Sigemptyset(&amp;mask); // 创建空集</span><br><span class="line">Sigaddset(&amp;mask, SIGINT); // 把 SIGINT 信号加入屏蔽列表中</span><br><span class="line">// 阻塞对应信号，并保存之前的集合作为备份</span><br><span class="line">Sigprocmask(SIG_BLOCK, &amp;mask, &amp;prev_mask);</span><br><span class="line">...</span><br><span class="line">... // 这部分代码不会被 SIGINT 中断</span><br><span class="line">...</span><br><span class="line">// 取消阻塞信号，恢复原来的状态</span><br><span class="line">Sigprocmask(SIG_SETMASK, &amp;prev_mask, NULL);</span><br></pre></td></tr></table></figure></p>
+<h5 id="安全处理信号"><a href="#安全处理信号" class="headerlink" title="安全处理信号"></a>安全处理信号</h5><p>信号处理器的设计是一个棘手的问题，因为：</p>
+<ul>
+<li><p>信号处理器和主程序并发运行且共享相同的全局数据结构，尤其要注意因为并行访问可能导致的数据损坏的问题</p>
+</li>
+<li><p>信号接受的方式和时间 的规则有时候事与人违</p>
+</li>
+<li><p>不同系统的信号处理方式不同</p>
+</li>
+</ul>
+<p>这里给出一些基本的原则</p>
+<ul>
+<li>规则 1：信号处理器越简单越好<ul>
+<li>例如：设置一个全局的标记，并返回</li>
+</ul>
+</li>
+<li>规则 2：信号处理器中只调用异步且信号安全(async-signal-safe)的函数，具体见man 7 signal<ul>
+<li>异步且信号安全(async-signal-safe)函数指的是能被信号处理器安全地调用，</li>
+<li>要么是可重入的，所有的变量都保存在栈帧中的函数</li>
+<li>要么不能被其他信号打断</li>
+<li>一些安全的函数：_exit, write, wait, waitpid, sleep, kill</li>
+<li>诸如 printf, sprintf, malloc 和 exit 都是不安全的！</li>
+<li>唯一的写安全的函数是write</li>
+</ul>
+</li>
+<li>规则 3：在进入和退出的时候保存和恢复 errno<ul>
+<li>这样信号处理器就不会覆盖原有的 errno 值</li>
+</ul>
+</li>
+<li>规则 4：临时阻塞所有的信号以保证对于共享数据结构的访问<ul>
+<li>防止可能出现的数据损坏</li>
+</ul>
+</li>
+<li>规则 5：用 volatile 关键字声明<strong>全局变量</strong>(仅仅是全局变量)<ul>
+<li>volatile 告诉编译器不用缓存这个变量，每次都从内存中读。</li>
+<li>这样编译器就不会把它们保存在寄存器中，保证一致性</li>
+</ul>
+</li>
+<li>规则 6：用 si sig_atomic_t 来声明全局标识符(flag)<ul>
+<li>这样可以防止出现访问异常</li>
+<li>原子性指的是不可中断的</li>
+</ul>
+</li>
+</ul>
+<h4 id="非本地跳转-Non-local-Jump"><a href="#非本地跳转-Non-local-Jump" class="headerlink" title="非本地跳转 Non local Jump"></a>非本地跳转 Non local Jump</h4><p> 本地跳转指的是在一个程序中通过 goto 语句进行流程跳转，本地跳转的限制在于，我们不能从一个函数跳转到另一个函数中。</p>
+<p> 如果想突破函数的限制，就要使用 setjmp 或 longjmp 来进行非本地跳转了。</p>
+<ul>
+<li><p>setjmp</p>
+<ul>
+<li><p>保存当前程序的堆栈上下文环境(stack context)，注意，这个保存的堆栈上下文环境仅在调用 setjmp 的函数内有效，如果调用 setjmp 的函数返回了，这个保存的堆栈上下文环境就失效了。调用 setjmp 的直接返回值为 0。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">int setjmp(jmp_buf env);</span><br><span class="line">或 int sigsetjmp(sigjmp_buf env, int savesigs);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>longjmp</p>
+</li>
+<li>将会恢复由 setjmp 保存的程序堆栈上下文，即程序从调用 setjmp 处重新开始执行，不过此时的 setjmp 的返回值将是由 longjmp 指定的值。注意longjmp 不能指定0为返回值，即使指定了 0，longjmp 也会使 setjmp 返回 1。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">void longjmp(jmp_buf env,int retval);</span><br><span class="line">void siglongjmp()sigjmp_buf env,int etval);</span><br></pre></td></tr></table></figure>
+<p>注：<br>C++中的异常处理机构是较高层次的，是C语音setjmp和longjmp函数的高级版本</p>
+<p>其结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">  // 异常处理的代码</span><br><span class="line">&#125; catch ( 异常的类型// 类似setjmp函数 )&#123;</span><br><span class="line">  // throw 类似longjmp 函数</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>这一章贯彻的东西很多，从基本的异常开始说起，说的了用户态和内核态。谈到进程以及相应的状态及处理；并发和并行，信号的发送以及接受，不同进程的竞争race，如何安全处理信号，最后谈到了非局部跳转也就是高级语音的异常处理。耗费的精力比较多，但值得。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/24/CSAPP/chap9/chap9/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap9 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/22/CSAPP/chap7/chap7/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap7 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#chap-8-异常控制流"><span class="toc-text">chap 8 异常控制流</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#８．１-异常"><span class="toc-text">８．１　异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#异常的类别和处理："><span class="toc-text">异常的类别和处理：</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#异常的处理"><span class="toc-text">异常的处理</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#异常的类别"><span class="toc-text">异常的类别</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#8-2-进程"><span class="toc-text">8.2　进程</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-3-系统调用错误处理"><span class="toc-text">8.3 系统调用错误处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#进程的状态和一些函数："><span class="toc-text">进程的状态和一些函数：</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#获取进程ID"><span class="toc-text">获取进程ID</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#终止进程"><span class="toc-text">终止进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#创建进程"><span class="toc-text">创建进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#回收子进程"><span class="toc-text">回收子进程</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#函数waitpid："><span class="toc-text">函数waitpid：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#函数wait"><span class="toc-text">函数wait</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#进程休眠"><span class="toc-text">进程休眠</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#加载并运行程序execve函数"><span class="toc-text">加载并运行程序execve函数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#信号"><span class="toc-text">信号</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#发送信号"><span class="toc-text">发送信号</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#进程组"><span class="toc-text">进程组</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#接受信号"><span class="toc-text">接受信号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#阻塞信号"><span class="toc-text">阻塞信号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#安全处理信号"><span class="toc-text">安全处理信号</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#非本地跳转-Non-local-Jump"><span class="toc-text">非本地跳转 Non local Jump</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

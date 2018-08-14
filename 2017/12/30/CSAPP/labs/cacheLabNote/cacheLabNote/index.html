@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap6 cacheLabNote｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/30/CSAPP/labs/cacheLabNote/cacheLabNote/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap6 cacheLabNote</h1>
+                    
+                    <h2 class="subheading">CSAPP Note chap6 cacheLabNote  </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-30
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap6 cacheLabNote
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap6</p>
+<p>CSAPP  读书笔记系列chap6</p>
+<h3 id="lab4-cacheLabNote"><a href="#lab4-cacheLabNote" class="headerlink" title="lab4 cacheLabNote"></a>lab4 cacheLabNote</h3><p>这一次实验有两个ｐａｒｔ</p>
+<ul>
+<li>PART A :实现一个缓存模拟器，并分析根据给定的 trace 文件</li>
+<li>PART B :利用缓存来加速矩阵运算(没做)</li>
+</ul>
+<h4 id="PART-A"><a href="#PART-A" class="headerlink" title="PART A"></a>PART A</h4><p>用C\C++来模拟cpu对cache的访问，然后统计hits、misses和eviction的次数<br>其中：</p>
+<ul>
+<li>HIT 缓存命中</li>
+<li>MISS 缓存未命中</li>
+<li>EVICTION 替换：替换最久没有读取过的行.也就是LRU</li>
+</ul>
+<p>编译的时候只需要简单 make clean 和 make，然后就可以进行测试了。<br>测试可以</p>
+<ul>
+<li><p>单元测试　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./csim -s 4 -E 1 -b 4 -t traces/trans.trace</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>总的测试，查看评分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./test-csim</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="需要解决的难点"><a href="#需要解决的难点" class="headerlink" title="需要解决的难点"></a>需要解决的难点</h5><ul>
+<li><p>如何从命令中拿到所需的参数　：　实验书上提醒给的是库函数　getopt,详细可以man getopt</p>
+</li>
+<li><p>如何从文件中读入内容:  文件指针FILE* fp ＋　函数fets()　+ 函数fscanf()</p>
+</li>
+<li><p>如何进行 cache 的存储: 动态分配一个缓冲区的大小，由s, E, b 决定</p>
+</li>
+<li><p>进行替换处理: 加入引入时间的统计，使用ＬＲＵ</p>
+</li>
+</ul>
+<h6 id="使用到的数据结构"><a href="#使用到的数据结构" class="headerlink" title="使用到的数据结构"></a>使用到的数据结构</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// cache的ｌｉｎｅ定义</span><br><span class="line">typedef struct &#123;</span><br><span class="line">  int valid;       /* 每行一个的有效位　*/</span><br><span class="line">  int tag;         /* 每行ｔ个的标志位　*/</span><br><span class="line">  int access_time; /* 每个line 的数据块的访问时间*/</span><br><span class="line">&#125; line;</span><br><span class="line"></span><br><span class="line">// cache 的ｓｅｔ定义</span><br><span class="line">typedef struct &#123;</span><br><span class="line">  line *lines;</span><br><span class="line">&#125; set;</span><br><span class="line"></span><br><span class="line">typedef struct &#123;</span><br><span class="line">  /* cache：　S *B*E的集合，见ｐ４２６图6-25b */</span><br><span class="line">  int setNum;  /*组数 */</span><br><span class="line">  int lineNum; /* 每组行数 */</span><br><span class="line">  set *sets;   /* 块集合 */</span><br><span class="line"></span><br><span class="line">&#125; csimCache;</span><br></pre></td></tr></table></figure>
+<h5 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">  int s = 0, E = 0,</span><br><span class="line">      b = 0; // 命令行参数，组数S = 2^s; 行数E，　缓存字节块Ｂ = 2 ^b;</span><br><span class="line">  char traceName[MAX]; // 输入的trace文件名</span><br><span class="line">  FILE *fp;            //　文件指针</span><br><span class="line">  csimCache cache;</span><br><span class="line">  char lineBuff[MAX]; // 每一行的缓冲区</span><br><span class="line"></span><br><span class="line">  getInfo(argc, argv, &amp;s, &amp;E, &amp;b, traceName);</span><br><span class="line">  initCache(&amp;cache, s, E);</span><br><span class="line"></span><br><span class="line">  fp = fopen(traceName, &quot;r&quot;);</span><br><span class="line">  if (!fp) &#123;</span><br><span class="line">    printf(&quot;Error: Cann&apos;t open file %s!\n&quot;, traceName);</span><br><span class="line">    return -1;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //分析文件中每一行的缓存情况</span><br><span class="line">  // fgets 从fp 读入　一行最多MAX个字符到lineBuff中</span><br><span class="line">  while (NULL != fgets(lineBuff, MAX, fp)) &#123;</span><br><span class="line">    /* I  00400563,4 会比　L 7ff000370,8前少一个空格　*/</span><br><span class="line">    if (&apos; &apos; == lineBuff[0]) &#123;</span><br><span class="line">      lineBuff[strlen(lineBuff) - 1] = &apos;\0&apos;;</span><br><span class="line">      parseTrace(&amp;cache, lineBuff, s, E, b);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  fclose(fp);</span><br><span class="line">  printSummary(hits, misses, evictions);</span><br><span class="line">  // destructor(&amp;cache, s, E);</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="使用到的函数"><a href="#使用到的函数" class="headerlink" title="使用到的函数"></a>使用到的函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 从命令行拿到相应的参数，使用函数getopt</span><br><span class="line">int getInfo(int argc, char *argv[], int *ps, int *pE, int *pb, char *traceName);</span><br><span class="line"></span><br><span class="line">// 由ｓ和Ｅ的值初始化cache</span><br><span class="line">int initCache(csimCache *cache, int s, int E);</span><br><span class="line"></span><br><span class="line">// 分析和统计每一行输入的缓冲区的情况</span><br><span class="line">int parseTrace(csimCache *cache, char *lineBuff, int s, int E, int b);</span><br><span class="line"></span><br><span class="line">// 由地址addr 得到容器set的序号　－－　组选择　</span><br><span class="line">int getSetBits(int addr, int s, int b);</span><br><span class="line"></span><br><span class="line">// 由地址addr 得到tag位　　－－　行匹配</span><br><span class="line">int getTagBits(int addr, int s, int b);</span><br><span class="line"></span><br><span class="line">// 更新访问时间,因为使用ＬＲＵ算法，替换最近最少使用的一项</span><br><span class="line">int updateAccessTime(csimCache *cache, int selset, int cl);</span><br><span class="line"></span><br><span class="line">// 析构函数，free 内存</span><br><span class="line">// 但ｌａｂ里面已经嵌入释放函数，使用的时候注释掉</span><br><span class="line"></span><br><span class="line">int destructor(csimCache *cache, int s, int E);</span><br></pre></td></tr></table></figure>
+<h5 id="分析函数"><a href="#分析函数" class="headerlink" title="　分析函数"></a>　分析函数</h5><p>参考的是这一篇博客：<br><a href="http://blog.csdn.net/xzz_hust/article/details/8878294" target="_blank" rel="noopener">http://blog.csdn.net/xzz_hust/article/details/8878294</a></p>
+<h5 id="最终结果为："><a href="#最终结果为：" class="headerlink" title="最终结果为："></a>最终结果为：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">./test-csim</span><br><span class="line">                       Your simulator     Reference simulator</span><br><span class="line">Points (s,E,b)    Hits  Misses  Evicts    Hits  Misses  Evicts</span><br><span class="line">    3 (1,1,1)       9       8       6       9       8       6  traces/yi2.trace</span><br><span class="line">    3 (4,2,4)       4       5       2       4       5       2  traces/yi.trace</span><br><span class="line">    3 (2,1,4)       2       3       1       2       3       1  traces/dave.trace</span><br><span class="line">    3 (2,1,3)     167      71      67     167      71      67  traces/trans.trace</span><br><span class="line">    3 (2,2,3)     201      37      29     201      37      29  traces/trans.trace</span><br><span class="line">    3 (2,4,3)     212      26      10     212      26      10  traces/trans.trace</span><br><span class="line">    3 (5,1,5)     231       7       0     231       7       0  traces/trans.trace</span><br><span class="line">    6 (5,1,5)  265189   21775   21743  265189   21775   21743  traces/long.trace</span><br><span class="line">   27</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">TEST_CSIM_RESULTS=27</span><br></pre></td></tr></table></figure>
+<h5 id="实验总结"><a href="#实验总结" class="headerlink" title="实验总结"></a>实验总结</h5><ul>
+<li>注意指针的使用和传递，否则一不小心就seguament fault</li>
+<li>注意结构体的分配内存顺序，由大到小</li>
+</ul>
+<p>代码见<a href="https://github.com/FerrisChan/tools-learning/blob/master/CSAPP/labs/cachelab-handout/cachelab-handout/csim.c" target="_blank" rel="noopener">github</a></p>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><ul>
+<li><a href="http://www.cnblogs.com/immortal-worm/p/5549014.html" target="_blank" rel="noopener">http://www.cnblogs.com/immortal-worm/p/5549014.html</a></li>
+<li><a href="http://blog.csdn.net/pessis1/article/details/52993195" target="_blank" rel="noopener">http://blog.csdn.net/pessis1/article/details/52993195</a></li>
+<li><a href="http://blog.csdn.net/xzz_hust/article/details/8878294" target="_blank" rel="noopener">http://blog.csdn.net/xzz_hust/article/details/8878294</a></li>
+</ul>
+<h4 id="PART-B"><a href="#PART-B" class="headerlink" title="PART B"></a>PART B</h4><p>时间关系没打算做，可以参考这篇<br><a href="http://wdxtub.com/2016/04/16/thick-csapp-lab-4/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thick-csapp-lab-4/</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/31/CSAPP/labs/dataLabNote/dataLab/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note lab1 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/29/CSAPP/labs/attackLabNote/attacklab/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap3 attacklab">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#lab4-cacheLabNote"><span class="toc-text">lab4 cacheLabNote</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PART-A"><span class="toc-text">PART A</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#需要解决的难点"><span class="toc-text">需要解决的难点</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#使用到的数据结构"><span class="toc-text">使用到的数据结构</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#主函数"><span class="toc-text">主函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#使用到的函数"><span class="toc-text">使用到的函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#分析函数"><span class="toc-text">　分析函数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#最终结果为："><span class="toc-text">最终结果为：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#实验总结"><span class="toc-text">实验总结</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PART-B"><span class="toc-text">PART B</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

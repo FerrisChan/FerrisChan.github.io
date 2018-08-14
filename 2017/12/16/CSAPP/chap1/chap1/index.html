@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap1 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/16/CSAPP/chap1/chap1/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap1 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap1</h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-16
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap1 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap1</p>
+<p>CSAPP  读书笔记系列chap1</p>
+<p>这些读书笔记为个人读CSAPP所写，除了简单的书上重点外，也会加一些自己对计算机的感受。<br>文章顺序为书上目录的顺序，个人理解，应该有偏颇，请见谅。</p>
+<p>chap1 是一个很重要的章节，这里提及了在计算机体系中最重要的一个概念——抽象。可惜过去三年的大学教育中，这个概念老师很少提及，具体下面再提。</p>
+<h4 id="1-1-信息就是位加上下文"><a href="#1-1-信息就是位加上下文" class="headerlink" title="1.1 信息就是位加上下文"></a>1.1 信息就是位加上下文</h4><p>在ITer眼里，和计算机打交道往往比和人打交道简单，因为计算机中只有两个概念：0 和1。0和1组成了信息，在机器眼里，0和1永远都不会搞混。0和1更具体是在电路中的三极管的开闭。</p>
+<p>但在人类面前，面对一大串0和1可能就很出错。之前上<a href="https://book.douban.com/subject/2185076/" target="_blank" rel="noopener">计算机系统概论</a>的时候，老师曾经让我们把汇编LC-3语音翻译成01机器码，过程巨蛋疼。所以，我们要对0和1进行抽象，把计算机的语音抽象成人类所能懂的语音。</p>
+<p>对于01，第一个抽象应该就是汇编了。参考孟岩老师的<a href="http://blog.csdn.net/myan/article/details/5884695" target="_blank" rel="noopener">回答几个问题中的四个半抽象</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">软件搞了60年，我认为真正被实践证明了的抽象，一共有四个半，分别是：</span><br><span class="line"></span><br><span class="line">1. 机器抽象，或者称语言抽象，构造一台新的计算机或程序语言，使其能理解领域特定的语言，从而最妥帖地解决问题。这是最有力的抽象，是软件开发中的“火箭科技”。</span><br><span class="line"></span><br><span class="line">2. 过程抽象，把一件事情看成是一系列嵌套和串接执行的标准化过程的总和，就像流水线一样。这是极为有力的抽象，因此C语言无所不能。但是层次偏低，规模增大以后带来一些挑战。</span><br><span class="line"></span><br><span class="line">3. 函数抽象，最玄妙的一种，这个我不多说，有兴趣的去看 Structure and Interpretation of Computer Programs.</span><br><span class="line"></span><br><span class="line">4. 面向对象抽象，把一件事情看成是一组各负其责的对象彼此之间相互收发消息，根据消息相互协作完成工作的过程。这个抽象也极为有力。</span><br><span class="line"></span><br><span class="line">4.5 僵化的面向对象抽象，把世界看成是由层次分明、庞杂万端的类型体系“实例化”而出的对象组成的，把事情看成是这些对象之间互相收发消息、协作而成的过程。</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-程序被其他程序翻译成不同的格式"><a href="#1-2-程序被其他程序翻译成不同的格式" class="headerlink" title="1.2 程序被其他程序翻译成不同的格式"></a>1.2 程序被其他程序翻译成不同的格式</h4><p>这里说的是C系语音翻译成机器语言的过程,我认为是比汇编更高的抽象。因为C语言已经在汇编的角度上加入了内存等冯诺依曼机器中的概念。</p>
+<p><img src="/2017/12/16/CSAPP/chap1/chap1/编译过程.png" alt="编译过程"></p>
+<h4 id="1-3-了解编译系统如何工作是大有好处的"><a href="#1-3-了解编译系统如何工作是大有好处的" class="headerlink" title="1.3 了解编译系统如何工作是大有好处的"></a>1.3 了解编译系统如何工作是大有好处的</h4><p>每个人理解不一样2333</p>
+<h4 id="1-4-处理器读并解释存储在内存中的指令"><a href="#1-4-处理器读并解释存储在内存中的指令" class="headerlink" title="1.4 处理器读并解释存储在内存中的指令"></a>1.4 处理器读并解释存储在内存中的指令</h4><p>一个经典的图灵机包括:</p>
+<ul>
+<li>内存memory</li>
+<li>ALU Processing Unit 运算单元</li>
+<li>IO</li>
+<li>Control Unit CPU</li>
+</ul>
+<p>这就是一个指令在计算机执行的步骤和所需硬件。</p>
+<h4 id="1-5-高速缓存至关重要"><a href="#1-5-高速缓存至关重要" class="headerlink" title="1.5 高速缓存至关重要"></a>1.5 高速缓存至关重要</h4><p>cache，例如ssd中cache大小对性能影响巨大，同时会在proxy lab 中用到。</p>
+<h4 id="1-6-存储设备形成层次结构"><a href="#1-6-存储设备形成层次结构" class="headerlink" title="1.6 存储设备形成层次结构"></a>1.6 存储设备形成层次结构</h4><p>一图胜千言</p>
+<p><img src="/2017/12/16/CSAPP/chap1/chap1/存储设备形成层次结构.png" alt="存储设备形成层次结构"></p>
+<h4 id="1-7-操作系统管理硬件"><a href="#1-7-操作系统管理硬件" class="headerlink" title="1.7 操作系统管理硬件"></a>1.7 操作系统管理硬件</h4><p>除了语音抽象，操作系统OS也会提供一个抽象给用户，为了安全和兼容性能。具体通过三个抽象</p>
+<ul>
+<li>对处理器、主存和IO的抽象</li>
+<li><ul>
+<li>进程   OS对一个正在运行的程序一个抽象</li>
+</ul>
+</li>
+<li><ul>
+<li>线程   进程的执行单元，运行在进程中，共享同样的代码和全局数据。(C语言没有线程进程概念)</li>
+</ul>
+</li>
+<li>文件 对IO的抽象 理解这句话的意思就是Linux下的一切皆文件，包括stdin，stdout流键盘，目录，网络设备等等</li>
+<li>虚拟内存 为每个进程都独占地使用主存的一个抽象(对主存和存储器的抽象)<br><img src="/2017/12/16/CSAPP/chap1/chap1/虚拟内存.png" alt="虚拟内存"></li>
+</ul>
+<h4 id="1-8-系统间利用网络通信"><a href="#1-8-系统间利用网络通信" class="headerlink" title="1.8 系统间利用网络通信"></a>1.8 系统间利用网络通信</h4><p>网络也是一个IO设备，<br>类似上述，具体不表</p>
+<h4 id="1-9-重要主题"><a href="#1-9-重要主题" class="headerlink" title="1.9 重要主题"></a>1.9 重要主题</h4><ul>
+<li>amdahl定律 <a href="https://zh.wikipedia.org/wiki/%E9%98%BF%E5%A7%86%E8%BE%BE%E5%B0%94%E5%AE%9A%E5%BE%8B" target="_blank" rel="noopener">阿姆达尔定律</a></li>
+</ul>
+<p>对系统的性能一个很好的解析，即提示系统性能应该从最大，最关键或最薄弱的部分进行</p>
+<ul>
+<li><p>并行和并发</p>
+</li>
+<li><ul>
+<li>并发：指一个同时具有多个活动的系统</li>
+</ul>
+</li>
+<li><ul>
+<li>并行：指的是用并发来使一个系统运行更快</li>
+</ul>
+</li>
+</ul>
+<p>这会给过程性语音带来许多麻烦,SICP中也有提<a href="http://blog.csdn.net/ferris_chan/article/details/78533998" target="_blank" rel="noopener">3.4并发：时间是一个本质问题</a></p>
+<h4 id="1-9-3-计算机系统中抽象的重要性"><a href="#1-9-3-计算机系统中抽象的重要性" class="headerlink" title="1.9.3 计算机系统中抽象的重要性"></a>1.9.3 计算机系统中抽象的重要性</h4><p><img src="/2017/12/16/CSAPP/chap1/chap1/计算机系统中抽象的重要性.png" alt="计算机系统中抽象的重要性"></p>
+<p>这里提到了虚拟机，java应该是对这里的更好解释</p>
+<p>chap1 完</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/17/CSAPP/chap2/chap2/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap2">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-信息就是位加上下文"><span class="toc-text">1.1 信息就是位加上下文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-程序被其他程序翻译成不同的格式"><span class="toc-text">1.2 程序被其他程序翻译成不同的格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-了解编译系统如何工作是大有好处的"><span class="toc-text">1.3 了解编译系统如何工作是大有好处的</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-处理器读并解释存储在内存中的指令"><span class="toc-text">1.4 处理器读并解释存储在内存中的指令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-高速缓存至关重要"><span class="toc-text">1.5 高速缓存至关重要</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-存储设备形成层次结构"><span class="toc-text">1.6 存储设备形成层次结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-操作系统管理硬件"><span class="toc-text">1.7 操作系统管理硬件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-8-系统间利用网络通信"><span class="toc-text">1.8 系统间利用网络通信</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-9-重要主题"><span class="toc-text">1.9 重要主题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-9-3-计算机系统中抽象的重要性"><span class="toc-text">1.9.3 计算机系统中抽象的重要性</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

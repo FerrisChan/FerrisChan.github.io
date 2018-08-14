@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap6 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/21/CSAPP/chap6/chap6/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap6 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap6</h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-21
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap6 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap6</p>
+<p>CSAPP  读书笔记系列chap6</p>
+<h4 id="chap6-储存器层次结构"><a href="#chap6-储存器层次结构" class="headerlink" title="chap6  储存器层次结构"></a>chap6  储存器层次结构</h4><p>这一章说的是内存和缓存cache,配合之前的图</p>
+<p><img src="/2017/12/21/CSAPP/chap6/chap6/存储设备形成层次结构.png" alt="存储设备形成层次结构"></p>
+<h5 id="6-1-存储技术"><a href="#6-1-存储技术" class="headerlink" title="6.1 存储技术"></a>6.1 存储技术</h5><ul>
+<li><p>随机存取存储器(RAM, Random-Access Memory)</p>
+</li>
+<li><ul>
+<li>SRAM(Static RAM) 通常用在处理器做缓存</li>
+</ul>
+</li>
+<li><ul>
+<li>DRAM(Dynamic RAM) 也就是内存</li>
+</ul>
+</li>
+<li><p>ROM</p>
+</li>
+<li><p>disk传统机械硬盘 机械硬盘有许多片磁盘(platter)组成，每一片磁盘有两面；每一面由一圈圈的磁道(track)组成，而每个磁道会被分隔成不同的扇区(sector)。信息存在扇区上面</p>
+</li>
+<li><p>SSD 固态硬盘 信息存储在block的页page上</p>
+</li>
+<li><p>总线BUS: 传输地址、数据和控制信号的一组电线</p>
+</li>
+</ul>
+<p>memory的发展历史如下:<br><img src="/2017/12/21/CSAPP/chap6/chap6/memory的发展.png" alt="memory的发展.png"></p>
+<h5 id="6-2-局部性Locality"><a href="#6-2-局部性Locality" class="headerlink" title="6.2 局部性Locality"></a>6.2 局部性Locality</h5><p>其是为了解决访问速度过慢的问题,利用的是缓存cache的思想,其一般分为:</p>
+<p>-时间局部性(Temporal Locality): 如果一个信息项正在被访问，那么在近期它很可能还会被再次访问</p>
+<ul>
+<li><p>空间局部性(Spatial Locality): 在最近的将来将用到的信息很可能与现在正在使用的信息在空间地址上是临近的</p>
+</li>
+<li><p>顺序局部性(Order Locality): 在典型程序中，除转移类指令外，大部分指令是顺序进行的。顺序执行和非顺序执行的比例大致是5:1。此外，对大型数组访问也是顺序的。指令的顺序执行、数组的连续存放等是产生顺序局部性的原因。</p>
+</li>
+</ul>
+<p>而cache 的思想: 对于每个k,位于k层的更快更小的存储设备作为位于k+1岑的更大更慢的存储设备的缓存。<br>在第一个图中，每一层都可以看作是下一层的缓存。</p>
+<p>更加具体的是:<br><img src="/2017/12/21/CSAPP/chap6/chap6/缓存类型表.png" alt="缓存类型表.png"></p>
+<h5 id="缓存未命中"><a href="#缓存未命中" class="headerlink" title="缓存未命中"></a>缓存未命中</h5><ul>
+<li><p>缓存命中(CACHE HIT):若程序需要在第k+1层的某个数据对象d,程序会先在第k层的一个块查找,若d刚好在第k层,则为缓存命中.</p>
+</li>
+<li><p>缓存未命中　(CACHE MISS) : 命中的反面，其类型为：</p>
+</li>
+<li><ul>
+<li>强制性失效(Cold/compulsory Miss): CPU 第一次访问相应缓存块，缓存中肯定没有对应数据，这是不可避免的</li>
+</ul>
+</li>
+<li><ul>
+<li>冲突失效(Confilict Miss): 在直接相联或组相联的缓存中，不同的缓存块由于索引相同相互替换，引起的失效叫做冲突失效</li>
+</ul>
+</li>
+<li><ul>
+<li>容量失效(Capacity Miss): 有限的缓存容量导致缓存放不下而被替换，被替换出去的缓存块再被访问，引起的失效叫做容量失效</li>
+</ul>
+</li>
+</ul>
+<p>####　高速缓存存储器　Cache Memory</p>
+<p>这里介绍的是L1缓存的工作原理：<br>这里很多概念类似ｈａｓｈ　技术</p>
+<p>对于一个缓存器：</p>
+<p><img src="/2017/12/21/CSAPP/chap6/chap6/.png" alt="Ｌ１缓存器.png"></p>
+<p> 其大小容量为：　C=S×E×B　　字节</p>
+<p> 其中：</p>
+<ul>
+<li>S 表示集合(set)数量</li>
+<li>E 表示数据行(line)的数量</li>
+<li>B 表示每个缓存块(block)保存的字节数目</li>
+</ul>
+<p>而对于寻址(也就是如何寻找对应的ｂｌｏｃｋ)的方式：</p>
+<p>由对应的地址总线去决定，也就是：<br><img src="/2017/12/21/CSAPP/chap6/chap6/查找过程.png" alt="查找过程.png"></p>
+<p>利用的是中间位的不同，对应ｈａｓｈ的查找。这里不打算抄书。</p>
+<p>摘抄网上的<a href="http://wdxtub.com/2016/04/16/thin-csapp-3/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thin-csapp-3/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">先从 set index 确定那个 set，然后看 valid 位，接着利用 t bits 分别和每个 line 的 tag 进行比较，如果匹配则命中，那么返回 对应的位置的数据，如果不匹配，就需要替换.</span><br></pre></td></tr></table></figure>
+<p>说一下替换的算法</p>
+<ul>
+<li>随机替换  最简单的，没使用到局部性原理</li>
+</ul>
+<p>使用局部性原理：</p>
+<ul>
+<li><p>LRC  least recently used(最近最少使用)：替换最后一次访问时间最久远的一项(linux 内核使用)</p>
+</li>
+<li><p>LFU Least frequency used(最不常使用)：替换过去某个时间引用最少的一项</p>
+</li>
+</ul>
+<h4 id="编写高速缓存友好-cach-friendly-的代码"><a href="#编写高速缓存友好-cach-friendly-的代码" class="headerlink" title="编写高速缓存友好(cach friendly)的代码"></a>编写高速缓存友好(cach friendly)的代码</h4><ul>
+<li><p>让最常见的情况运行最快</p>
+</li>
+<li><p>尽量减少每个循环内部的缓存不命中的数量</p>
+</li>
+</ul>
+<p>例如：　<br>对于一个二维数组求和：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int sumArrayRows( int a[M][N])&#123;</span><br><span class="line">  int i, j , sum = 0;</span><br><span class="line">  for (i = 0; i&lt; M; i++)&#123;</span><br><span class="line">    for(j = 0;j &lt;N; j++)</span><br><span class="line">      sum += a[i][j];   // 先行后列</span><br><span class="line">  &#125;</span><br><span class="line">  return sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>会以下版本的空间局部性好，因为Ｃ语音是<strong>以行优先的顺序</strong>，当Ｍ和Ｎ较大，缓存较小的时候，命中率会大很多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int sumArrayRows( int a[M][N])&#123;</span><br><span class="line">  int i, j , sum = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  for(j = 0;j &lt;N; j++)&#123;</span><br><span class="line">      for (i = 0; i&lt; M; i++)</span><br><span class="line">        sum += a[i][j];　　// 先列后行</span><br><span class="line">  &#125;</span><br><span class="line">  return sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="存储器山"><a href="#存储器山" class="headerlink" title="存储器山"></a>存储器山</h4><ul>
+<li>读吞吐量(ｒｅａｄ　throughput): 从存储系统读数据的速率，单位为　ＭＢ/s<br>不同的缓存读吞吐量如下：</li>
+</ul>
+<p><img src="/2017/12/21/CSAPP/chap6/chap6/存储器山.png" alt="存储器山.png"></p>
+<p>不同的机子跑起来不一样，也和ＣＰＵ、时钟频率有关</p>
+<p>在自己的机子上跑完：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">➜  mountain ./mountain</span><br><span class="line">Clock frequency is approx. 1233.0 MHz</span><br><span class="line">Memory mountain (MB/sec)</span><br><span class="line">	s1	s2	s3	s4	s5	s6	s7	s8	s9	s10	s11	s12	s13	s14	s15</span><br><span class="line">128m	6991	3848	2467	1839	1406	1140	954	837	751	692	652	615	601	583	573</span><br><span class="line">64m	6725	3615	2302	1721	1349	1101	951	837	744	687	632	600	591	566	552</span><br><span class="line">32m	6790	3639	2329	1690	1376	1114	953	864	804	740	645	605	610	579	556</span><br><span class="line">16m	6860	3684	2354	1765	1386	1131	966	844	744	730	655	621	614	598	605</span><br><span class="line">8m	6547	3438	2217	1669	1358	1180	1014	901	853	785	753	726	782	741	785</span><br><span class="line">4m	7989	4506	3038	2332	2078	1830	1618	1447	1467	1242	1427	1413	1439	1415	1627</span><br><span class="line">2m	9885	6806	5177	3954	3262	2833	2492	2236	2182	2108	2082	2036	2004	2037	2009</span><br><span class="line">1024k	10064	7154	5551	4119	3397	2969	2615	2320	2259	2202	2160	2120	2103	2088	2080</span><br><span class="line">512k	10322	7216	5580	4131	3391	2963	2622	2330	2257	2199	2169	2141	2141	2174	2214</span><br><span class="line">256k	11048	8176	6700	5204	4219	3702	3225	2864	2817	2780	2865	2995	3091	3366	3665</span><br><span class="line">128k	12732	10530	10261	8734	7088	5974	5203	4686	4647	4640	4624	4628	4687	4619	4610</span><br><span class="line">64k	11298	10530	10332	8955	7270	6141	5397	4783	4705	4700	4708	4755	4614	5214	9551</span><br><span class="line">32k	13000	12626	12609	12199	13671	13521	13549	13256	13478	12946	13909	13358	12946	12996	12643</span><br><span class="line">16k	13186	12563	12287	11800	11880	11372	11449	10700	10585	10743	9978	12467	11508	10929	12467</span><br></pre></td></tr></table></figure>
+<p>一般来说：步进越小，空间局部性越好；工作集越小，时间局部性越好。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/22/CSAPP/chap7/chap7/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap7 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/20/CSAPP/chap4&5/chap4&5/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap4 & chap 5 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#chap6-储存器层次结构"><span class="toc-text">chap6  储存器层次结构</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-1-存储技术"><span class="toc-text">6.1 存储技术</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-2-局部性Locality"><span class="toc-text">6.2 局部性Locality</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#缓存未命中"><span class="toc-text">缓存未命中</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#编写高速缓存友好-cach-friendly-的代码"><span class="toc-text">编写高速缓存友好(cach friendly)的代码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#存储器山"><span class="toc-text">存储器山</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

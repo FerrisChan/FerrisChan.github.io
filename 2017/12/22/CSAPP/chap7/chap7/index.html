@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap7 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/22/CSAPP/chap7/chap7/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap7 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap7</h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-22
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap7 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap7</p>
+<p>CSAPP  读书笔记系列chap7</p>
+<h4 id="chap7-链接-linking"><a href="#chap7-链接-linking" class="headerlink" title="chap7 链接　linking"></a>chap7 链接　linking</h4><p>这一次谈的是链接,也就是把各种代码(和库)和数据片段收集并组合成一个单一文件(可执行文件，例如：ELF)的过程．</p>
+<p>链接可以<strong> 执行在不同的阶段　</strong></p>
+<ul>
+<li>编译时(complie time): 源代码被翻译成机器代码时</li>
+<li>加载时(load time ): 程序被加载器加载到内存并执行时</li>
+<li>运行时(run time): 由应用程序来执行</li>
+</ul>
+<p>所以，连接器在软件设计中举足轻重，在设计模式中也有其一番作为，例如工厂模式，可以把软件的编译时依赖关系转为运行时依赖．</p>
+<p>例如下列过程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/* sum.c */</span><br><span class="line">int sum(int *a, int n)</span><br><span class="line">&#123;</span><br><span class="line">    int i, s = 0;</span><br><span class="line"></span><br><span class="line">    for (i = 0; i &lt; n; i++) &#123;</span><br><span class="line">        s += a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>和其main函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/* main.c */</span><br><span class="line">int sum(int *a, int n);</span><br><span class="line"></span><br><span class="line">int array[2] = &#123;1, 2&#125;;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int val = sum(array, 2);</span><br><span class="line">    return val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当使用命令行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">linux&gt; gcc -Og -o prog main.c sum.c 　　　#产生prog文件</span><br><span class="line">linux&gt; ./prog　　　　　　　　　　　　　　　　 #把prog文件加载到内存</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">其过程如下：</span><br><span class="line">图片出自　http://wdxtub.com/2016/04/16/thin-csapp-4/</span><br><span class="line"></span><br><span class="line">![链接过程.png](chap7/链接过程.png)</span><br><span class="line"></span><br><span class="line">更加具体的为</span><br><span class="line"></span><br><span class="line">- 预处理器cpp： 　cpp [other args] main /tmp/main.i   # .i 中间文件</span><br><span class="line"></span><br><span class="line">- 编译器cc1：　  cc1 /tmp/main.i -Og [other args] -o tmp/main.s　　# .s 汇编文件</span><br><span class="line"></span><br><span class="line">- 汇编器as:    as [other args] －o /tmp/main.o /tmp/main.s       # ．o 可重定位文件</span><br><span class="line"></span><br><span class="line">- 链接器ld:   ld -o prog [other args] /tmp/main.o /tmp/sum.o   # prog 可执行目标文件</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 7.2 静态链接</span><br><span class="line"></span><br><span class="line">链接器的两个任务：</span><br><span class="line"></span><br><span class="line">- 符号解析 Symbol resolution: 在汇编的基础上，把每一个符号表中的符号定义和引用** 关联**起来，</span><br><span class="line"></span><br><span class="line">- 重定位 Relocation：把每个内存位置和符号定义关联起来，从而** 重定位　**编译器和汇编器产生的代码和数据节.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">这里一个关键的概念是:</span><br><span class="line">** 目标文件纯粹是一个字节块的集合 **,里面有不同的块(例如程序代码,程序数据).下面仔细说</span><br><span class="line"></span><br><span class="line">#### 7.3 可执行目标文件</span><br><span class="line"></span><br><span class="line">编译器和汇编器产出**可重定位目标文件**,连接器产生**可执行目标文件**</span><br><span class="line"></span><br><span class="line">可执行目标文件有三种:</span><br><span class="line"></span><br><span class="line">- 可重定位目标文件 Relocatable object file (.o file)</span><br><span class="line"> - 每个 .o 文件都是由对应的 .c 文件通过编译器和汇编器生成，包含代码和数据，可以与其他可重定位目标文件合并创建一个可执行或共享的目标文件</span><br><span class="line"></span><br><span class="line">- 可执行目标文件 Executable object file (a.out file)</span><br><span class="line"> - 由链接器生成，可以直接通过加载器加载到内存中充当进程执行的文件，包含代码和数据</span><br><span class="line"></span><br><span class="line">- 共享目标文件 Shared object file (.so file)</span><br><span class="line"> - 共享库文件, windows 中被称为 Dynamic Link Libraries(DLLs)，是类特殊的可重定位目标文件，可以在链接(静态共享库)时加入目标文件或加载时或运行时(动态共享库)被动态的加载到内存并执行</span><br><span class="line"></span><br><span class="line">目标文件格式为也一般为(概念相似):</span><br><span class="line"></span><br><span class="line">- a.out: 第一个Unix系统使用的</span><br><span class="line"></span><br><span class="line">- PE格式: windows上的</span><br><span class="line"></span><br><span class="line">- Math-O格式: Mac OS-X的</span><br><span class="line"></span><br><span class="line">- **ELF** 格式: 可执行可连接格式,现代Linux和Unix使用的,主要讨论</span><br><span class="line"></span><br><span class="line">#### 7.4 可重定位目标文件</span><br><span class="line"></span><br><span class="line">例如ELF格式的,长如下样子:</span><br><span class="line">图片出自　http://wdxtub.com/2016/04/16/thin-csapp-4/</span><br><span class="line"></span><br><span class="line">![ELF文件.png](chap7/ELF文件.png)</span><br><span class="line"></span><br><span class="line">每个区的包含文件如下:</span><br><span class="line"></span><br><span class="line">- ELF header</span><br><span class="line"> - 包含 word size, byte ordering, file type (.o, exec, .so), machine type, etc</span><br><span class="line">- Segment header table</span><br><span class="line"> - 包含 page size, virtual addresses memory segments(sections), segment sizes</span><br><span class="line">- .text section</span><br><span class="line"> - 代码部分</span><br><span class="line"></span><br><span class="line">- .rodata section</span><br><span class="line"> - 只读数据部分，例如跳转表</span><br><span class="line">- .data section</span><br><span class="line"> - 初始化的全局变量</span><br><span class="line">- .bss section</span><br><span class="line"> - 未初始化的全局变量</span><br><span class="line">- .symtab section</span><br><span class="line"> - 包含 symbol table, procudure 和 static variable names 以及 section names 和 location</span><br><span class="line">- .rel.txt section</span><br><span class="line">.text section 的重定位信息</span><br><span class="line">- .rel.data section</span><br><span class="line"> - .data section 的重定位信息</span><br><span class="line">- .debug section</span><br><span class="line"> - 包含 symbolic debugging (gcc -g) 的信息</span><br><span class="line">- Section header table</span><br><span class="line"> - 每个 section 的大小和偏移量</span><br><span class="line"></span><br><span class="line">#### 7.5符号和符号表.symbol</span><br><span class="line"></span><br><span class="line">C语音中的符号(变量和函数)在符号表 .symbol section 中有三种形式:</span><br><span class="line"></span><br><span class="line">- 全局符号 **Global** symbols</span><br><span class="line"> - 在当前模块中定义，且可以被其他代码引用的符号，例如非静态 C 函数和非静态全局变量</span><br><span class="line">- 外部符号 **External** symbols</span><br><span class="line"> - 同样是全局符号，但是是在其他模块（也就是其他的源代码）中定义的，但是可以在当前模块中引用</span><br><span class="line">- 本地符号 Local symbols</span><br><span class="line"> - 在当前模块中定义，只能被当前模块引用的符号，带static 属性，例如静态函数和静态全局变量</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意:　**符号表.symbols 中不包含对应本地非静态non-static程序的任何符号**,也就是区分**本地链接器符号Local linker symbol**和**本地程序符号 local program variables**,这里讨论的是前者．</span><br><span class="line"></span><br><span class="line">例如下面：</span><br></pre></td></tr></table></figure></p>
+<p>// 文件 main.c<br>int sum(int <em>a, int n);<br>int array[2] = {1, 2}; // 变量 array 在此定义<br>int main() // 定义了一个全局函数<br>{<br>    int val = sum(array, 2);<br>    // val 是局部变量，链接器并不知道<br>    // sum 函数是一个全局引用<br>    // array 变量是一个全局引用<br>    return val;<br>}<br>// —————————————–<br>// 文件 sum.c<br>int sum(int </em>a, int n) // 定义了一个全局函数<br>{<br>    int i, s = 0;<br>    // i 和 s 是局部变量，链接器并不知道<br>    for (i = 0; i &lt; n; i++)<br>        s += a[i];</p>
+<pre><code>return s;
+</code></pre><p>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">本地非静态non-static程序的任何符号也就是由**栈**自动管理，有时候也称为自动变量？</span><br><span class="line"></span><br><span class="line">这里说的面向对象中的封装也是使用　static　实现的</span><br><span class="line"></span><br><span class="line">另外，全局变量的初始化是十分重要的，见ｅｆｆｅｃｔｉｖｅ　Ｃ＋＋的条例</span><br><span class="line"></span><br><span class="line">#### 7.6  符号解析 Symbol resolution</span><br><span class="line"></span><br><span class="line">把每一个符号表中的符号定义和引用** 关联**起来，而且是唯一可辨别的</span><br><span class="line"></span><br><span class="line">C++中的重载也是这一阶段实现的，通过其唯一的方法名称和**参数列表**来编码(**叫做重整**,其反过程称为回复)成对链接器的唯一名字．</span><br><span class="line"></span><br><span class="line">而链接器对**全局符号**也会有一定的规则，利用的是强弱定理:</span><br><span class="line"></span><br><span class="line">- 强符号：函数和初始化的全局变量</span><br><span class="line">- 弱符号：未初始化的全局变量</span><br></pre></td></tr></table></figure></p>
+<p>// 文件 p1.c<br>int foo = 5; // 强符号，已初始化<br>p1() { … } // 强符号，函数<br>// —————————————–<br>// 文件 p2.c<br>int foo;     // 弱符号，未初始化<br>p2() { … } // 强符号，函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">链接器在处理强弱符号的时候遵守以下规则：</span><br><span class="line"></span><br><span class="line">- 1.不能出现多个同名的强符号，不然就会出现链接错误</span><br><span class="line">- 2.如果有同名的强符号和弱符号，选择强符号，也就意味着弱符号是『无效』d而</span><br><span class="line">- 3.如果有多个弱符号，随便选择一个</span><br><span class="line"></span><br><span class="line">pdf上的几个例子：</span><br><span class="line"></span><br><span class="line">- 1.链接错误</span><br></pre></td></tr></table></figure></p>
+<p>// 文件 p1.c<br>int x;<br>p1() { … }<br>// —————————————–<br>// 文件 p2.c<br>p1() { … }<br>可以看到上面代码中声明了两个同名的函数，都是强符号，所以会出现链接错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 2.未初始化</span><br></pre></td></tr></table></figure>
+<p>// 文件 p1.c<br>int x;<br>p1() { … }<br>// —————————————–<br>// 文件 p2.c<br>int x;<br>p2() { … }<br>上面的两个 x 实际上在执行时会引用同一个未初始化的整型，并不是两个独立的变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-   3.变量相互影响</span><br></pre></td></tr></table></figure></p>
+<p>// 文件 p1.c<br>int x;<br>int y;<br>p1() { … }<br>// —————————————–<br>// 文件 p2.c<br>double x;<br>p2() { … }</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">x 会复写overwrite y</span><br><span class="line"></span><br><span class="line">因为** 编译器不会进行类型检测的，Linker	does	not	do	type	checking.**</span><br><span class="line"></span><br><span class="line">对于这类错误，最后使用-Werror，将warning 转为　error</span><br><span class="line"></span><br><span class="line">所以这里的一些编程规则是：</span><br><span class="line"></span><br><span class="line">对于Global全局变量：</span><br><span class="line"></span><br><span class="line">- 尽量使用静态变量替代</span><br><span class="line">- 定义全局变量的时候记得初始化</span><br><span class="line">- 注意使用 extern 关键字</span><br><span class="line"> - 将其变为一个弱符号</span><br><span class="line"> - 记得在其他文件中定义</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 7.7 重定位：</span><br><span class="line">把每个内存位置和符号定义关联起来，从而** 重定位　**编译器和汇编器产生的代码和数据节.</span><br><span class="line"></span><br><span class="line">都出自　http://wdxtub.com/2016/04/16/thin-csapp-4/</span><br><span class="line">![重定向.png](chap7/重定向.png)</span><br><span class="line"></span><br><span class="line">出自　http://wdxtub.com/2016/04/16/thin-csapp-4/</span><br></pre></td></tr></table></figure>
+<p>通过 objdump -r -d main.o 反编译对应的可重定位对象文件，可以得到如下的汇编代码：</p>
+<p>0000000000000000 <main>:<br>    0: 48 83 ec 08      sub   $0x8, %rsp<br>    4: be 02 00 00 00   mov   $0x2, %esi<br>    9: bf 00 00 00 00   mov   $0x0, %edi  # %edi = &amp;array<br>                a: R_X86_64_32 array      # Relocation entry<br>    e: e8 00 00 00 00   callq 13 &lt;main+0x13&gt; # sum()<br>                f: R_X86_64_PC32 sum-0x4  # Relocation entry<br>   13: 48 83 c4 08      add   $0x8, %rsp<br>   17: c3               retq<br>这里我们可以看到，编译器用 relocation entry 来标记不同的调用（注意看对应的代码后面四组数字都是零，就是留出位置让链接器在链接的时候填上对应的实际内存地址）</main></p>
+<p>在完成链接之后我们得到 prog 这个程序，同样反编译 objdump -dx prog 可以看到：</p>
+<p>00000000004004d0 <main>:<br>    4004d0: 48 83 ec 08      sub   $0x8, %rsp<br>    4004d4: be 02 00 00 00   mov   $0x2, %esi<br>    4004d9: bf 18 10 60 00   mov   $0x0, %edi  # %edi = &amp;array<br>    4004de: e8 05 00 00 00   callq 4004e8 <sum> # sum()<br>    4004e3: 48 83 c4 08      add   $0x8, %rsp<br>    4004e7: c3               retq<br>00000000004004e8 <sum>:<br>    4004e8: b8 00 00 00 00   mov   $0x0, %eax<br>    …<br>    …<br>    400501: f3 c3            repz retq<br>对应的地址已经被填上去了，这里注意用的是相对的位置，比方说 0x4004de 中的 05 00 00 00 的意思实际上是说要在下一句的基础上加上 0x5，也就是 0x4004e8，即 sum 函数的开始位置。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">其载入内存时：</span><br><span class="line"></span><br><span class="line">![ELF载入内存.png](chap7/ELF载入内存.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">####　静态库和共享库</span><br><span class="line"></span><br><span class="line">- 静态库 Static Library</span><br><span class="line"></span><br><span class="line">抄自：　http://wdxtub.com/2016/04/16/thin-csapp-4/</span><br></pre></td></tr></table></figure></sum></sum></main></p>
+<p>静态库是一个外部函数与变量的集合体。静态库的文件内容，通常包含一堆程序员自定的变量与函数，其内容不像动态链接库那么复杂，在编译期间由编译器与连接器将它集成至应用程序内，并制作成目标文件以及可以独立运作的可执行文件。而这个可执行文件与编译可执行文件的程序，都是一种程序的静态创建（static build）</p>
+<p>具体过程就是把不同文件的 .o 文件通过 Archiver 打包成为一个 .a 文件。Archiver 支持增量更新，如果有函数变动，只需要重新编译改动的部分。</p>
+<p>在 C 语言中最常用的是 C 标准库与 C 数学库。C 标准库一般可以通过 libc.a 来进行引用，大小 4.6 MB，包含 1496 个对象文件，主要负责输入输出、内存分配、信号处理、字符串处理、操作数据和实践、生成随机数及整型的数学运算。C 数学库可以通过 libm.a 来引用，大小 2 MB，包含 444 个对象文件，主要是提供浮点数运算的支持（比如三角函数、幂次等等）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对于例子</span><br></pre></td></tr></table></figure></p>
+<p>// 文件 main.c</p>
+<p>#include “vector.h”</p>
+<p>#include &lt;stdio.h&gt;<br>int x[2] = {1, 2};<br>int y[2] = {3, 4};<br>int z[2];<br>int main() {<br>  addvec(x, y, z, 2);<br>  printf(“z = [%d %d]\n”, z[0], z[1]);<br>  return 0;<br>}<br>// —————————————–<br>// 文件 addvec.c<br>void addvec(int <em>x, int </em>y, int <em>z, int n) {<br>  int i;<br>  for (i = 0; i &lt; n; i++)<br>    z[i] = x[i] + y[i];<br>}<br>// —————————————–<br>// 文件 multvec.c<br>void multvec(int </em>x, int <em>y, int </em>z, int n) {<br>  int i;<br>  for (i = 0; i &lt; n; i++)<br>    z[i] = x[i] * y[i];<br>}</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">其链接过程如下：</span><br><span class="line"></span><br><span class="line">![静态库链接过程.png](chap7/静态库链接过程.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">####　解析外部引用</span><br><span class="line"></span><br><span class="line">其步骤为：</span><br><span class="line"></span><br><span class="line">- 扫描当前命令中的 .o 和 .a 文件</span><br><span class="line">- 扫描过程中，维护一个当前未解析引用的列表</span><br><span class="line">- 扫描到新的 .o 或 .a 文件时，试图去寻找未解析引用</span><br><span class="line">- 如果扫描结束时仍旧有为解析的引用，则报错</span><br><span class="line"></span><br><span class="line">也就是** 按顺序查找　**</span><br><span class="line"></span><br><span class="line">例如：</span><br></pre></td></tr></table></figure>
+<p>unix&gt; gcc -L. libtest.o -lmine</p>
+<h1 id="上面这句不会出错，但是下面的会"><a href="#上面这句不会出错，但是下面的会" class="headerlink" title="上面这句不会出错，但是下面的会"></a>上面这句不会出错，但是下面的会</h1><p>unix&gt; gcc -L. -lmine libtest.o<br>libtest.o: In function <code>main</code>:<br>libtest.o(.text+0x4): Undefined reference to <code>libfun</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">所以静态库链接一般准则</span><br><span class="line"></span><br><span class="line">- 一般是放在命令行的最后</span><br><span class="line">gcc -L. libtest.o -lmine</span><br><span class="line">- 两个库交互引用时</span><br><span class="line"></span><br><span class="line">例如库libx.a 和　liby.b</span><br><span class="line"> - 可以把两个库合在一起</span><br><span class="line"> - 或命令行为：</span><br></pre></td></tr></table></figure>
+<p> gcc foo.c libx.a liby.a libx.a<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">但静态库占用的内存太多，因为库的代码会被复制到每个运行进程的文本段中；</span><br><span class="line"></span><br><span class="line">也不支持热升级，所以有了共享库</span><br><span class="line"></span><br><span class="line">- 共享库　shared Library</span><br><span class="line"></span><br><span class="line">定义：　其为一个目标模块，在运行和加载时，课程加载到任意的内存地址，并和一个内存中的程序链接起来.</span><br><span class="line"></span><br><span class="line">对于上述过程，其动态链接为：</span><br><span class="line"></span><br><span class="line">![动态链接过程.png](chap7/动态链接过程.png)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">而产生一个动态库　libvector.so的命令行为：</span><br><span class="line"></span><br><span class="line">```gcc -shared -fpic -o libvector.so addvec.c multvec.</span><br></pre></td></tr></table></figure></p>
+<p>其中：</p>
+<ul>
+<li><p>shared 表示创建一个共享库</p>
+</li>
+<li><p>fpic ：　File Position-Independent Code ,位置无关的代码，可以加载无需重定位的代码．具体可以看书p489</p>
+</li>
+</ul>
+<h4 id="库打桩"><a href="#库打桩" class="headerlink" title="库打桩"></a>库打桩</h4><p>这里说的是一个类似链接技术，可以在不同时刻运行：</p>
+<ul>
+<li>编译时(complie time): 源代码被翻译成机器代码时</li>
+<li>加载时(load time ): 程序被加载器加载到内存并执行时</li>
+<li>运行时(run time): 由应用程序来执行</li>
+</ul>
+<p>主要是截取<strong>共享库的调用，换为执行自己的代码</strong>，所以可以统计函数调用的次数等功能．</p>
+<p>其使用为加入-I.参数<br>例如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -Wall -I. -o intc int.c mymalloc.o</span><br></pre></td></tr></table></figure></p>
+<h4 id="一些处理目标文件的工具"><a href="#一些处理目标文件的工具" class="headerlink" title="一些处理目标文件的工具"></a>一些处理目标文件的工具</h4><ul>
+<li>AR :  创建静态库等</li>
+<li>OBJDUMP:　所有二进制工具之母</li>
+<li>LDD :　列出一个可执行文件在运行时所需要的共享库</li>
+</ul>
+<p>etc</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>之前实习做堡垒机项目的时候，对链接的许多概念特别是共享库很不成熟．现在回到ＣＳＡＰＰ这本书这里重拾基础，当时一个观点就是：勿在浮沙上筑高台。感觉基础不牢地动山摇似得，希望可以有个好基础吧。加油！</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/23/CSAPP/chap8/chap8/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap8 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/21/CSAPP/chap6/chap6/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap6 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#chap7-链接-linking"><span class="toc-text">chap7 链接　linking</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#上面这句不会出错，但是下面的会"><span class="toc-text">上面这句不会出错，但是下面的会</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#库打桩"><span class="toc-text">库打桩</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#一些处理目标文件的工具"><span class="toc-text">一些处理目标文件的工具</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

