@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap1 ｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/26/chap3/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap1 </h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap1</h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP Note"
+                           title="CSAPP Note">CSAPP Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap1 
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap3</p>
+<p>CSAPP  读书笔记系列chap3</p>
+<h3 id="chap3-程序的机器级表示"><a href="#chap3-程序的机器级表示" class="headerlink" title="chap3 程序的机器级表示"></a>chap3 程序的机器级表示</h3><p>这些读书笔记为个人读CSAPP所写，除了简单的书上重点外，也会加一些自己对计算机的感受。<br>文章顺序为书上目录的顺序，个人理解，应有偏颇，请见谅。</p>
+<h4 id="3-1-历史观点"><a href="#3-1-历史观点" class="headerlink" title="3.1 历史观点"></a>3.1 历史观点</h4><p>这讲为一篇关于Intel和AMD芯片的发展史</p>
+<p>####　３.2　程序编码</p>
+<p>再谈一次Ｃ语言编译过程</p>
+<p><img src="/2017/12/26/chap3/编译过程.png" alt="编译过程"></p>
+<p>一段代码及其经过编译生成的汇编代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// #include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">// void hello(void) &#123; printf(&quot;Hello, World!\n&quot;); &#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">  long a = 0;</span><br><span class="line">  if (0 == a) &#123;</span><br><span class="line">    printf(&quot;it is l1\n&quot;);</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    printf(&quot;helloworld\n&quot;);</span><br><span class="line">  &#125;</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的汇编代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">.file	&quot;test.c&quot;</span><br><span class="line">.section	.rodata.str1.1,&quot;aMS&quot;,@progbits,1</span><br><span class="line">.LC0:</span><br><span class="line">.string	&quot;it is l1&quot;</span><br><span class="line">.text</span><br><span class="line">.globl	main</span><br><span class="line">.type	main, @function</span><br><span class="line">main:</span><br><span class="line">.LFB23:</span><br><span class="line">.cfi_startproc</span><br><span class="line">subq	$8, %rsp</span><br><span class="line">.cfi_def_cfa_offset 16</span><br><span class="line">movl	$.LC0, %edi</span><br><span class="line">call	puts</span><br><span class="line">movl	$0, %eax</span><br><span class="line">addq	$8, %rsp</span><br><span class="line">.cfi_def_cfa_offset 8</span><br><span class="line">ret</span><br><span class="line">.cfi_endproc</span><br><span class="line">.LFE23:</span><br><span class="line">.size	main, .-main</span><br><span class="line">.ident	&quot;GCC: (Ubuntu 5.4.0-6ubuntu1~16.04.5) 5.4.0 20160609&quot;</span><br><span class="line">.section	.note.GNU-stack,&quot;&quot;,@progbits</span><br></pre></td></tr></table></figure>
+<p>C 语言代码被处理成了有统一格式的汇编代码，另外对于汇编格式有两种：</p>
+<ul>
+<li><p>AT&amp;T 格式　如上面(本书默认)</p>
+</li>
+<li><p>Intel 格式　gcc -Ｏg -S -masm=intel test.<br>例如：　push rbx  (具体看ｐ１１８)</p>
+</li>
+</ul>
+<p>两条指令来具体说明一下从 C 到汇编再到机器代码的变化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// C 代码</span><br><span class="line">*dest = t;</span><br><span class="line">// 对应的汇编代码</span><br><span class="line">movq    %rax, (%rbx)</span><br><span class="line">// 对应的对象代码</span><br><span class="line">0x40059e:   46 89 03</span><br></pre></td></tr></table></figure>
+<p>汇编代码，movq 就是把 8字节（ Quad words）移动到内存中 。t 的值保存在寄存器 %rax 中，dest 指向的地址保存在 %rbx 中，而 *dest 是取地址操作，对应于在内存中找到对应的值，也就是 M[%rbx]，在汇编代码中用小括号表示取地址，即 (%rbx)。 最后转换成 3 个字节的指令，并保存在 0x40059e 这个地址中。</p>
+<h4 id="3-3-数据格式"><a href="#3-3-数据格式" class="headerlink" title="3.3 数据格式"></a>3.3 数据格式</h4><p>说的是ATT 汇编中的一些约定<br>如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- C声明　　　　　汇编后缀　　　　　大小(字节)      例子</span><br><span class="line"></span><br><span class="line">- char        　ｂ　　　　　　　　１　　　　　　　movq</span><br><span class="line">- short         w              2            movw</span><br><span class="line">- int(双字)      l             4            movl</span><br><span class="line">- long(四字)　　　q             4            movq</span><br><span class="line">- char*(地址)　　q              4            movq</span><br><span class="line">- float         s              4            movq</span><br><span class="line">- double        l              8           movl</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-4-访问信息"><a href="#3-4-访问信息" class="headerlink" title="3.4  访问信息"></a>3.4  访问信息</h4><p><strong> 重点是理解间接寻址从而理解指针</strong></p>
+<ul>
+<li>x86寄存器<br>图片来源(<a href="http://wdxtub.com/2016/04/16/thin-csapp-2/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thin-csapp-2/</a>)<br><img src="/2017/12/26/chap3/x86寄存器.png" alt="x86寄存器"></li>
+</ul>
+<p>前六个寄存器(%rax, %rbx, %rcx, %rdx, %rsi, %rdi)称为通用寄存器，有其『特定』的用途：</p>
+<ul>
+<li><ul>
+<li>%rax(%eax) 用于做累加</li>
+</ul>
+</li>
+<li><ul>
+<li>%rcx(%ecx) 用于计数</li>
+</ul>
+</li>
+<li><ul>
+<li>%rdx(%edx) 用于保存数据</li>
+</ul>
+</li>
+<li><ul>
+<li>%rbx(%ebx) 用于做内存查找的基础地址</li>
+</ul>
+</li>
+<li><ul>
+<li>%rsi(%esi) 用于保存源索引值</li>
+</ul>
+</li>
+<li><ul>
+<li>%rdi(%edi) 用于保存目标索引值</li>
+</ul>
+</li>
+</ul>
+<p>而 %rsp(%esp) 和 %rbp(%ebp) 则是作为栈指针和基指针来使用的。</p>
+<h4 id="重点："><a href="#重点：" class="headerlink" title="重点："></a>重点：</h4><p>有些操作数是带括号的，括号的意思就是寻址，这也分两种情况：</p>
+<ul>
+<li><p>普通模式，(R)，相当于 Mem[Reg[R]]，也就是说寄存器 R 指定内存地址，类似于 C 语言中的指针</p>
+</li>
+<li><p>移位模式，D(R)，相当于 Mem[Reg[R]+D]，寄存器 R 给出起始的内存地址，然后 D 是偏移量</p>
+</li>
+</ul>
+<p>对于寻址来说，比较通用的格式是 D(Rb, Ri, S) -&gt; Mem[Reg[Rb]+S*Reg[Ri]+D]，其中：</p>
+<p>D - 常数偏移量</p>
+<p>Rb - 基寄存器</p>
+<p>Ri - 索引寄存器，不能是 %rsp</p>
+<p>S - 系数</p>
+<p>除此之外，还有如下三种特殊情况</p>
+<ul>
+<li>(Rb, Ri) -&gt; Mem[Reg[Rb]+Reg[Ri]]</li>
+<li>D(Rb, Ri) -&gt; Mem[Reg[Rb]+Reg[Ri]+D]</li>
+<li>(Rb, Ri, S) -&gt; Mem[Reg[Rb]+S*Reg[Ri]]</li>
+</ul>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">0x8(%rdx) = 0xf000 + 0x8 = 0xf008</span><br><span class="line">(%rdx, %rcx) = 0xf000 + 0x100 = 0xf100</span><br><span class="line">(%rdx, %rcx, 4) = 0xf000 + 4*0x100 = 0xf400</span><br><span class="line">0x80(, %rdx, 2) = 2*0xf000 + 0x80 = 0x1e08</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-5-算术和逻辑操作"><a href="#3-5-算术和逻辑操作" class="headerlink" title="3.5 算术和逻辑操作"></a>3.5 算术和逻辑操作</h4><p>说的是几条汇编指令，用到再翻书,和ＬＣ－３类似<br>例如：</p>
+<ul>
+<li>leaq S,D    # D &lt;- S,加载地址的值到Ｄ</li>
+</ul>
+<h4 id="3-6控制"><a href="#3-6控制" class="headerlink" title="3.6控制"></a>3.6控制</h4><p>也就是程序的跳转执行，跳转实际上就是根据条件代码的不同来进行不同的操作</p>
+<h5 id="3-6-1-简单例子１"><a href="#3-6-1-简单例子１" class="headerlink" title="3.6.1　简单例子１"></a>3.6.1　简单例子１</h5><p>例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">long absdiff(long x, long y)</span><br><span class="line">&#123;</span><br><span class="line">    long result;</span><br><span class="line">    if (x &gt; y)</span><br><span class="line">        result = x-y;</span><br><span class="line">    else</span><br><span class="line">        result = y-x;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>对应的汇编代码如下，这里 %rdi 中保存了参数 x，%rsi 中保存了参数 y，而 %rax 一般用来存储返回值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">absdiff:</span><br><span class="line">    cmpq    %rsi, %rdi</span><br><span class="line">    jle     .L4</span><br><span class="line">    movq    %rdi, %rax</span><br><span class="line">    subq    %rsi, %rax</span><br><span class="line">    ret</span><br><span class="line">.L4:    # x &lt;= y</span><br><span class="line">    movq    %rsi, %rax</span><br><span class="line">    subq    %rdi, %rax</span><br></pre></td></tr></table></figure>
+<p>goto 版本，因为goto 在下面循环中十分重要</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">long absdiff_goto(long x, long y)</span><br><span class="line">&#123;</span><br><span class="line">    long result;</span><br><span class="line">    int ntest = x &lt;= y;</span><br><span class="line">    if (ntest) goto Else;</span><br><span class="line">    result = x-y;</span><br><span class="line">    goto Done;</span><br><span class="line">Else:</span><br><span class="line">    result = y-x;</span><br><span class="line">Done:</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>####＃　3.6.2 条件传送</p>
+<p>对于　val = Test ? Then_Expr : Else_Expr;<br>重写为：val = x&gt;y ? x-y : y-x;</p>
+<p>转换成 goto 形式就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	ntest = !Test;</span><br><span class="line">	if (ntest) goto Else;</span><br><span class="line">	value = Then_Expr;</span><br><span class="line">	goto Done;</span><br><span class="line">Else:</span><br><span class="line">	val = Else_Expr;</span><br><span class="line">Done:</span><br></pre></td></tr></table></figure></p>
+<p>但是实际上汇编出来的代码，并不是这样的，会采用另一种方法来加速分支语句的执行</p>
+<p>因为 现在的 CPU 都是依靠流水线工作的，如果程序一直是顺序的，那么这个过程就可以一直进行下去，效率会很高。但是一旦遇到分支，可能就要把流水线清空（因为后面载入的东西都错了），然后重新载入 所需要的数据，这就带来了很大的性能影响。为此用『分支预测』这一技术来解决（分支预测是另一个话题这里不展开），但是对于这类只需要判断一次的条件语句来说，其实有更好的方法。</p>
+<p>处理器有一条指令支持 if(Test) Dest &lt;- Src 的操作，也就是说可以不用跳转，利用条件代码来进行赋值，于是编译器在可能的时候会把上面的 goto 程序改成如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 分支预测版本</span><br><span class="line">result = Then_Expr;</span><br><span class="line">eval = Else_Expr;</span><br><span class="line">nt = !Test;</span><br><span class="line">if (nt) result = eval;</span><br><span class="line">return result;</span><br></pre></td></tr></table></figure></p>
+<p>具体的做法是：对与两个分支，都分别算出结果，然后利用上面的条件指令来进行赋值，这样就完美避免了因为分支可能带来的性能问题（需要清空流水线），像下面这样，同样 %rdi 中保存了参数 x，%rsi 中保存了参数 y，而 %rax 一般用来存储返回值：</p>
+<p>absdiff:<br>    movq    %rdi, %rax  # x<br>    subq    %rsi, %rax  # result = x-y<br>    movq    %rsi, %rdx<br>    subq    %rdi, %rdx  # eval = y-x<br>    cmpq    %rsi, %rdi  # x:y<br>    cmovle  %rdx, %rax  # if &lt;=, result = eval<br>    ret<br>这个方法不适用于：</p>
+<p>因为会把两个分支的运算都提前算出来，如果这两个值都需要大量计算的话，就得不偿失了，所以需要分支中的计算尽量简单。<br>另外在涉及指针操作的时候，如 val = p ? <em>p : 0;，因为两个分支都会被计算，所以可能导致奇怪问题出现<br>最后一种就是如果分支中的计算是有副作用的，那么就不能这样弄 val = x &gt; 0 ? x</em>= 7 : x+= 3;，这种情况下， x的值会改变两次</p>
+<h4 id="3-6-3-循环的汇编实现"><a href="#3-6-3-循环的汇编实现" class="headerlink" title="3.6.3 循环的汇编实现"></a>3.6.3 循环的汇编实现</h4><h5 id="Do-While-语句以及对应使用-goto-语句进行跳转的版本："><a href="#Do-While-语句以及对应使用-goto-语句进行跳转的版本：" class="headerlink" title="Do-While 语句以及对应使用 goto 语句进行跳转的版本："></a>Do-While 语句以及对应使用 goto 语句进行跳转的版本：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// Do While 的 C 语言代码</span><br><span class="line">long pcount_do(unsigned long x)</span><br><span class="line">&#123;</span><br><span class="line">    long result = 0;</span><br><span class="line">    do &#123;</span><br><span class="line">        result += x &amp; 0x1;</span><br><span class="line">        x &gt;&gt;= 1;</span><br><span class="line">    &#125; while (x);</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">// Goto 版本</span><br><span class="line">long pcount_goto(unsigned long x)</span><br><span class="line">&#123;</span><br><span class="line">    long result = 0;</span><br><span class="line">loop:</span><br><span class="line">    result += x &amp; 0x1;</span><br><span class="line">    x &gt;&gt;= 1;</span><br><span class="line">    if (x) goto loop;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数计算参数 x 中有多少位是 1，翻译成汇编如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    movl    $0, %eax    # result = 0</span><br><span class="line">.L2:                    # loop:</span><br><span class="line">    movq    %rdi, %rdx</span><br><span class="line">    andl    $1, %edx    # t = x &amp; 0x1</span><br><span class="line">    addq    %rdx, %rax  # result += t</span><br><span class="line">    shrq    %rdi        # x &gt;&gt;= 1</span><br><span class="line">    jne     .L2         # if (x) goto loop</span><br><span class="line">    rep; ret</span><br></pre></td></tr></table></figure>
+<p>其中 %rdi 中存储的是参数 x，%rax 存储的是返回值。换成更通用的形式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// C Code</span><br><span class="line">do</span><br><span class="line">	Body</span><br><span class="line">	while (Test);</span><br><span class="line">// Goto Version</span><br><span class="line">loop:</span><br><span class="line">	Body</span><br><span class="line">	if (Test)</span><br><span class="line">		goto loop</span><br></pre></td></tr></table></figure>
+<p>而对于 While 语句的转换，会有两种方式</p>
+<ul>
+<li><p>jump to middle直接跳到中间版本，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// C While version</span><br><span class="line">while (Test)</span><br><span class="line">	Body</span><br><span class="line">// Goto Version</span><br><span class="line">	goto test;</span><br><span class="line">loop:</span><br><span class="line">	Body</span><br><span class="line">test:</span><br><span class="line">	if (Test)</span><br><span class="line">		goto loop;</span><br><span class="line">done:</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>guarded-do 版本</strong><br>如果在编译器中开启 -O1 优化，那么会把 While 先翻译成 Do-While，然后再转换成对应的 Goto 版本，因为 Do-While 语句执行起来更快，更符合 CPU 的运算模型。</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// While version</span><br><span class="line">while ( Test )</span><br><span class="line">  Body</span><br><span class="line">// Do-While version</span><br><span class="line">if (! Test )</span><br><span class="line">  goto done;</span><br><span class="line">do</span><br><span class="line">  Body</span><br><span class="line">  while( Test );</span><br><span class="line">done:</span><br><span class="line"></span><br><span class="line">// Goto Version</span><br><span class="line">if (! Test )</span><br><span class="line">  goto done;</span><br><span class="line">loop:</span><br><span class="line">  Body</span><br><span class="line">  if ( Test )</span><br><span class="line">    goto loop;</span><br><span class="line">done:</span><br></pre></td></tr></table></figure>
+<h5 id="For-循环"><a href="#For-循环" class="headerlink" title="For 循环"></a>For 循环</h5><p>也可以一步一步转换成 While 的形式，然后也会采取上面的两种等级，具体取决与优化等级</p>
+<p>但不是所以的for都可以转为while的，具体是ｆｏｒ中有ｃｏｎｔｉｎｕｅ(参考习题３.29)<br>// For<br>for (Init; Test; Update)<br>    Body</p>
+<p>// While Version<br>Init;<br>while (Test) {<br>    Body<br>    Update;<br>}</p>
+<h5 id="Switch-语句"><a href="#Switch-语句" class="headerlink" title="Switch 语句"></a>Switch 语句</h5><p>一次判断会有多种可能的跳转路径。这里用一个具体的例子来进行讲解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">long switch_eg (long x, long y, long z)&#123;</span><br><span class="line">	long w = 1;</span><br><span class="line">	switch (x) &#123;</span><br><span class="line">		case 1:</span><br><span class="line">			w = y*z;</span><br><span class="line">			break;</span><br><span class="line">		case 2:</span><br><span class="line">			w = y/z;</span><br><span class="line">			// fall through</span><br><span class="line">		case 3:</span><br><span class="line">			w += z;</span><br><span class="line">			break;</span><br><span class="line">		case 5:</span><br><span class="line">		case 6:</span><br><span class="line">			w -= z;</span><br><span class="line">			break;</span><br><span class="line">		default:</span><br><span class="line">			w = 2;</span><br><span class="line">	&#125;</span><br><span class="line">	return w;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个例子中包含了大部分比较特殊的情况：</p>
+<p>共享的条件：5 和 6<br>fall through：2 也会执行 3 的部分（这个要小心，一般来说不这么搞，如果确定要用，务必写上注释）<br>缺失的条件：4<br>具体怎么办呢？简单来说，使用跳转表（表的解决方式在很多地方都有用：<strong>虚函数，继承甚至动态规划</strong>），可能会类似如下汇编代码，这里 %rdi 是参数 x，%rsi 是参数 y，%rdx 是参数 z, %rax 是返回值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">switch_eg:</span><br><span class="line">    movq    %rdx, %rcx</span><br><span class="line">    cmpq    $6, %rdi    # x:6</span><br><span class="line">    ja      .L8</span><br><span class="line">    jmp     *.L4(, %rdi, 8)</span><br></pre></td></tr></table></figure></p>
+<p>一个跳转表为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.section    .rodata</span><br><span class="line">    .align 8</span><br><span class="line">.L4:</span><br><span class="line">    .quad   .L8 # x = 0</span><br><span class="line">    .quad   .L3 # x = 1</span><br><span class="line">    .quad   .L5 # x = 2</span><br><span class="line">    .quad   .L9 # x = 3</span><br><span class="line">    .quad   .L8 # x = 4</span><br><span class="line">    .quad   .L7 # x = 5</span><br><span class="line">    .quad   .L7 # x = 6</span><br></pre></td></tr></table></figure></p>
+<p>通过上面的例子，以大概了解处理 switch 语句的方式：大的 switch 语句会用跳转表，具体跳转时可能会用到决策树（if-elseif-elseif-else）</p>
+<h4 id="3-7过程调用procedure"><a href="#3-7过程调用procedure" class="headerlink" title="3.7过程调用procedure"></a>3.7过程调用procedure</h4><p>过程调用（也就是调用函数）,类似LC-3中的ｔｒａｐ</p>
+<p>在过程调用中主要涉及三个重要的方面：</p>
+<ul>
+<li>传递控制Passing control ：包括如何开始执行过程代码，以及如何返回到开始的地方</li>
+<li>传递数据Passing data：包括过程需要的参数以及过程的返回值</li>
+<li>内存管理Managing local data：如何在过程执行的时候分配内存，以及在返回之后释放内存<br>以上这三点，都是凭借机器指令实现的</li>
+</ul>
+<p>过程调用离不开栈结构</p>
+<p>过程调用的参数会：　如果参数没有超过六个，那么会放在：%rdi, %rsi, %rdx, %rcx, %r8, %r9 中。如果超过了，会另外放在一个栈中。<br>返回值会放在 %rax 中。</p>
+<p>而对于每个过程调用来说，都会在栈中分配一个帧 Frames。每一帧里需要包含：<br>gcc 可以 info local查看<br>-　返回信息</p>
+<ul>
+<li>本地存储（如果需要）</li>
+<li><p>临时空间（如果需要）<br>整一帧会在过程调用的时候进行空间分配，然后在返回时进行回收，在 x86-64/Linux 中，栈帧的结构是固定的，当前的要执行的栈中包括：</p>
+</li>
+<li><p>Argument Build: 需要使用的参数</p>
+</li>
+<li>如果不能保存在寄存器中，会把一些本地变量放在这里</li>
+<li>已保存的寄存器上下文</li>
+<li>老的栈帧的指针（可选）<br>而调用者的栈帧则包括：</li>
+</ul>
+<p>返回地址（因为 call 指令被压入栈的）<br>调用所需的参数<br>具体如下图所示：</p>
+<p>之前也有谈过的<a href="http://blog.csdn.net/ferris_chan/article/details/78311612" target="_blank" rel="noopener">递归</a></p>
+<p>一个例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">long pcount_r(unsigned long x) &#123;</span><br><span class="line">	if (x == 0)</span><br><span class="line">		return 0;</span><br><span class="line">	else</span><br><span class="line">		return (x &amp; 1) + pcount_r(x &gt;&gt; 1);</span><br><span class="line">&#125;</span><br><span class="line">// 对应的汇编代码为：</span><br><span class="line"></span><br><span class="line">pcount_r:</span><br><span class="line">    mov     $0, %eax</span><br><span class="line">    testq   %rdi, %rdi</span><br><span class="line">    je      .L6</span><br><span class="line">    push    %rbx</span><br><span class="line">    movq    %rdi, %rbx</span><br><span class="line">    andl    $1, %ebx</span><br><span class="line">    shrq    %rdi</span><br><span class="line">    call    pcount_r</span><br><span class="line">    addq    %rbx, %rax</span><br><span class="line">    popq    %rbx</span><br><span class="line">.L6:</span><br><span class="line">    rep; ret</span><br></pre></td></tr></table></figure></p>
+<p>实际执行的过程中，会不停进行压栈，直到最后返回，所以递归本身就是一个隐式的栈实现，但是系统一般对于栈的深度有限制（每次一都需要保存当前栈帧的各种数据），所以一般来说会把递归转换成显式栈来进行处理以防溢出。</p>
+<h4 id="3-8数组分配和访问"><a href="#3-8数组分配和访问" class="headerlink" title="3.8数组分配和访问"></a>3.8数组分配和访问</h4><p>对于　Ｔ　Ａ[N]; 在内存中分配一个Ｌ*N字节的连续区域；</p>
+<p>注意访问数组和指针的效果：</p>
+<p>例如对于 int val[5] 来说<br><img src="/2017/12/26/chap3/数组的引用.png" alt="数组的引用"></p>
+<p>多维数组</p>
+<p>对于多维的数组，基本形式是 T A[R][C]，R 是行，C 是列，如果类型 T 占 K 个字节的话，那么数组所需要的内存是 R<em>C</em>K 字节。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">int get_a_digit(int index, int dig)</span><br><span class="line">&#123;</span><br><span class="line">    return A[index][dig];</span><br><span class="line">&#125;</span><br><span class="line">// 对应的汇编代码为，这里假设 C = 5</span><br><span class="line"></span><br><span class="line">leaq    (%rdi, %rdi, 4), %rax   # 5 * index</span><br><span class="line">addl    %rax, %rsi              # 5 * index + dig</span><br><span class="line">movl    A(, %rsi, 4), %eax      # M[A + 4*(5*index+dig)]</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-9结构体"><a href="#3-9结构体" class="headerlink" title="3.9结构体"></a>3.9结构体</h4><p>struct rec<br>{<br>    int a[4];<br>    size_t i;<br>    struct rect *next;<br>};<br>其在内存中的排列是</p>
+<p><img src="/2017/12/26/chap3/结构体.png" alt="结构体.png"></p>
+<p>对齐：</p>
+<p>如果数据类型需要 K 个字节，那么地址都必须是 K 的倍数，<br>另外：</p>
+<ul>
+<li>如果数据类型需要 K 个字节，那么地址都必须是 K 的倍数－windows的原则</li>
+<li>2字节数据类型的地址必须为2的倍数，较大的数据类型（int,double,float）的地址必须是4的倍数 －　Linux的原则</li>
+</ul>
+<p>因为内存访问通常来说是 4 或者 8 个字节位单位的，提高指令寻址的效率　例如(,%rdi,4)</p>
+<h4 id="3-10-在机器级程序中将控制和数据结合起来"><a href="#3-10-在机器级程序中将控制和数据结合起来" class="headerlink" title="3.10 在机器级程序中将控制和数据结合起来"></a>3.10 在机器级程序中将控制和数据结合起来</h4><p>缓冲区溢出<br>看下熟悉的内存布局：<br>图片来源<a href="http://wdxtub.com/2016/04/16/thin-csapp-2/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thin-csapp-2/</a><br><img src="/2017/12/26/chap3/内存布局.png" alt="内存布局"></p>
+<p>最上面是运行时栈，有 8MB 的大小限制，一般用来保存局部变量。然后是堆，动态的内存分配会在这里处理，例如 malloc(), calloc(), new() 等。然后是数据，指的是静态分配的数据，比如说全局变量，静态变量，常量字符串。最后是共享库等可执行的机器指令，这一部分是只读的。</p>
+<p>可以见到，栈在最上面，也就是说，栈再往上就是另一个程序的内存范围了，这种时候我们就可以通过这种方式修改内存的其他部分了。</p>
+<p>写到这里时间的关系就不写了，看书做ｌａｂ去</p>
+<h4 id="bomb-lab"><a href="#bomb-lab" class="headerlink" title="bomb lab"></a>bomb lab</h4><p>配置参考这篇:<a href="http://wdxtub.com/2016/04/16/thick-csapp-lab-2/" target="_blank" rel="noopener">http://wdxtub.com/2016/04/16/thick-csapp-lab-2/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">// phase_1</span><br><span class="line">(gdb) disas</span><br><span class="line">Dump of assembler code for function phase_1:</span><br><span class="line">=&gt; 0x0000000000400ee0 &lt;+0&gt;:	sub    $0x8,%rsp</span><br><span class="line">   0x0000000000400ee4 &lt;+4&gt;:	mov    $0x402400,%esi</span><br><span class="line">   0x0000000000400ee9 &lt;+9&gt;:	callq  0x401338 &lt;strings_not_equal&gt;</span><br><span class="line">   0x0000000000400eee &lt;+14&gt;:	test   %eax,%eax</span><br><span class="line">   0x0000000000400ef0 &lt;+16&gt;:	je     0x400ef7 &lt;phase_1+23&gt;</span><br><span class="line">   0x0000000000400ef2 &lt;+18&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400ef7 &lt;+23&gt;:	add    $0x8,%rsp</span><br><span class="line">   0x0000000000400efb &lt;+27&gt;:	retq</span><br><span class="line">End of assembler dump.</span><br><span class="line"></span><br><span class="line">(gdb) x/s $esi</span><br><span class="line">0x402400:	&quot;Border relations with Canada have never been better.&quot;</span><br><span class="line"></span><br><span class="line">(gdb) set args ./solution.txt</span><br><span class="line">(gdb) c</span><br><span class="line">The program is not being run.</span><br><span class="line">(gdb) r</span><br><span class="line">Starting program: /media/ferris/TODO/2CSAPP/labs/bomb/bomb/bomb ./solution.txt</span><br><span class="line">Welcome to my fiendish little bomb. You have 6 phases with</span><br><span class="line">which to blow yourself up. Have a nice day!</span><br><span class="line"></span><br><span class="line">Breakpoint 1, 0x0000000000400ee0 in phase_1 ()</span><br><span class="line">(gdb) c</span><br><span class="line">Continuing.</span><br><span class="line">Phase 1 defused. How about the next one?</span><br><span class="line">afda</span><br><span class="line"></span><br><span class="line">Breakpoint 3, 0x0000000000400efc in phase_2 ()</span><br></pre></td></tr></table></figure>
+<p>答案：x/s $esi<br>0x402400:    “Border relations with Canada have never been better.”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// phase_2</span><br><span class="line">(gdb) disas</span><br><span class="line">Dump of assembler code for function phase_2:</span><br><span class="line">=&gt; 0x0000000000400efc &lt;+0&gt;:	push   %rbp</span><br><span class="line">   0x0000000000400efd &lt;+1&gt;:	push   %rbx</span><br><span class="line">   0x0000000000400efe &lt;+2&gt;:	sub    $0x28,%rsp</span><br><span class="line">   0x0000000000400f02 &lt;+6&gt;:	mov    %rsp,%rsi</span><br><span class="line">   0x0000000000400f05 &lt;+9&gt;:	callq  0x40145c &lt;read_six_numbers&gt;</span><br><span class="line">   0x0000000000400f0a &lt;+14&gt;:	cmpl   $0x1,(%rsp)  　#起始值为１</span><br><span class="line">   0x0000000000400f0e &lt;+18&gt;:	je     0x400f30 &lt;phase_2+52&gt;</span><br><span class="line">   0x0000000000400f10 &lt;+20&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400f15 &lt;+25&gt;:	jmp    0x400f30 &lt;phase_2+52&gt;</span><br><span class="line">   0x0000000000400f17 &lt;+27&gt;:	mov    -0x4(%rbx),%eax</span><br><span class="line">   0x0000000000400f1a &lt;+30&gt;:	add    %eax,%eax　　　#每次增大一倍</span><br><span class="line">   0x0000000000400f1c &lt;+32&gt;:	cmp    %eax,(%rbx)</span><br><span class="line">   0x0000000000400f1e &lt;+34&gt;:	je     0x400f25 &lt;phase_2+41&gt;</span><br><span class="line">   0x0000000000400f20 &lt;+36&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400f25 &lt;+41&gt;:	add    $0x4,%rbx</span><br><span class="line">   0x0000000000400f29 &lt;+45&gt;:	cmp    %rbp,%rbx</span><br><span class="line">   0x0000000000400f2c &lt;+48&gt;:	jne    0x400f17 &lt;phase_2+27&gt;</span><br><span class="line">   0x0000000000400f2e &lt;+50&gt;:	jmp    0x400f3c &lt;phase_2+64&gt;</span><br><span class="line">   0x0000000000400f30 &lt;+52&gt;:	lea    0x4(%rsp),%rbx</span><br><span class="line">   0x0000000000400f35 &lt;+57&gt;:	lea    0x18(%rsp),%rbp</span><br><span class="line">   0x0000000000400f3a &lt;+62&gt;:	jmp    0x400f17 &lt;phase_2+27&gt;</span><br><span class="line">   0x0000000000400f3c &lt;+64&gt;:	add    $0x28,%rsp</span><br><span class="line">   0x0000000000400f40 &lt;+68&gt;:	pop    %rbx</span><br><span class="line">   0x0000000000400f41 &lt;+69&gt;:	pop    %rbp</span><br><span class="line">   0x0000000000400f42 &lt;+70&gt;:	retq</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) s</span><br></pre></td></tr></table></figure>
+<p>答案就是 1 2 4 8 16 32。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">// phase_3</span><br><span class="line">(gdb) disas</span><br><span class="line">Dump of assembler code for function phase_3:</span><br><span class="line">=&gt; 0x0000000000400f43 &lt;+0&gt;:	sub    $0x18,%rsp</span><br><span class="line">   0x0000000000400f47 &lt;+4&gt;:	lea    0xc(%rsp),%rcx</span><br><span class="line">   0x0000000000400f4c &lt;+9&gt;:	lea    0x8(%rsp),%rdx</span><br><span class="line">   0x0000000000400f51 &lt;+14&gt;:	mov    $0x4025cf,%esi</span><br><span class="line">   0x0000000000400f56 &lt;+19&gt;:	mov    $0x0,%eax</span><br><span class="line">   0x0000000000400f5b &lt;+24&gt;:	callq  0x400bf0 &lt;__isoc99_sscanf@plt&gt;</span><br><span class="line">   0x0000000000400f60 &lt;+29&gt;:	cmp    $0x1,%eax</span><br><span class="line">   0x0000000000400f63 &lt;+32&gt;:	jg     0x400f6a &lt;phase_3+39&gt;</span><br><span class="line">   0x0000000000400f65 &lt;+34&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400f6a &lt;+39&gt;:	cmpl   $0x7,0x8(%rsp)</span><br><span class="line">   0x0000000000400f6f &lt;+44&gt;:	ja     0x400fad &lt;phase_3+106&gt;</span><br><span class="line">   0x0000000000400f71 &lt;+46&gt;:	mov    0x8(%rsp),%eax</span><br><span class="line">   0x0000000000400f75 &lt;+50&gt;:	jmpq   *0x402470(,%rax,8)　　# switch 语句</span><br><span class="line">   0x0000000000400f7c &lt;+57&gt;:	mov    $0xcf,%eax　　　　　　　# cf 为２０７　</span><br><span class="line">   0x0000000000400f81 &lt;+62&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f83 &lt;+64&gt;:	mov    $0x2c3,%eax</span><br><span class="line">   0x0000000000400f88 &lt;+69&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f8a &lt;+71&gt;:	mov    $0x100,%eax</span><br><span class="line">   0x0000000000400f8f &lt;+76&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f91 &lt;+78&gt;:	mov    $0x185,%eax</span><br><span class="line">   0x0000000000400f96 &lt;+83&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f98 &lt;+85&gt;:	mov    $0xce,%eax</span><br><span class="line">   0x0000000000400f9d &lt;+90&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400f9f &lt;+92&gt;:	mov    $0x2aa,%eax</span><br><span class="line">   0x0000000000400fa4 &lt;+97&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400fa6 &lt;+99&gt;:	mov    $0x147,%eax</span><br><span class="line">   0x0000000000400fab &lt;+104&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400fad &lt;+106&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400fb2 &lt;+111&gt;:	mov    $0x0,%eax</span><br><span class="line">   0x0000000000400fb7 &lt;+116&gt;:	jmp    0x400fbe &lt;phase_3+123&gt;</span><br><span class="line">   0x0000000000400fb9 &lt;+118&gt;:	mov    $0x137,%eax</span><br><span class="line">   0x0000000000400fbe &lt;+123&gt;:	cmp    0xc(%rsp),%eax # 比较第二个数相不相等</span><br><span class="line">   0x0000000000400fc2 &lt;+127&gt;:	je     0x400fc9 &lt;phase_3+134&gt;</span><br><span class="line">   0x0000000000400fc4 &lt;+129&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x0000000000400fc9 &lt;+134&gt;:	add    $0x18,%rsp</span><br><span class="line">   0x0000000000400fcd &lt;+138&gt;:	retq</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+<p>(gdb) x/s 0x4025cf<br>0x4025cf:    “%d %d”<br>答案为　0 207</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">// phase_4</span><br><span class="line">Breakpoint 6, 0x000000000040100c in phase_4 ()</span><br><span class="line">(gdb) disas</span><br><span class="line">Dump of assembler code for function phase_4:</span><br><span class="line">=&gt; 0x000000000040100c &lt;+0&gt;:	sub    $0x18,%rsp</span><br><span class="line">   0x0000000000401010 &lt;+4&gt;:	lea    0xc(%rsp),%rcx</span><br><span class="line">   0x0000000000401015 &lt;+9&gt;:	lea    0x8(%rsp),%rdx</span><br><span class="line">   0x000000000040101a &lt;+14&gt;:	mov    $0x4025cf,%esi　　# 0x4025cf:	&quot;%d %d&quot;</span><br><span class="line">   0x000000000040101f &lt;+19&gt;:	mov    $0x0,%eax</span><br><span class="line">   0x0000000000401024 &lt;+24&gt;:	callq  0x400bf0 &lt;__isoc99_sscanf@plt&gt;</span><br><span class="line">   0x0000000000401029 &lt;+29&gt;:	cmp    $0x2,%eax   ＃输入两个参数</span><br><span class="line">   0x000000000040102c &lt;+32&gt;:	jne    0x401035 &lt;phase_4+41&gt; # 小于两个bomb</span><br><span class="line">   0x000000000040102e &lt;+34&gt;:	cmpl   $0xe,0x8(%rsp)   # 第一个是否&gt;= 13</span><br><span class="line">   0x0000000000401033 &lt;+39&gt;:	jbe    0x40103a &lt;phase_4+46&gt;  ＃是，跳到46</span><br><span class="line">   0x0000000000401035 &lt;+41&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x000000000040103a &lt;+46&gt;:	mov    $0xe,%edx　</span><br><span class="line">   0x000000000040103f &lt;+51&gt;:	mov    $0x0,%esi</span><br><span class="line">   0x0000000000401044 &lt;+56&gt;:	mov    0x8(%rsp),%edi</span><br><span class="line">   0x0000000000401048 &lt;+60&gt;:	callq  0x400fce &lt;func4&gt;　　#递归</span><br><span class="line">   0x000000000040104d &lt;+65&gt;:	test   %eax,%eax</span><br><span class="line">   0x000000000040104f &lt;+67&gt;:	jne    0x401058 &lt;phase_4+76&gt;</span><br><span class="line">   0x0000000000401051 &lt;+69&gt;:	cmpl   $0x0,0xc(%rsp)</span><br><span class="line">   0x0000000000401056 &lt;+74&gt;:	je     0x40105d &lt;phase_4+81&gt;</span><br><span class="line">   0x0000000000401058 &lt;+76&gt;:	callq  0x40143a &lt;explode_bomb&gt;</span><br><span class="line">   0x000000000040105d &lt;+81&gt;:	add    $0x18,%rsp</span><br><span class="line">   0x0000000000401061 &lt;+85&gt;:	retq</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb) x/s $0x4025cf</span><br><span class="line">Value can&apos;t be converted to integer.</span><br><span class="line">(gdb) x/s 0x4025cf</span><br><span class="line">0x4025cf:	&quot;%d %d&quot;</span><br><span class="line"></span><br><span class="line">// func4</span><br><span class="line">(gdb) disassemble func4</span><br><span class="line">Dump of assembler code for function func4:</span><br><span class="line">   0x0000000000400fce &lt;+0&gt;:	sub    $0x8,%rsp</span><br><span class="line">   0x0000000000400fd2 &lt;+4&gt;:	mov    %edx,%eax</span><br><span class="line">   0x0000000000400fd4 &lt;+6&gt;:	sub    %esi,%eax</span><br><span class="line">   0x0000000000400fd6 &lt;+8&gt;:	mov    %eax,%ecx</span><br><span class="line">   0x0000000000400fd8 &lt;+10&gt;:	shr    $0x1f,%ecx</span><br><span class="line">   0x0000000000400fdb &lt;+13&gt;:	add    %ecx,%eax</span><br><span class="line">   0x0000000000400fdd &lt;+15&gt;:	sar    %eax</span><br><span class="line">   0x0000000000400fdf &lt;+17&gt;:	lea    (%rax,%rsi,1),%ecx</span><br><span class="line">   0x0000000000400fe2 &lt;+20&gt;:	cmp    %edi,%ecx</span><br><span class="line">   0x0000000000400fe4 &lt;+22&gt;:	jle    0x400ff2 &lt;func4+36&gt;</span><br><span class="line">   0x0000000000400fe6 &lt;+24&gt;:	lea    -0x1(%rcx),%edx</span><br><span class="line">   0x0000000000400fe9 &lt;+27&gt;:	callq  0x400fce &lt;func4&gt;</span><br><span class="line">   0x0000000000400fee &lt;+32&gt;:	add    %eax,%eax</span><br><span class="line">   0x0000000000400ff0 &lt;+34&gt;:	jmp    0x401007 &lt;func4+57&gt;</span><br><span class="line">   0x0000000000400ff2 &lt;+36&gt;:	mov    $0x0,%eax</span><br><span class="line">   0x0000000000400ff7 &lt;+41&gt;:	cmp    %edi,%ecx</span><br><span class="line">   0x0000000000400ff9 &lt;+43&gt;:	jge    0x401007 &lt;func4+57&gt;</span><br><span class="line">   0x0000000000400ffb &lt;+45&gt;:	lea    0x1(%rcx),%esi</span><br><span class="line">   0x0000000000400ffe &lt;+48&gt;:	callq  0x400fce &lt;func4&gt;</span><br><span class="line">   0x0000000000401003 &lt;+53&gt;:	lea    0x1(%rax,%rax,1),%eax</span><br><span class="line">   0x0000000000401007 &lt;+57&gt;:	add    $0x8,%rsp</span><br><span class="line">   0x000000000040100b &lt;+61&gt;:	retq</span><br><span class="line">End of assembler dump.</span><br><span class="line">(gdb)</span><br></pre></td></tr></table></figure>
+<p>#########################################################################<br>第一次先做到这里，有事不做了BＯＭＢ　！！！！</p>
+<p>附上答案</p>
+<p>Border relations with Canada have never been better.<br>1 2 4 8 16 32<br>0 207</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/07/01/人月神话/人月神话心得/" data-toggle="tooltip" data-placement="top"
+                           title="人月神话心得">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/26/CSAPP/chap1 /" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap1 ">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#chap3-程序的机器级表示"><span class="toc-text">chap3 程序的机器级表示</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-历史观点"><span class="toc-text">3.1 历史观点</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-数据格式"><span class="toc-text">3.3 数据格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-访问信息"><span class="toc-text">3.4  访问信息</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#重点："><span class="toc-text">重点：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-5-算术和逻辑操作"><span class="toc-text">3.5 算术和逻辑操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6控制"><span class="toc-text">3.6控制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#3-6-1-简单例子１"><span class="toc-text">3.6.1　简单例子１</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-6-3-循环的汇编实现"><span class="toc-text">3.6.3 循环的汇编实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Do-While-语句以及对应使用-goto-语句进行跳转的版本："><span class="toc-text">Do-While 语句以及对应使用 goto 语句进行跳转的版本：</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#For-循环"><span class="toc-text">For 循环</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Switch-语句"><span class="toc-text">Switch 语句</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-7过程调用procedure"><span class="toc-text">3.7过程调用procedure</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-8数组分配和访问"><span class="toc-text">3.8数组分配和访问</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-9结构体"><span class="toc-text">3.9结构体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-10-在机器级程序中将控制和数据结合起来"><span class="toc-text">3.10 在机器级程序中将控制和数据结合起来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bomb-lab"><span class="toc-text">bomb lab</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>

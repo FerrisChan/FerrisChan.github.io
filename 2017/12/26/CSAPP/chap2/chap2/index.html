@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="书写，是为了更好的思考；思考，是为了走的更远">
+    <meta name="keyword" content="">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Ferris" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        CSAPP Note chap2｜Ferris&#39;s Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://FerrisChan.github.io/2017/12/26/CSAPP/chap2/chap2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Ferris
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="undefinedimg/post-default.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('undefinedimg/post-default.jpgundefined')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>CSAPP Note chap2</h1>
+                    
+                    <h2 class="subheading">CSAPP  读书笔记系列chap2</h2>
+                    
+                    <span class="meta">
+                         作者 Ferris Chan
+                        <span>
+                          日期 2017-12-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#CSAPP Note"
+                           title="CSAPP Note">CSAPP Note</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            CSAPP Note chap2
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>CSAPP Note chap2</p>
+<p>CSAPP  读书笔记系列chap2 信息的表示和处理</p>
+<h3 id="chap2-信息的表示和处理"><a href="#chap2-信息的表示和处理" class="headerlink" title="chap2 信息的表示和处理"></a>chap2 信息的表示和处理</h3><p>这些读书笔记为个人读CSAPP所写，除了简单的书上重点外，也会加一些自己对计算机的感受。<br>文章顺序为书上目录的顺序，个人理解，会有偏颇，请见谅。</p>
+<p>这一章比较基础，数电和计算机系统概论也说过了，所以看的也算比较快。<br>章末会写下lab的环境配置和答案</p>
+<h4 id="2-1-信息存储"><a href="#2-1-信息存储" class="headerlink" title="2.1 信息存储"></a>2.1 信息存储</h4><p>可以结合chap1 笔记来看<br>重点是<a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E8%A3%9C%E6%95%B8" target="_blank" rel="noopener">补码</a>的概念</p>
+<p>个人选用补码一个原因，而不用反码，可以消除 +0(00000000 ) 和 -0(+0 的反码11111111)的二义性，which 在计算机是不容忍的</p>
+<p>假设字长为 w，一般定义如下的常量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">UMin = 0 即 000…0</span><br><span class="line">UMax = 2w−12w−1 即 111…1</span><br><span class="line">TMin = −2w−1−2w−1 即 100…0</span><br><span class="line">TMax = 2w−1−12w−1−1 即 011…1</span><br><span class="line">Minus 1(-1) 即 111…1</span><br></pre></td></tr></table></figure></p>
+<p><a href="http://blog.csdn.net/ferris_chan/article/details/78300275" target="_blank" rel="noopener">大端小端</a>之前博客笔记写过</p>
+<h4 id="2-2-整数表示"><a href="#2-2-整数表示" class="headerlink" title="2.2 整数表示"></a>2.2 整数表示</h4><p>C语音中修饰符signed 和 unsigned，就表示有符号数和无符号数<br>注意signed，long long等 为修饰符，修饰后面的int(可省略)，非基本数据类型</p>
+<p>个人认为C语音中，基本数据类型应该为：</p>
+<ul>
+<li>char  字符</li>
+<li>int   整数</li>
+<li>float  单精度浮点数，IEEE 754 标准32位表示</li>
+<li>double  双精度浮点数，64位表示</li>
+<li>char * 指针或数组</li>
+<li>void *  无类型指针</li>
+</ul>
+<p>类型转换cast具体可参考书，一般来说是位的表示不变</p>
+<p>类型扩展与截取</p>
+<ul>
+<li>扩展（例如从 short int 到 int），都可以得到预期的结果</li>
+<li><ul>
+<li>无符号数：加 0</li>
+</ul>
+</li>
+<li><ul>
+<li>有符号数：加符号位</li>
+</ul>
+</li>
+<li><p>截取（例如 unsigned 到 unsigned short），对于小的数字可以得到预期的结果</p>
+</li>
+<li><ul>
+<li>无符号数：mod 操作</li>
+</ul>
+</li>
+<li><ul>
+<li>有符号数：近似 mod 操作</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-3-整数运算"><a href="#2-3-整数运算" class="headerlink" title="2.3 整数运算"></a>2.3 整数运算</h4><p>一个重要的概念是溢出：无符号数还是有符号数，一旦用来表示数值的最高位发生了进位，超出了表达形式或者改变了符号位</p>
+<h4 id="2-4-浮点数"><a href="#2-4-浮点数" class="headerlink" title="2.4 浮点数"></a>2.4 浮点数</h4><p>一个新的概念为round(舍入)，一般为向偶数舍入</p>
+<h5 id="偶数舍入：二进制中，舍入到最近的偶数，即如果出现在中间的情况，舍入之后最右边的值要是偶数"><a href="#偶数舍入：二进制中，舍入到最近的偶数，即如果出现在中间的情况，舍入之后最右边的值要是偶数" class="headerlink" title="偶数舍入：二进制中，舍入到最近的偶数，即如果出现在中间的情况，舍入之后最右边的值要是偶数"></a>偶数舍入：二进制中，舍入到最近的偶数，即如果出现在中间的情况，舍入之后最右边的值要是偶数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">原数值       舍入结果    原因</span><br><span class="line">2.8949999      2.89    不到一半，正常四舍五入</span><br><span class="line">2.8950001      2.90    超过一般，正常四舍五入</span><br><span class="line">2.8950000      2.90    刚好在一半时，保证最后一位是偶数，所以向上舍入</span><br><span class="line">2.8850000      2.88    刚好在一半时，保证最后一位是偶数，所以向下舍入</span><br></pre></td></tr></table></figure>
+<h4 id="lab1"><a href="#lab1" class="headerlink" title="lab1"></a>lab1</h4><ul>
+<li><p>资源地址为<a href="http://www.cs.cmu.edu/~213/schedule.html" target="_blank" rel="noopener">http://www.cs.cmu.edu/~213/schedule.html</a></p>
+</li>
+<li><p>建议配置环境为atom, 然后加上几个知乎蓝色大神推荐的插件<a href="https://www.zhihu.com/question/39938370/answer/91374563" target="_blank" rel="noopener">https://www.zhihu.com/question/39938370/answer/91374563</a></p>
+</li>
+</ul>
+<p>得到的效果图如下：<br>可以一个窗口搞定c文档和make的使用，提高生产力<br><img src="http://img.blog.csdn.net/20171206112722726?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvZmVycmlzX2NoYW4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="环境配置"></p>
+<ul>
+<li>lab1的答案如下：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * bitAnd - x&amp;y using only ~ and |</span><br><span class="line"> *   Example: bitAnd(6, 5) = 4</span><br><span class="line"> *   Legal ops: ~ |</span><br><span class="line"> *   Max ops: 8</span><br><span class="line"> *   Rating: 1</span><br><span class="line"> */</span><br><span class="line">// 摩根定律</span><br><span class="line">int bitAnd(int x, int y) &#123; return ~(~x | ~y); &#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * getByte - Extract byte n from word x</span><br><span class="line"> *   Bytes numbered from 0 (LSB) to 3 (MSB)</span><br><span class="line"> *   Examples: getByte(0x12345678,1) = 0x56</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 6</span><br><span class="line"> *   Rating: 2</span><br><span class="line"> */</span><br><span class="line">int getByte(int x, int n) &#123;</span><br><span class="line">  int mask = 0xff;</span><br><span class="line">  int res = (x &gt;&gt; (n &lt;&lt; 3)); //一个字节×8位=左移3</span><br><span class="line">  res = res &amp; mask;</span><br><span class="line">  return res;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * logicalShift - shift x to the right by n, using a logical shift</span><br><span class="line"> *   Can assume that 0 &lt;= n &lt;= 31</span><br><span class="line"> *   Examples: logicalShift(0x87654321,4) = 0x08765432</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 20</span><br><span class="line"> *   Rating: 3</span><br><span class="line"> */</span><br><span class="line">// 逻辑右移</span><br><span class="line">// 逻辑右移，右侧补0，见p40</span><br><span class="line">int logicalShift(int x, int n) &#123;</span><br><span class="line">  int mask = ~(((1 &lt;&lt; 31) &gt;&gt; n) &lt;&lt; 1);</span><br><span class="line">  return mask &amp; (x &gt;&gt; n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * bitCount - returns count of number of 1&apos;s in word</span><br><span class="line"> *   Examples: bitCount(5) = 2, bitCount(7) = 3</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 40</span><br><span class="line"> *   Rating: 4</span><br><span class="line"> */</span><br><span class="line">// 这条不懂，具体参考</span><br><span class="line">// https://stackoverflow.com/questions/3815165/how-to-implement-bitcount-using-only-bitwise-operators</span><br><span class="line">int bitCount(int n) &#123;</span><br><span class="line">  n = (n &amp; 0x55555555) + ((n &gt;&gt; 1) &amp; 0x55555555);</span><br><span class="line">  n = (n &amp; 0x33333333) + ((n &gt;&gt; 2) &amp; 0x33333333);</span><br><span class="line">  n = (n &amp; 0x0f0f0f0f) + ((n &gt;&gt; 4) &amp; 0x0f0f0f0f);</span><br><span class="line">  n = (n &amp; 0x00ff00ff) + ((n &gt;&gt; 8) &amp; 0x00ff00ff);</span><br><span class="line">  n = (n &amp; 0x0000ffff) + ((n &gt;&gt; 16) &amp; 0x0000ffff);</span><br><span class="line">  return n;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * bang - Compute !x without using !</span><br><span class="line"> *   Examples: bang(3) = 0, bang(0) = 1</span><br><span class="line"> *   Legal ops: ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 12</span><br><span class="line"> *   Rating: 4</span><br><span class="line"> */</span><br><span class="line">// 看x是否为0即可</span><br><span class="line">int bang(int x) &#123; return (~((x | (~x + 1)) &gt;&gt; 31)) &amp; 1; &#125;</span><br><span class="line">/*</span><br><span class="line"> * tmin - return minimum two&apos;s complement integer</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 4</span><br><span class="line"> *   Rating: 1</span><br><span class="line"> */</span><br><span class="line">// 补码中最小的值为0x100000000</span><br><span class="line">int tmin(void) &#123; return 1 &lt;&lt; 31; &#125;</span><br><span class="line">/*</span><br><span class="line"> * fitsBits - return 1 if x can be represented as an</span><br><span class="line"> *  n-bit, two&apos;s complement integer.</span><br><span class="line"> *   1 &lt;= n &lt;= 32</span><br><span class="line"> *   Examples: fitsBits(5,3) = 0, fitsBits(-4,3) = 1</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 15</span><br><span class="line"> *   Rating: 2</span><br><span class="line"> */</span><br><span class="line">// 这条一点都不懂：——（</span><br><span class="line">int fitsBits(int x, int n) &#123;</span><br><span class="line">  int shiftNumber = ~n + 33; // 33?</span><br><span class="line">  return !(x ^ ((x &lt;&lt; shiftNumber) &gt;&gt; shiftNumber));</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> * divpwr2 - Compute x/(2^n), for 0 &lt;= n &lt;= 30</span><br><span class="line"> *  Round toward zero</span><br><span class="line"> *   Examples: divpwr2(15,1) = 7, divpwr2(-33,4) = -2</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 15</span><br><span class="line"> *   Rating: 2</span><br><span class="line"> */</span><br><span class="line">// 参考这篇https://www.tuicool.com/articles/aEjyQnQ</span><br><span class="line">int divpwr2(int x, int n) &#123;</span><br><span class="line">  // all zeros or all ones</span><br><span class="line">  int signx = x &gt;&gt; 31;</span><br><span class="line">  // int mask=(1&lt;&lt;n)+(-1);</span><br><span class="line">  int mask = (1 &lt;&lt; n) + (~0);</span><br><span class="line">  int bias = signx &amp; mask;</span><br><span class="line">  return (x + bias) &gt;&gt; n;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> * negate - return -x</span><br><span class="line"> *   Example: negate(1) = -1.</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 5</span><br><span class="line"> *   Rating: 2</span><br><span class="line"> */</span><br><span class="line">int negate(int x) &#123; return ~x + 1; &#125;</span><br><span class="line">/*</span><br><span class="line"> * isPositive - return 1 if x &gt; 0, return 0 otherwise</span><br><span class="line"> *   Example: isPositive(-1) = 0.</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 8</span><br><span class="line"> *   Rating: 3</span><br><span class="line"> */</span><br><span class="line">// 看sign位是否为1和注意零</span><br><span class="line">int isPositive(int x) &#123; return !((x &gt;&gt; 31) | (!x)); &#125;</span><br><span class="line">/*</span><br><span class="line"> * isLessOrEqual - if x &lt;= y  then return 1, else return 0</span><br><span class="line"> *   Example: isLessOrEqual(4,5) = 1.</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 24</span><br><span class="line"> *   Rating: 3</span><br><span class="line"> */</span><br><span class="line">int isLessOrEqual(int x, int y) &#123;</span><br><span class="line">  int signx = x &gt;&gt; 31;</span><br><span class="line">  int signy = y &gt;&gt; 31;</span><br><span class="line">  int signSame = ((x + (~y)) &gt;&gt; 31) &amp; (!(signx ^ signy));</span><br><span class="line">  int signDiffer = signx &amp; (!signy);</span><br><span class="line">  return signDiffer | signSame;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> * ilog2 - return floor(log base 2 of x), where x &gt; 0</span><br><span class="line"> *   Example: ilog2(16) = 4</span><br><span class="line"> *   Legal ops: ! ~ &amp; ^ | + &lt;&lt; &gt;&gt;</span><br><span class="line"> *   Max ops: 90</span><br><span class="line"> *   Rating: 4</span><br><span class="line"> */</span><br><span class="line">// 求最高有效位右边有多少位.</span><br><span class="line">// 首先把最高有效位后面的位全改成1，然后求1的个数bitCount</span><br><span class="line">int ilog2(int x) &#123; // most significant bit</span><br><span class="line">  x = x | (x &gt;&gt; 1);</span><br><span class="line">  x = x | (x &gt;&gt; 2);</span><br><span class="line">  x = x | (x &gt;&gt; 4);</span><br><span class="line">  x = x | (x &gt;&gt; 8);</span><br><span class="line">  x = x | (x &gt;&gt; 16); // eg. 0010 1011 =&gt; 0011 1111</span><br><span class="line">  // MSB is x &amp; (~(x &gt;&gt; 1))</span><br><span class="line">  // bitCount</span><br><span class="line">  x = (x &amp; 0x55555555) + ((x &gt;&gt; 1) &amp; 0x55555555);</span><br><span class="line">  x = (x &amp; 0x33333333) + ((x &gt;&gt; 2) &amp; 0x33333333);</span><br><span class="line">  x = (x &amp; 0x0f0f0f0f) + ((x &gt;&gt; 4) &amp; 0x0f0f0f0f);</span><br><span class="line">  x = (x &amp; 0x00ff00ff) + ((x &gt;&gt; 8) &amp; 0x00ff00ff);</span><br><span class="line">  x = (x &amp; 0x0000ffff) + ((x &gt;&gt; 16) &amp; 0x0000ffff);</span><br><span class="line">  return x + ~0; // x - 1</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> * float_neg - Return bit-level equivalent of expression -f for</span><br><span class="line"> *   floating point argument f.</span><br><span class="line"> *   Both the argument and result are passed as unsigned int&apos;s, but</span><br><span class="line"> *   they are to be interpreted as the bit-level representations of</span><br><span class="line"> *   single-precision floating point values.</span><br><span class="line"> *   When argument is NaN, return argument.</span><br><span class="line"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while</span><br><span class="line"> *   Max ops: 10</span><br><span class="line"> *   Rating: 2</span><br><span class="line"> */</span><br><span class="line">unsigned float_neg(unsigned uf) &#123;</span><br><span class="line">  // NaN 和 非规范化的</span><br><span class="line">  if (((uf &lt;&lt; 1) &gt;&gt; 24) == 0xFF &amp;&amp; ((uf &lt;&lt; 9) != 0))</span><br><span class="line">    return uf;</span><br><span class="line">  return (1 &lt;&lt; 31) ^ uf;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> * float_i2f - Return bit-level equivalent of expression (float) x</span><br><span class="line"> *   Result is returned as unsigned int, but</span><br><span class="line"> *   it is to be interpreted as the bit-level representation of a</span><br><span class="line"> *   single-precision floating point values.</span><br><span class="line"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while</span><br><span class="line"> *   Max ops: 30</span><br><span class="line"> *   Rating: 4</span><br><span class="line"> */</span><br><span class="line">unsigned float_i2f(int x) &#123;</span><br><span class="line">  int sign, exp, frac, bitc, tailb;</span><br><span class="line"></span><br><span class="line">  if (x == 0)</span><br><span class="line">    return 0;</span><br><span class="line">  else if (x == 0x80000000)</span><br><span class="line">    return 0xCF000000;</span><br><span class="line"></span><br><span class="line">  sign = (x &gt;&gt; 31) &amp; 1;</span><br><span class="line">  if (sign)</span><br><span class="line">    x = -x;</span><br><span class="line"></span><br><span class="line">  // count bits to the right of MSB</span><br><span class="line">  bitc = 1;</span><br><span class="line">  while ((x &gt;&gt; bitc) != 0)</span><br><span class="line">    bitc++;</span><br><span class="line">  bitc--;</span><br><span class="line"></span><br><span class="line">  exp = bitc + 127;</span><br><span class="line"></span><br><span class="line">  x = x &lt;&lt; (31 - bitc); // clear all those zeros to the left of MSB</span><br><span class="line">  frac = (x &gt;&gt; 8) &amp; 0x7FFFFF;</span><br><span class="line"></span><br><span class="line">  // round to even (nearest)</span><br><span class="line">  if (bitc &gt; 23) &#123;</span><br><span class="line">    tailb = x &amp; 0xFF; // byte to round</span><br><span class="line"></span><br><span class="line">    if ((tailb &gt; 128) || ((tailb == 128) &amp;&amp; (frac &amp; 1))) &#123;</span><br><span class="line">      frac += 1;</span><br><span class="line">      if (frac &gt;&gt; 23) &#123;</span><br><span class="line">        exp += 1;</span><br><span class="line">        frac = 0;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return (sign &lt;&lt; 31) | (exp &lt;&lt; 23) | frac;</span><br><span class="line">&#125;</span><br><span class="line">/*</span><br><span class="line"> * float_twice - Return bit-level equivalent of expression 2*f for</span><br><span class="line"> *   floating point argument f.</span><br><span class="line"> *   Both the argument and result are passed as unsigned int&apos;s, but</span><br><span class="line"> *   they are to be interpreted as the bit-level representation of</span><br><span class="line"> *   single-precision floating point values.</span><br><span class="line"> *   When argument is NaN, return argument</span><br><span class="line"> *   Legal ops: Any integer/unsigned operations incl. ||, &amp;&amp;. also if, while</span><br><span class="line"> *   Max ops: 30</span><br><span class="line"> *   Rating: 4</span><br><span class="line"> */</span><br><span class="line">// 指数位全为0的为非规格化数，</span><br><span class="line">// 指数为1-Bias，底数为0.f，f表示小数字段。因此加倍时直接左移。</span><br><span class="line"></span><br><span class="line">// 规格化的数加倍时指数+1。</span><br><span class="line">unsigned float_twice(unsigned uf) &#123;</span><br><span class="line">  if ((uf &amp; 0x7F800000) == 0) &#123; // denormalized</span><br><span class="line">    uf = ((uf &amp; 0x007FFFFF) &lt;&lt; 1) | (0x80000000 &amp; uf);</span><br><span class="line">  &#125; else if ((uf &amp; 0x7F800000) != 0x7F800000) &#123; // normalized</span><br><span class="line">    uf = uf + 0x00800000;</span><br><span class="line">  &#125; // NAN</span><br><span class="line">  return uf;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/12/26/CSAPP/chap1 /" data-toggle="tooltip" data-placement="top"
+                           title="CSAPP Note chap1 ">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#chap2-信息的表示和处理"><span class="toc-text">chap2 信息的表示和处理</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-1-信息存储"><span class="toc-text">2.1 信息存储</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-2-整数表示"><span class="toc-text">2.2 整数表示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-3-整数运算"><span class="toc-text">2.3 整数运算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-4-浮点数"><span class="toc-text">2.4 浮点数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#偶数舍入：二进制中，舍入到最近的偶数，即如果出现在中间的情况，舍入之后最右边的值要是偶数"><span class="toc-text">偶数舍入：二进制中，舍入到最近的偶数，即如果出现在中间的情况，舍入之后最右边的值要是偶数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#lab1"><span class="toc-text">lab1</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/FerrisChan">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ferris 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://FerrisChan.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="">
+</body>
+
+</html>
